@@ -1,0 +1,173 @@
+.body {
+    font-family: "Poppins", system-ui;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../Assets/backgroundLoginRegister.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.blur-background {
+    position: relative;
+    width: 420px;
+    height: 450px;
+    backdrop-filter: blur(20px);
+    z-index: 1;
+    filter: brightness(0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box; /* Asegura que padding y bordes estén dentro del tamaño definido */
+}
+
+/* Contenedor principal */
+.wrapper {
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    max-width: 420px;
+    height: 450px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.blur-background.active, .wrapper.active {
+    height: 570px;
+}
+
+.wrapper .form-box {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.wrapper .form-box.login, .wrapper .form-box.register {
+    transition: transform 0.2s ease;
+}
+
+.wrapper.active .form-box.login {
+    transform: translateX(-400px);
+}
+
+.wrapper .form-box.register {
+    position: absolute;
+    transform: translateX(400px);
+}
+
+.wrapper.active .form-box.register {
+    transform: translateX(0);
+}
+
+form h1 {
+    color: white;
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 15px 0;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 40px;
+    font-size: 14px;
+    color: white;
+    padding: 10px 15px;
+    box-sizing: border-box;
+}
+
+.input-box input::placeholder {
+    color: white;
+}
+
+.input-box .icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+}
+
+form .remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin: 5px 0;
+    color: white;
+}
+
+/* Estilos para enlaces */
+form a {
+    color: white; /* Cambia el color del texto */
+    text-decoration: none; /* Quita el subrayado */
+    font-family: "Poppins", system-ui; /* Asegura el font-family */
+}
+
+/* Estilo para enlaces cuando se pasa el mouse por encima */
+form a:hover {
+    color: white; /* Mantén el color blanco al pasar el mouse */
+    text-decoration: underline; /* Añade un subrayado al hover */
+}
+
+/* Estilo para enlaces visitados */
+form a:visited {
+    color: white; /* Asegura que los enlaces visitados también sean blancos */
+}
+
+/* Estilo para enlaces activos */
+form a:active {
+    color: white; /* Mantiene el color blanco cuando se hace clic */
+}
+
+/* Específico para los enlaces en las cajas de formulario */
+.register-link p a,
+.remember-forgot a {
+    color: white;
+    font-weight: 600; /* Negrita para mayor énfasis */
+}
+
+form button {
+    width: 100%;
+    height: 40px;
+    background: white;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    font-weight: 700;
+    margin-top: 20px;
+    box-sizing: border-box;
+}
+
+form .register-link {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 15px;
+    color: white;
+}
