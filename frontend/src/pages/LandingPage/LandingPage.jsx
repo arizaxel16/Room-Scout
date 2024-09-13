@@ -10,8 +10,13 @@ const LandingPage = () => {
         localStorage.setItem('theme', theme);
     }, [theme])
     return (
+<<<<<<< feature/nav-bar
         <div className={`container ${theme}`}>
             <NavBar theme={theme} setTheme={setTheme}/>
+=======
+        <div className='landing-page'>
+            <h1>LANDING PAGE - PLACEHOLDER</h1>
+>>>>>>> feature/create-landingpage
         </div>
     );
 };
