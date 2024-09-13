@@ -9,6 +9,8 @@
     background-position: center;
 }
 
+/* Form Blur Background */
+
 .blur-background {
     position: relative;
     width: 420px;
@@ -19,10 +21,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    box-sizing: border-box; /* Asegura que padding y bordes estén dentro del tamaño definido */
+    box-sizing: border-box;
 }
 
-/* Contenedor principal */
 .wrapper {
     position: absolute;
     z-index: 2;
@@ -68,6 +69,8 @@
 .wrapper.active .form-box.register {
     transform: translateX(0);
 }
+
+/* Form Input Styling */
 
 form h1 {
     color: white;
@@ -120,34 +123,29 @@ form .remember-forgot {
     color: white;
 }
 
-/* Estilos para enlaces */
 form a {
-    color: white; /* Cambia el color del texto */
-    text-decoration: none; /* Quita el subrayado */
-    font-family: "Poppins", system-ui; /* Asegura el font-family */
+    color: white;
+    text-decoration: none;
+    font-family: "Poppins", system-ui;
 }
 
-/* Estilo para enlaces cuando se pasa el mouse por encima */
 form a:hover {
-    color: white; /* Mantén el color blanco al pasar el mouse */
-    text-decoration: underline; /* Añade un subrayado al hover */
+    color: white;
+    text-decoration: underline;
 }
 
-/* Estilo para enlaces visitados */
 form a:visited {
-    color: white; /* Asegura que los enlaces visitados también sean blancos */
+    color: white;
 }
 
-/* Estilo para enlaces activos */
 form a:active {
-    color: white; /* Mantiene el color blanco cuando se hace clic */
+    color: white;
 }
 
-/* Específico para los enlaces en las cajas de formulario */
 .register-link p a,
 .remember-forgot a {
     color: white;
-    font-weight: 600; /* Negrita para mayor énfasis */
+    font-weight: 600;
 }
 
 form button {
