@@ -1,12 +1,3 @@
-<<<<<<< feature/nav-bar
-import LandingPage from "./pages/LandingPage/LandingPage";
-
-function App() {
-  return (
-    <div>
-      <LandingPage />
-    </div>
-=======
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LandingPage from './pages/LandingPage/LandingPage';
@@ -20,7 +11,6 @@ function App() {
         <Route path="/user_auth" element={<LoginRegister />} />
       </Routes>
     </Router>
->>>>>>> feature/create-landingpage
   );
 }
 
