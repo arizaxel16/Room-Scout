@@ -1,9 +1,9 @@
-import LoginRegister from "./components/LoginRegister/LoginRegister";
+import LoginRegisterForm from "./components/LoginRegister/LoginRegisterForm";
 
 function App() {
   return (
     <div>
-        <LoginRegister/>
+        <LoginRegisterForm />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import './LoginRegister.css';
+import './LoginRegisterForm.css';
 import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
 import { HiIdentification } from "react-icons/hi2";
 
