@@ -1,0 +1,15 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", system-ui;
+}
+.container {
+    width: 100vw;
+    min-height: 100vh;
+    background: #ced8ff;
+    transition: 0.7s;
+}
+.container.dark {
+    background: #222;
+}
