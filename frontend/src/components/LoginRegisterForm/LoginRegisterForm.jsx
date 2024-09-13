@@ -3,7 +3,7 @@ import './LoginRegisterForm.css';
 import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
 import { HiIdentification } from "react-icons/hi2";
 
-const LoginRegister = () => {
+const LoginRegisterForm = () => {
 
     const [action, setAction] = React.useState('');
     const registerLink = () => {
@@ -75,4 +75,4 @@ const LoginRegister = () => {
         </div>
     );
 };
-export default LoginRegister
+export default LoginRegisterForm
