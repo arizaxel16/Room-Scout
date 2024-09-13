@@ -1,0 +1,12 @@
+/* Page Background */
+.login-register-page {
+    font-family: "Poppins", system-ui;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../../assets/backgroundLoginRegister.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
