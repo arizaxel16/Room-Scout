@@ -1,4 +1,4 @@
-import LoginRegister from "./components/pages/LoginRegister/LoginRegister";
+import LoginRegister from "./LoginRegister/LoginRegister";
 
 function App() {
   return (
