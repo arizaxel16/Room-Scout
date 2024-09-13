@@ -31,7 +31,7 @@ const NavBar = ({theme, setTheme}) => {
                 <input type="text" placeholder='Search'/>
                 <img src={theme === 'light' ? search_icon_light : search_icon_dark} className='search-icon' alt=""/>
             </div>
-            <Link to={"/user_auth"}><button className={`register-button ${menuOpen ? 'open' : ''}`} >Register/Login</button></Link>
+            <Link to={"/user_auth"} className="navLink-auth"><button className={`register-button ${menuOpen ? 'open' : ''}`} >Register/Login</button></Link>
 
 
             <img onClick={() => {
