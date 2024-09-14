@@ -1,8 +1,8 @@
 package com.room_scout.controller;
 
 import com.room_scout.controller.dto.UserDTO;
-import com.room_scout.model.UserJPA;
-import com.room_scout.repository.UserORM;
+import com.room_scout.model.UserORM;
+import com.room_scout.repository.UserJPA;
 import com.room_scout.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.room_scout.repository;
+package com.room_scout.model;
 
 import jakarta.persistence.*;
 import lombok.Data;

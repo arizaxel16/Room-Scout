@@ -1,7 +1,8 @@
-package com.room_scout.model;
+package com.room_scout.repository;
 
-import com.room_scout.repository.AccommodationORM;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.room_scout.model.AccommodationORM;
 
 public interface AccommodationJPA extends JpaRepository<AccommodationORM, Long> {
 }

@@ -1,10 +1,11 @@
 package com.room_scout.service;
-import com.room_scout.model.AccommodationJPA;
-import com.room_scout.model.RoomJPA;
-import com.room_scout.model.UserJPA;
-import com.room_scout.repository.AccommodationORM;
-import com.room_scout.repository.RoomORM;
-import com.room_scout.repository.UserORM;
+import com.room_scout.model.AccommodationORM;
+import com.room_scout.model.RoomORM;
+import com.room_scout.model.UserORM;
+import com.room_scout.repository.AccommodationJPA;
+import com.room_scout.repository.RoomJPA;
+import com.room_scout.repository.UserJPA;
+
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

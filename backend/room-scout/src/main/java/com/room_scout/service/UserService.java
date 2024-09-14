@@ -1,6 +1,7 @@
 package com.room_scout.service;
-import com.room_scout.model.UserJPA;
-import com.room_scout.repository.UserORM;
+import com.room_scout.model.UserORM;
+import com.room_scout.repository.UserJPA;
+
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

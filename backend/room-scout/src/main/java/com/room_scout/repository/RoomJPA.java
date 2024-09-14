@@ -1,7 +1,8 @@
-package com.room_scout.model;
+package com.room_scout.repository;
 
-import com.room_scout.repository.RoomORM;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.room_scout.model.RoomORM;
 
 public interface RoomJPA extends JpaRepository<RoomORM, Long> {
 }

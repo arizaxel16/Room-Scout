@@ -1,7 +1,7 @@
 package com.room_scout.controller;
 
 import com.room_scout.controller.dto.AccommodationDTO;
-import com.room_scout.repository.AccommodationORM;
+import com.room_scout.model.AccommodationORM;
 import com.room_scout.service.AccommodationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
