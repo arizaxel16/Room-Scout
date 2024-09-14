@@ -4,10 +4,13 @@
     box-sizing: border-box;
     font-family: "Poppins", system-ui;
 }
+html, body {
+    max-width: 100%;
+    overflow-x: hidden; /* Oculta y desactiva el desplazamiento horizontal */
+}
 .container {
     width: 100vw;
     min-height: 100vh;
-    background: #a8dbf6;
 }
 .container.dark {
     background: #222;
