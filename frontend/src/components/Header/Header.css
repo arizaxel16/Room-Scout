@@ -1,0 +1,123 @@
+/* Estilos base */
+.header {
+    height: 600px;
+    color: #084b62;
+    font-weight: 700;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    text-align: center;
+    transition: background-image 0.5s ease-in-out; /* Transición suave para el cambio de imagen de fondo */
+}
+
+.headerContainer {
+    width: 100%;
+    max-width: 1024px;
+    margin: 20px 0px 100px 0px;
+    padding: 0 20px;
+}
+
+.headerList {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    transition: gap 0.3s ease-in-out; /* Transición suave para el cambio en el espaciado */
+}
+
+.headerListItem {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out; /* Transiciones suaves para el color y el tamaño */
+}
+
+.headerListItem.active {
+    background-color: #ececec;
+    padding: 10px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out; /* Transiciones suaves para el color de fondo y el borde */
+}
+
+.headerDesc {
+    margin: 20px 0px;
+    transition: opacity 0.3s ease-in-out; /* Transición suave para la opacidad si decides hacerla cambiar */
+}
+
+.headerImage {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 20px;
+    transition: opacity 0.5s ease-in-out; /* Transición suave para la opacidad de la imagen si decides hacerla cambiar */
+}
+
+/* Estilos responsive */
+@media (max-width: 1024px) {
+    .header {
+        height: 500px;
+        font-size: 16px;
+    }
+
+    .headerList {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        height: 400px;
+        font-size: 14px;
+    }
+
+    .headerList {
+        gap: 15px;
+    }
+
+    .headerListItem {
+        font-size: 14px;
+        gap: 5px;
+        align-content: center;
+        justify-content: center;
+    }
+
+    .headerContainer {
+        margin: 10px 0px 50px 0px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        height: 300px;
+        font-size: 14px;
+    }
+
+    .headerContainer {
+        margin: 5px 0px 30px 0px;
+    }
+
+    .headerList {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .headerListItem {
+        font-size: 12px;
+        margin-bottom: 10px;
+        text-align: center;
+        align-content: center;
+        justify-content: center;
+    }
+
+    .headerListItem.active {
+        padding: 10px;
+        border-radius: 10px;
+    }
+}
