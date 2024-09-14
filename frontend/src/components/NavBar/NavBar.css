@@ -1,278 +1,148 @@
-nav {
-    width: 100%;
+.navbar {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    background: white;
-    padding: 15px 7%;
-    transition: 0.7s;
+    align-items: center;
+    padding: 15px 5%;
+    background-color: var(--bg-color);
 }
+
 .logo {
     width: 160px;
     cursor: pointer;
 }
 
-ul {
-    flex: 1;
+.nav-links {
     list-style: none;
-    text-align: center;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 }
-ul li {
-    display: inline-block;
-    margin: 10px 20px;
+
+.nav-links li {
+    color: var(--text-color);
     font-size: 18px;
-    padding: 5px 10px;
-}
-ul li:hover{
-    background-color: #0055b0;
-    border-radius: 5px;
-    padding: 5px 10px;
+    font-weight: 500;
+    cursor: pointer;
 }
 
-.toggle-icon {
-    width: 50px;
-    cursor: pointer;
-    margin-left: 40px;
+.nav-links li:hover {
+    font-weight: 600;
+    border-bottom: 2px solid var(--text-color);
 }
+
 .search-box {
     display: flex;
     align-items: center;
-    background: #242424;
-    padding: 10px 20px;
-    border-radius: 50px;
+    background: var(--search-bg);
+    padding: 5px 15px;
+    border-radius: 25px;
 }
-.search-box input {
-    padding: 6px;
-    background: transparent;
-    width: 100%;
-    outline: none;
-    border: 0;
-    color: white;
-    font-size: 18px;
-    max-width: 200px;
-}
-.search-box input::placeholder {
-    color: white;
-}
+
 .search-box .search-icon {
-    width: 20px;
+    color: var(--search-icon-color);
+    font-size: 20px;
     cursor: pointer;
 }
-nav link {
-    text-decoration: none;
-}
-.register-button{
-    color: black;
+
+.search-box input {
+    background: transparent;
     border: none;
-    margin-left: 20px;
-    background: linear-gradient(to right, #38bdf8, #22c55e);
-    padding: 10px;
-    font-size: 1.125rem;
-    font-weight: 600;
-    text-align: center;
-    border-radius: 2rem;
-    box-shadow: 2px;
-    transition: 0.9s;
-}
-.register-button:hover {
-    transition: 0.9s;
-    background: linear-gradient(to right, #2563eb, #16a34a);
-    box-shadow: 0 10px 15px -3px rgba(22, 163, 74, 0.1), 0 4px 6px -2px rgba(22, 163, 74, 0.05);
-}
-.menu{
-    display: none;
-    position: absolute;
-    top: 0.75rem;
-    right: 0.5rem;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 2.25rem;
-    height: 2rem;
-    margin-top: 20px;
+    outline: none;
+    color: var(--search-text-color);
+    font-size: 16px;
     margin-right: 10px;
+    cursor: text;
 }
-nav .menu span{
-    height: 0.4rem;
-    width: 100%;
-    background-color: black;
-    border-radius: 0.2rem;
-}
-.dark nav {
-    background: black;
-    color: white;
-}
-.dark .search-box{
-    background: white;
-}
-.dark .search-box input {
-    color: black;
-}
-.dark .search-box input::placeholder {
-    color: black;
-}
-.dark .register-button{
-    color: white;
-}
-@media (max-width: 450px){
-    nav .menu {
-        display: flex;
-    }
 
-    nav {
+.icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.toggle-icon {
+    cursor: pointer;
+    color: var(--icon-color);
+}
+
+#moon {
+    font-size: 26px;
+}
+
+#sun {
+    font-size: 32px;
+}
+
+.hidden {
+    display: none;
+}
+
+.user-icon {
+    font-size: 30px;
+    color: var(--background-icon-color);
+    cursor: pointer;
+    background-color: var(--user-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+}
+
+.menu-icon {
+    display: none;
+    font-size: 35px;
+    cursor: pointer;
+    color: var(--icon-color);
+}
+
+.dark {
+    --bg-color: black;
+    --text-color: white;
+    --search-text-color: black;
+    --search-bg: white;
+    --icon-color: white;
+    --background-icon-color: black;
+    --search-icon-color: black;
+    --user-bg: rgb(248, 248, 248);
+}
+
+.light {
+    --bg-color: white;
+    --text-color: black;
+    --search-text-color: white;
+    --search-bg: #161616;
+    --icon-color: black;
+    --background-icon-color: white;
+    --search-icon-color: white;
+    --user-bg: rgb(26, 26, 26);
+}
+
+@media (max-width: 960px) {
+    .nav-links {
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-color);
         flex-direction: column;
-        align-items: start;
-    }
-
-    nav ul {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        margin-bottom: 0.25rem;
-    }
-    nav ul.open {
-        display: flex;
-    }
-    nav ul li {
-        width: 100%;
-        text-align: center;
-    }
-    nav ul li a {
-        margin: 0.2rem 0.5rem;
-    }
-
-    .search-box {
-        display: none;
-        width: 100%;
-        margin: 0;
-    }
-
-    .search-box.open {
-        display: flex;
-    }
-
-    .search-box input {
-        max-width: 100%;
-        width: 100%;
-    }
-
-    .search-box .search-icon {
-        width: 20px;
-        cursor: pointer;
-
-    }
-    .navLink-auth{
-        text-decoration: none;
-        width: 100%;
-    }
-    .register-button {
-        display: none;
-        margin-left: 0;
-        margin-top: 10px;
-        width: 100%;
-        text-align: center;
-        padding: 10px;
-    }
-
-    .register-button.open {
-        display: flex;
         align-items: center;
-        justify-content: center;
-    }
-    .toggle-icon {
         display: none;
-        margin-top: 10px;
-        cursor: pointer;
-        align-content: center;
     }
 
-    .toggle-icon.open {
+    .nav-links.open {
+        display: flex;
+        margin: 10px 0px;
+    }
+
+    .nav-links.open li {
+        margin-bottom: 12px;
+    }
+
+    .menu-icon {
         display: block;
-        margin-top: 10px;
-        cursor: pointer;
-    }
-    .dark .menu span {
-        background-color: white;
-    }
-}
-@media (max-width: 1279px){
-    nav .menu {
-        display: flex;
-    }
-
-    nav {
-        flex-direction: column;
-        align-items: start;
-    }
-
-    nav ul {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        margin-bottom: 0.25rem;
-    }
-    nav ul.open {
-        display: flex;
-    }
-    nav ul li {
-        width: 100%;
-        text-align: center;
-    }
-    nav ul li a {
-        margin: 0.2rem 0.5rem;
-    }
-
-    .search-box {
-        display: none;
-        width: 100%;
-        margin: 0;
-    }
-
-    .search-box.open {
-        display: flex;
-    }
-
-    .search-box input {
-        max-width: 100%;
-        width: 100%;
-    }
-
-    .search-box .search-icon {
-        width: 20px;
-        cursor: pointer;
-
-    }
-    .navLink-auth{
-        text-decoration: none;
-        width: 100%;
-    }
-    .register-button {
-        display: none;
-        margin-left: 0;
-        margin-top: 10px;
-        width: 100%;
-        text-align: center;
-        padding: 10px;
-    }
-
-    .register-button.open {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .toggle-icon {
-        display: none;
-        margin-top: 10px;
-        cursor: pointer;
-        align-content: center;
-    }
-
-    .toggle-icon.open {
-        display: block;
-        margin-top: 10px;
-        cursor: pointer;
-    }
-    .dark .menu span {
-        background-color: white;
     }
 }
