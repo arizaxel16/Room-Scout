@@ -16,7 +16,7 @@ public class UserController
 {
     private UserService userService;
 
-    @PostMapping(path = "/user2")
+    @PostMapping(path = "/user")
     public String saveUser(@RequestBody UserDTO userDTO) {
         userService.saveUser(userDTO.identification(), userDTO.name(),userDTO.password(),userDTO.email());
         return "User created";
