@@ -43,7 +43,6 @@ const Header = ({ theme }) => {
         });
     };
 
-    // Mapea cada opción a una imagen
     const images = {
         hotel: hotel,
         villa: villa,
@@ -54,8 +53,8 @@ const Header = ({ theme }) => {
     };
 
     const handleClick = (type) => {
-        setSelectedOption(type); // Cambia la opción seleccionada
-        setSelectedImage(images[type]); // Cambia la imagen de fondo
+        setSelectedOption(type);
+        setSelectedImage(images[type]);
     };
 
     return (
@@ -111,7 +110,7 @@ const Header = ({ theme }) => {
                 <div  className={`headerSearch ${theme}`}>
                     <div className="headerSearchItem">
                         <BiWorld className="headerIcon"/>
-                        <input type="text" placeholder="Where are you going?" className={`headerSearchInput ${theme}`}/>
+                        <input type="text" placeholder="Travel destination" className={`headerSearchInput ${theme}`}/>
                     </div>
                     <div className="headerSearchItem">
                         <IoCalendarOutline className="headerIcon"/>
