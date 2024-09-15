@@ -33,12 +33,4 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    @ManyToMany
-    @JoinTable(
-        name = "booking_addon",
-        joinColumns = @JoinColumn(name = "booking_id"),
-        inverseJoinColumns = @JoinColumn(name = "addon_id")
-    )
-    private List<AddOn> addOns;
 }

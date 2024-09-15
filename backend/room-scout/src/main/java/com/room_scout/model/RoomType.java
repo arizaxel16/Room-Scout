@@ -26,9 +26,6 @@ public class RoomType {
     private int guestCapacity;
 
     @Column(nullable = false)
-    private int floorLevel;
-
-    @Column(nullable = false)
     private double basePrice;
 
     @ManyToOne

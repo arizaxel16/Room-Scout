@@ -9,6 +9,5 @@ public record BookingDTO(
     LocalDate endDate,
     double totalPrice,
     Long roomTypeId,
-    Long userId,
-    List<Long> addOnIds
+    Long userId
 ) {}

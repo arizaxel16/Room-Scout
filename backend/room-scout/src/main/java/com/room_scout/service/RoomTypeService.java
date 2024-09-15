@@ -52,7 +52,6 @@ public class RoomTypeService {
         roomType.setName(dto.name());
         roomType.setNumberOfBeds(dto.numberOfBeds());
         roomType.setGuestCapacity(dto.guestCapacity());
-        roomType.setFloorLevel(dto.floorLevel());
         roomType.setBasePrice(dto.basePrice());
         roomType.setProperty(property);
         return roomType;
@@ -66,7 +65,6 @@ public class RoomTypeService {
             roomType.getName(), 
             roomType.getNumberOfBeds(), 
             roomType.getGuestCapacity(),
-            roomType.getFloorLevel(), 
             roomType.getBasePrice(), 
             roomType.getProperty().getId());
     }

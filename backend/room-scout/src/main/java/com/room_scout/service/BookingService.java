@@ -49,9 +49,8 @@ public class BookingService {
         User user = userRepository.findById(bookingDTO.userId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
 
-        List<AddOn> addOns = addOnService.getAddOnsByIds(bookingDTO.addOnIds());
 
-        Booking booking = mapDtoToEntity(bookingDTO, roomType, user, addOns);
+        Booking booking = mapDtoToEntity(bookingDTO, roomType, user);
         return bookingRepository.save(booking);
     }
 
@@ -59,14 +58,13 @@ public class BookingService {
         bookingRepository.deleteById(id);
     }
 
-    private Booking mapDtoToEntity(BookingDTO dto, RoomType roomType, User user, List<AddOn> addOns) {
+    private Booking mapDtoToEntity(BookingDTO dto, RoomType roomType, User user) {
         Booking booking = new Booking();
         booking.setStartDate(dto.startDate());
         booking.setEndDate(dto.endDate());
         booking.setTotalPrice(dto.totalPrice());
         booking.setRoomType(roomType);
         booking.setUser(user);
-        booking.setAddOns(addOns);
         return booking;
     }
 
@@ -77,8 +75,7 @@ public class BookingService {
                 booking.getEndDate(),
                 booking.getTotalPrice(),
                 booking.getRoomType().getId(),
-                booking.getUser().getId(),
-                booking.getAddOns().stream().map(AddOn::getId).toList()
+                booking.getUser().getId()
         );
     }
 }

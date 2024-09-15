@@ -5,7 +5,6 @@ public record RoomTypeDTO(
     String name,
     int numberOfBeds,
     int guestCapacity,
-    int floorLevel,
     double basePrice,
     Long propertyId
 ) {}
