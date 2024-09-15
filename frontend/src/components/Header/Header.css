@@ -1,0 +1,304 @@
+/* Estilos base */
+.header {
+    height: 600px;
+    color: #084b62;
+    font-weight: 700;
+    font-size: 18px;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    text-align: center;
+    transition: background-image 0.5s ease-in-out; /* Transición suave para el cambio de imagen de fondo */
+}
+
+.headerContainer {
+    width: 100%;
+    max-width: 1024px;
+    margin: 20px 0px 100px 0px;
+    padding: 0 20px;
+}
+
+.headerList {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    transition: gap 0.3s ease-in-out; /* Transición suave para el cambio en el espaciado */
+}
+
+.headerListItem {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out; /* Transiciones suaves para el color y el tamaño */
+}
+
+.headerListItem.active {
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out; /* Transiciones suaves para el color de fondo y el borde */
+}
+
+.headerDesc {
+    margin: 20px 0px;
+    transition: opacity 0.3s ease-in-out; /* Transición suave para la opacidad si decides hacerla cambiar */
+}
+
+.headerImage {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 20px;
+    transition: opacity 0.5s ease-in-out; /* Transición suave para la opacidad de la imagen si decides hacerla cambiar */
+}
+.headerSearch {
+    height: 30px;
+    background-color: white;
+    border: 3px solid #febb02;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 25px 0;
+    border-radius: 5px;
+    position: absolute;
+    bottom: -25px;
+    width: 100%;
+    max-width: 1024px;
+}
+.header.dark{
+    background-color: #222;
+}
+.headerSearch.dark {
+    background-color: black; /* Cambia el fondo a negro */
+}
+.headerSearchInput.dark {
+    background-color: black; /* Cambia el fondo a negro */
+}
+.headerIcon {
+    color: #504f4f;
+}
+.headerSearchItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 500;
+}
+.headerSearchInput {
+    border: none;
+    outline: none;
+}
+.headerSearchText {
+    color: lightgray;
+    cursor: pointer;
+}
+.date {
+    position: absolute;
+    top: 50px;
+    background-color: white;
+    color: black;
+}
+.date.dark {
+    background-color: black;
+    color: white;
+}
+.date.dark .rdrDateDisplayWrapper {
+    background-color: #444;
+}
+
+.date.dark .rdrDateDisplay {
+    background-color: #444;
+}
+.date.dark .rdrDateDisplayItem {
+    background-color: #444;
+    border-color: #444;
+}
+
+.date.dark .rdrDayNumber span {
+    color: white;
+}
+
+.date.dark .rdrMonthAndYearWrapper {
+    background-color: #030303;
+    color: white;
+}
+
+.date.dark .rdrNextPrevButton {
+    color: white;
+}
+.options{
+    position: absolute;
+    top: 50px;
+    background-color: white;
+    color: gray;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
+}
+.options.dark {
+    background-color: black; /* Cambia el fondo a negro */
+}
+.optionItem {
+    width: 230px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+.optionCounter {
+    display: flex;
+    align-items: center; /* Alineación vertical */
+    justify-content: space-between; /* Alineación horizontal */
+    gap: 10px; /* Espacio entre los elementos */
+    padding: 0 10px; /* Espacio horizontal dentro del contenedor */
+}
+
+.optionCounterButton {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #0071c2;
+    color: #0071c2;
+    background-color: white;
+    cursor: pointer;
+}
+.optionCounterButton.dark {
+    background-color: black; /* Cambia el fondo a negro */
+    color: white; /* Cambia el color del texto a blanco */
+}
+.optionCounterButton:disabled {
+    cursor: not-allowed;
+}
+.optionCounterNumber {
+    width: 30px; /* Asegura un ancho fijo */
+    display: flex;
+    align-items: center; /* Centra el número verticalmente */
+    justify-content: center; /* Centra el número horizontalmente */
+}
+.headerBtn{
+    background-color: #0071c2;
+    color: white;
+    font-weight: 600;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* Estilos responsive */
+@media (max-width: 1024px) {
+    .header {
+        height: 500px;
+        font-size: 16px;
+    }
+
+    .headerList {
+        gap: 20px;
+    }
+    .headerSearch {
+        width: 95%;
+        padding: 10px 0;
+        height: auto;
+        bottom: -30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        height: 400px;
+        font-size: 14px;
+    }
+
+    .headerList {
+        gap: 15px;
+    }
+
+    .headerListItem {
+        font-size: 14px;
+        gap: 5px;
+        align-content: center;
+        justify-content: center;
+    }
+
+    .headerContainer {
+        margin: 10px 0px 50px 0px;
+    }
+    .headerSearch {
+        flex-direction: column; /* Cambio de layout a columna */
+        width: 95%;
+        padding: 10px 0;
+        height: auto; /* Altura automática para acomodar el layout de columna */
+        bottom: -80px; /* Ajuste de la posición para evitar solapamientos */
+    }
+
+    .headerSearchItem {
+        width: 90%; /* Mayor anchura para mejorar la visibilidad */
+        margin-bottom: 10px; /* Espacio entre elementos */
+    }
+    .date {
+        position: absolute;
+        top: 60px;
+        right: 10%;
+    }
+    .options{
+        position: absolute;
+        border: 3px solid #2d2d2d;
+        top: 95px;
+        right: 22%;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        height: 300px;
+        font-size: 14px;
+    }
+
+    .headerContainer {
+        margin: 5px 0px 30px 0px;
+    }
+
+    .headerList {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .headerListItem {
+        font-size: 12px;
+        margin-bottom: 10px;
+        text-align: center;
+        align-content: center;
+        justify-content: center;
+    }
+
+    .headerListItem.active {
+        padding: 10px;
+        border-radius: 10px;
+    }
+    .headerSearch {
+        flex-direction: column; /* Cambio de layout a columna */
+        width: 85%;
+        padding: 10px 0;
+        height: auto; /* Altura automática para acomodar el layout de columna */
+        bottom: -80px; /* Ajuste de la posición para evitar solapamientos */
+    }
+    .date {
+        position: absolute;
+        top: 80px;
+        right: -5%;
+
+    }
+
+    .options{
+        position: absolute;
+        border: 3px solid #2d2d2d;
+        top: 100px;
+        right: 5%;
+    }
+}
