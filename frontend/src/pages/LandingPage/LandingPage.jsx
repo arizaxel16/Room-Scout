@@ -10,6 +10,7 @@ const LandingPage = () => {
     React.useEffect(() => {
         localStorage.setItem('theme', theme);
     }, [theme])
+    
     return (
         <div className={`container ${theme}`}>
             <NavBar theme={theme} setTheme={setTheme}/>

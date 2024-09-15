@@ -16,11 +16,8 @@ import glamping from '../../assets/GLAMPING_HEADER.jpg';
 import house from '../../assets/HOUSE_HEADER.jpg';
 import motel from '../../assets/MOTEL_HEADER.jpg';
 
-const Header = ({theme, setTheme}) => {
-    const toggleTheme = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light');
-    };
-    const [selectedOption, setSelectedOption] = React.useState("hotel"); // Estado para la opción seleccionada
+const Header = ({ theme }) => {
+    const [selectedOption, setSelectedOption] = React.useState("hotel");
     const [selectedImage, setSelectedImage] = React.useState(hotel);
     const [openDate, setOpenDate] = React.useState(false);
     const [date, setDate] = React.useState([
