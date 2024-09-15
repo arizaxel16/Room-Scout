@@ -4,25 +4,21 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name = "room")
+@Table(name = "booking_add_on")
 @Entity
 @Data
 @NoArgsConstructor
-public class RoomORM {
+public class BookingAddOn {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private Long hotelId;
+    @ManyToOne
+    @JoinColumn(name = "booking_id")
+    private Booking booking;
 
-    @Column
-    private Integer quantity;
-
-    @Column
-    private String description;
-
-    @Column
-    private String type;
+    @ManyToOne
+    @JoinColumn(name = "add_on_id")
+    private AddOn addOn;
 }

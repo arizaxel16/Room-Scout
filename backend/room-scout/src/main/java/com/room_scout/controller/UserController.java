@@ -1,29 +1,43 @@
 package com.room_scout.controller;
 
 import com.room_scout.controller.dto.UserDTO;
-import com.room_scout.model.UserORM;
-import com.room_scout.repository.UserJPA;
+import com.room_scout.model.User;
 import com.room_scout.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@RequestMapping("/users")
 @AllArgsConstructor
+public class UserController {
 
-public class UserController
-{
+    @Autowired
     private UserService userService;
 
-    @PostMapping(path = "/user")
-    public String saveUser(@RequestBody UserDTO userDTO) {
-        userService.saveUser(userDTO.identification(), userDTO.name(),userDTO.password(),userDTO.email());
-        return "User created";
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @GetMapping(path = "/users")
-    public List<UserORM> saveUser() {
-        return userService.fetchUsers();
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        Optional<User> user = userService.getUserById(id);
+        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody UserDTO userDTO) {
+        User savedUser = userService.saveUser(userDTO);
+        return ResponseEntity.ok(savedUser);
     }
 }
