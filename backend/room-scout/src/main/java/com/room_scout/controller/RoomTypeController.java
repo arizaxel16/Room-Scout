@@ -1,6 +1,8 @@
 package com.room_scout.controller;
 
+import com.room_scout.controller.dto.AddOnDTO;
 import com.room_scout.controller.dto.RoomTypeDTO;
+import com.room_scout.model.AddOn;
 import com.room_scout.model.RoomType;
 import com.room_scout.service.RoomTypeService;
 import lombok.AllArgsConstructor;
@@ -41,5 +43,11 @@ public class RoomTypeController {
     public ResponseEntity<RoomType> createRoomType(@RequestBody RoomTypeDTO roomTypeDTO) {
         RoomType savedRoomType = roomTypeService.saveRoomType(roomTypeDTO);
         return ResponseEntity.ok(savedRoomType);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<RoomType> updateRoomType(@PathVariable Long id, @RequestBody RoomTypeDTO RoomTypeDTO) {
+        RoomType updatedRoomType = roomTypeService.updateRoomType(id, RoomTypeDTO);
+        return ResponseEntity.ok(updatedRoomType);
     }
 }

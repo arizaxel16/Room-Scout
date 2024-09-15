@@ -5,6 +5,7 @@ import com.room_scout.model.AddOn;
 import com.room_scout.service.AddOnService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -36,8 +37,14 @@ public class AddOnController {
     }
 
     @PostMapping
-    public ResponseEntity<AddOn> createAddOn(@RequestBody AddOnDTO addOnDTO) {
-        AddOn savedAddOn = addOnService.saveAddOn(addOnDTO);
-        return ResponseEntity.ok(savedAddOn);
+    public ResponseEntity<AddOnDTO> createAddOn(@RequestBody AddOnDTO addOnDTO) {
+        AddOnDTO savedAddOn = addOnService.saveAddOn(addOnDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedAddOn);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AddOn> updateAddOn(@PathVariable Long id, @RequestBody AddOnDTO addOnDTO) {
+        AddOn updatedAddOn = addOnService.updateAddOn(id, addOnDTO);
+        return ResponseEntity.ok(updatedAddOn);
     }
 }

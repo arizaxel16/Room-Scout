@@ -56,5 +56,17 @@ public class PropertyService {
                 property.getType()
         );
     }
+
+    public Property updateProperty(Long id, PropertyDTO propertyDTO) {
+        Property property = propertyRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Property not found with ID: " + id));
+        property.setName(propertyDTO.name());
+        property.setAddress(propertyDTO.address());
+        property.setCountry(propertyDTO.country());
+        property.setCity(propertyDTO.city());
+        property.setType(propertyDTO.type());
+
+        return propertyRepository.save(property);
+    }
 }
 

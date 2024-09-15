@@ -78,4 +78,18 @@ public class BookingService {
                 booking.getUser().getId()
         );
     }
+    public Booking updateBooking(Long id, BookingDTO bookingDTO) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Booking not found with ID: " + id));
+        RoomType roomType = roomTypeRepository.findById(bookingDTO.roomTypeId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid roomTypeId"));
+        User user = userRepository.findById(bookingDTO.userId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
+        booking.setStartDate(bookingDTO.startDate());
+        booking.setEndDate(bookingDTO.endDate());
+        booking.setTotalPrice(bookingDTO.totalPrice());
+        booking.setRoomType(roomType);
+        booking.setUser(user);
+        return bookingRepository.save(booking);
+    }
 }

@@ -25,8 +25,7 @@ public class RoomTypeService {
         Property property = propertyRepository.findById(roomTypeDTO.propertyId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid property ID"));
 
-        RoomType roomType = mapDtoToEntity(roomTypeDTO, property);
-        return roomTypeRepository.save(roomType);
+        return mapDtoToEntity(roomTypeDTO, property);
     }
 
     public Optional<RoomTypeDTO> getRoomTypeById(Long id) {
@@ -67,6 +66,22 @@ public class RoomTypeService {
             roomType.getGuestCapacity(),
             roomType.getBasePrice(), 
             roomType.getProperty().getId());
+    }
+
+    public RoomType updateRoomType(Long id, RoomTypeDTO roomTypeDTO) {
+        RoomType roomType = roomTypeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("RoomType not found with ID: " + id));
+
+        Property property = propertyRepository.findById(roomTypeDTO.propertyId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid property ID"));
+
+        roomType.setName(roomTypeDTO.name());
+        roomType.setNumberOfBeds(roomTypeDTO.numberOfBeds());
+        roomType.setGuestCapacity(roomTypeDTO.guestCapacity());
+        roomType.setBasePrice(roomTypeDTO.basePrice());
+        roomType.setProperty(property);
+
+        return roomTypeRepository.save(roomType);
     }
 }
 

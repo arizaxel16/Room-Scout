@@ -22,12 +22,11 @@ public class AddOnService {
     @Autowired
     private PropertyRepository propertyRepository;
 
-    public AddOn saveAddOn(AddOnDTO addOnDTO) {
+    public AddOnDTO saveAddOn(AddOnDTO addOnDTO) {
         Property property = propertyRepository.findById(addOnDTO.propertyId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid property ID"));
-
-        AddOn addOn = mapDtoToEntity(addOnDTO, property);
-        return addOnRepository.save(addOn);
+        addOnRepository.save(mapDtoToEntity(addOnDTO, property));
+        return addOnDTO;
     }
 
     public Optional<AddOnDTO> getAddOnById(Long id) {
@@ -51,7 +50,7 @@ public class AddOnService {
     }
 
     // DTO Object => Model Entity
-    // Returns entity with stablished property relation
+    // Returns entity with established property relation
     private AddOn mapDtoToEntity(AddOnDTO dto, Property property) {
         AddOn addOn = new AddOn();
         addOn.setName(dto.name());
@@ -68,5 +67,19 @@ public class AddOnService {
             addOn.getName(), 
             addOn.getPrice(),
             addOn.getProperty().getId());
+    }
+
+    public AddOn updateAddOn(Long id, AddOnDTO addOnDTO) {
+        AddOn addOn = addOnRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Addon not found with ID: " + id));
+
+        Property property = propertyRepository.findById(addOnDTO.propertyId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid property ID"));
+
+        addOn.setName(addOnDTO.name());
+        addOn.setPrice(addOnDTO.price());
+        addOn.setProperty(property);
+
+        return addOnRepository.save(addOn);
     }
 }

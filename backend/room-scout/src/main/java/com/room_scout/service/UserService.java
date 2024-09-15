@@ -58,4 +58,18 @@ public class UserService {
                 user.getRole()
         );
     }
+
+    public User updateUser(Long id, UserDTO userDTO) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
+
+        user.setUsername(userDTO.username());
+        user.setEmail(userDTO.email());
+        user.setName(userDTO.name());
+        user.setSurname(userDTO.surname());
+        user.setPassword(userDTO.password());
+        user.setRole(userDTO.role());
+
+        return userRepository.save(user);
+    }
 }
