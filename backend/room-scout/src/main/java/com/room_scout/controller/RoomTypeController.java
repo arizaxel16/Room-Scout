@@ -18,15 +18,17 @@ public class RoomTypeController {
     @Autowired
     private RoomTypeService roomTypeService;
 
-    @GetMapping
-    public ResponseEntity<List<RoomType>> getAllRoomTypes() {
-        return ResponseEntity.ok(roomTypeService.getAllRoomTypes());
+    @GetMapping("/{id}")
+    public ResponseEntity<RoomTypeDTO> getRoomType(@PathVariable Long id) {
+        Optional<RoomTypeDTO> roomTypeDTO = roomTypeService.getRoomTypeById(id);
+        return roomTypeDTO.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<RoomType> getRoomTypeById(@PathVariable Long id) {
-        Optional<RoomType> roomType = roomTypeService.getRoomTypeById(id);
-        return roomType.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping
+    public ResponseEntity<List<RoomTypeDTO>> getAllRoomTypes() {
+        List<RoomTypeDTO> roomTypes = roomTypeService.getAllRoomTypes();
+        return ResponseEntity.ok(roomTypes);
     }
 
     @DeleteMapping("/{id}")

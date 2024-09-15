@@ -19,13 +19,13 @@ public class PropertyController {
     private PropertyService propertyService;
 
     @GetMapping
-    public ResponseEntity<List<Property>> getAllProperties() {
+    public ResponseEntity<List<PropertyDTO>> getAllProperties() {
         return ResponseEntity.ok(propertyService.getAllProperties());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Property> getPropertyById(@PathVariable Long id) {
-        Optional<Property> property = propertyService.getPropertyById(id);
+    public ResponseEntity<PropertyDTO> getPropertyById(@PathVariable Long id) {
+        Optional<PropertyDTO> property = propertyService.getPropertyById(id);
         return property.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 

@@ -16,12 +16,15 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(this::mapEntityToResponseDto)
+                .toList();
     }
 
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public Optional<UserDTO> getUserById(Long id) {
+        return userRepository.findById(id)
+                .map(this::mapEntityToResponseDto);
     }
 
     public User saveUser(UserDTO userDTO) {
@@ -42,5 +45,17 @@ public class UserService {
         user.setPassword(dto.password());
         user.setRole(dto.role());
         return user;
+    }
+
+    private UserDTO mapEntityToResponseDto(User user) {
+        return new UserDTO(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getName(),
+                user.getSurname(),
+                user.getPassword(), 
+                user.getRole()
+        );
     }
 }

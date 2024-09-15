@@ -21,12 +21,15 @@ public class PropertyService {
         return propertyRepository.save(property);
     }
 
-    public Optional<Property> getPropertyById(Long id) {
-        return propertyRepository.findById(id);
+    public Optional<PropertyDTO> getPropertyById(Long id) {
+        return propertyRepository.findById(id)
+                .map(this::mapEntityToResponseDto);
     }
 
-    public List<Property> getAllProperties() {
-        return propertyRepository.findAll();
+    public List<PropertyDTO> getAllProperties() {
+        return propertyRepository.findAll().stream()
+                .map(this::mapEntityToResponseDto)
+                .toList();
     }
 
     public void deleteProperty(Long id) {
@@ -42,4 +45,16 @@ public class PropertyService {
         property.setType(dto.type());
         return property;
     }
+
+    private PropertyDTO mapEntityToResponseDto(Property property) {
+        return new PropertyDTO(
+                property.getId(), 
+                property.getName(), 
+                property.getAddress(), 
+                property.getCountry(), 
+                property.getCity(), 
+                property.getType()
+        );
+    }
 }
+

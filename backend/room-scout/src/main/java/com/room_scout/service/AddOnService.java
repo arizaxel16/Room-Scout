@@ -30,12 +30,16 @@ public class AddOnService {
         return addOnRepository.save(addOn);
     }
 
-    public Optional<AddOn> getAddOnById(Long id) {
-        return addOnRepository.findById(id);
+    public Optional<AddOnDTO> getAddOnById(Long id) {
+        return addOnRepository.findById(id)
+                .map(this::mapEntityToResponseDto);
     }
 
-    public List<AddOn> getAllAddOns() {
-        return addOnRepository.findAll();
+    public List<AddOnDTO> getAllAddOns() {
+        return addOnRepository.findAll()
+                .stream()
+                .map(this::mapEntityToResponseDto)
+                .toList();
     }
 
     public void deleteAddOn(Long id) {
@@ -46,11 +50,23 @@ public class AddOnService {
         return addOnRepository.findAllById(addOnIds);
     }
 
+    // DTO Object => Model Entity
+    // Returns entity with stablished property relation
     private AddOn mapDtoToEntity(AddOnDTO dto, Property property) {
         AddOn addOn = new AddOn();
         addOn.setName(dto.name());
         addOn.setPrice(dto.price());
         addOn.setProperty(property);
         return addOn;
+    }
+
+    // Model Entity => Response DTO Object
+    // Returns with simple property ID
+    private AddOnDTO mapEntityToResponseDto(AddOn addOn) {
+        return new AddOnDTO(
+            addOn.getId(), 
+            addOn.getName(), 
+            addOn.getPrice(),
+            addOn.getProperty().getId());
     }
 }

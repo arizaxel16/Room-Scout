@@ -19,14 +19,14 @@ public class AddOnController {
     private AddOnService addOnService;
 
     @GetMapping
-    public ResponseEntity<List<AddOn>> getAllAddOns() {
+    public ResponseEntity<List<AddOnDTO>> getAllAddOns() {
         return ResponseEntity.ok(addOnService.getAllAddOns());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AddOn> getAddOnById(@PathVariable Long id) {
-        Optional<AddOn> addOn = addOnService.getAddOnById(id);
-        return addOn.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<AddOnDTO> getAddOnById(@PathVariable Long id) {
+        Optional<AddOnDTO> addOnDTO = addOnService.getAddOnById(id);
+        return addOnDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")

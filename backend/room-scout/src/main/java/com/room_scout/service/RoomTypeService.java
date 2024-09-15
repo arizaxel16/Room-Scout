@@ -29,18 +29,24 @@ public class RoomTypeService {
         return roomTypeRepository.save(roomType);
     }
 
-    public Optional<RoomType> getRoomTypeById(Long id) {
-        return roomTypeRepository.findById(id);
+    public Optional<RoomTypeDTO> getRoomTypeById(Long id) {
+        return roomTypeRepository.findById(id)
+                .map(this::mapEntityToResponseDto);
     }
 
-    public List<RoomType> getAllRoomTypes() {
-        return roomTypeRepository.findAll();
+    public List<RoomTypeDTO> getAllRoomTypes() {
+        return roomTypeRepository.findAll()
+                .stream()
+                .map(this::mapEntityToResponseDto)
+                .toList();
     }
 
     public void deleteRoomType(Long id) {
         roomTypeRepository.deleteById(id);
     }
 
+    // DTO Object => Model Entity
+    // Returns entity with stablished property relation
     private RoomType mapDtoToEntity(RoomTypeDTO dto, Property property) {
         RoomType roomType = new RoomType();
         roomType.setName(dto.name());
@@ -51,4 +57,18 @@ public class RoomTypeService {
         roomType.setProperty(property);
         return roomType;
     }
+
+    // Model Entity => Response DTO Object
+    // Returns with simple property ID
+    private RoomTypeDTO mapEntityToResponseDto(RoomType roomType) {
+        return new RoomTypeDTO(
+            roomType.getId(), 
+            roomType.getName(), 
+            roomType.getNumberOfBeds(), 
+            roomType.getGuestCapacity(),
+            roomType.getFloorLevel(), 
+            roomType.getBasePrice(), 
+            roomType.getProperty().getId());
+    }
 }
+
