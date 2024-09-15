@@ -135,7 +135,7 @@
 
     .nav-links.open {
         display: flex;
-        margin-bottom: 10px;
+        z-index: 1;
     }
 
     .nav-links.open li {
