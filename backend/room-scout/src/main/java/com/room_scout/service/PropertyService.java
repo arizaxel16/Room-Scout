@@ -4,8 +4,8 @@ import com.room_scout.controller.dto.PropertyDTO;
 import com.room_scout.model.Property;
 import com.room_scout.repository.PropertyRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -13,17 +13,18 @@ import java.util.Optional;
 @AllArgsConstructor
 public class PropertyService {
 
-    @Autowired
-    private PropertyRepository propertyRepository;
+    private final PropertyRepository propertyRepository;
 
-    public Property saveProperty(PropertyDTO propertyDTO) {
+    public PropertyDTO saveProperty(PropertyDTO propertyDTO) {
         Property property = mapDtoToEntity(propertyDTO);
-        return propertyRepository.save(property);
+        Property savedProperty = propertyRepository.save(property);
+        return mapEntityToResponseDto(savedProperty);
     }
 
-    public Optional<PropertyDTO> getPropertyById(Long id) {
-        return propertyRepository.findById(id)
-                .map(this::mapEntityToResponseDto);
+    public PropertyDTO getPropertyById(Long id) {
+        Property property = propertyRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Property not found with ID: " + id));
+        return mapEntityToResponseDto(property);
     }
 
     public List<PropertyDTO> getAllProperties() {
@@ -32,8 +33,25 @@ public class PropertyService {
                 .toList();
     }
 
-    public void deleteProperty(Long id) {
-        propertyRepository.deleteById(id);
+    public boolean deleteProperty(Long id) {
+        Optional<Property> property = propertyRepository.findById(id);
+        if (property.isPresent()) {
+            propertyRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public PropertyDTO updateProperty(Long id, PropertyDTO propertyDTO) {
+        Property property = propertyRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Property not found with ID: " + id));
+        property.setName(propertyDTO.name());
+        property.setAddress(propertyDTO.address());
+        property.setCountry(propertyDTO.country());
+        property.setCity(propertyDTO.city());
+        property.setType(propertyDTO.type());
+        Property updatedProperty = propertyRepository.save(property);
+        return mapEntityToResponseDto(updatedProperty);
     }
 
     private Property mapDtoToEntity(PropertyDTO dto) {
@@ -48,25 +66,12 @@ public class PropertyService {
 
     private PropertyDTO mapEntityToResponseDto(Property property) {
         return new PropertyDTO(
-                property.getId(), 
-                property.getName(), 
-                property.getAddress(), 
-                property.getCountry(), 
-                property.getCity(), 
+                property.getId(),
+                property.getName(),
+                property.getAddress(),
+                property.getCountry(),
+                property.getCity(),
                 property.getType()
         );
     }
-
-    public Property updateProperty(Long id, PropertyDTO propertyDTO) {
-        Property property = propertyRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Property not found with ID: " + id));
-        property.setName(propertyDTO.name());
-        property.setAddress(propertyDTO.address());
-        property.setCountry(propertyDTO.country());
-        property.setCity(propertyDTO.city());
-        property.setType(propertyDTO.type());
-
-        return propertyRepository.save(property);
-    }
 }
-

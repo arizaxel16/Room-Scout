@@ -1,12 +1,10 @@
 package com.room_scout.service;
 
 import com.room_scout.controller.dto.RoomTypeDTO;
-import com.room_scout.model.Property;
 import com.room_scout.model.RoomType;
 import com.room_scout.repository.PropertyRepository;
 import com.room_scout.repository.RoomTypeRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -15,73 +13,67 @@ import java.util.Optional;
 @AllArgsConstructor
 public class RoomTypeService {
 
-    @Autowired
-    private RoomTypeRepository roomTypeRepository;
+    private final RoomTypeRepository roomTypeRepository;
+    private final PropertyRepository propertyRepository;
 
-    @Autowired
-    private PropertyRepository propertyRepository;
-
-    public RoomType saveRoomType(RoomTypeDTO roomTypeDTO) {
-        Property property = propertyRepository.findById(roomTypeDTO.propertyId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid property ID"));
-
-        return mapDtoToEntity(roomTypeDTO, property);
+    public RoomTypeDTO saveRoomType(RoomTypeDTO roomTypeDTO) {
+        RoomType roomType = mapDtoToEntity(roomTypeDTO);
+        RoomType savedRoomType = roomTypeRepository.save(roomType);
+        return mapEntityToDTO(savedRoomType);
     }
 
     public Optional<RoomTypeDTO> getRoomTypeById(Long id) {
         return roomTypeRepository.findById(id)
-                .map(this::mapEntityToResponseDto);
+                .map(this::mapEntityToDTO);
     }
 
     public List<RoomTypeDTO> getAllRoomTypes() {
-        return roomTypeRepository.findAll()
-                .stream()
-                .map(this::mapEntityToResponseDto)
+        return roomTypeRepository.findAll().stream()
+                .map(this::mapEntityToDTO)
                 .toList();
     }
 
-    public void deleteRoomType(Long id) {
-        roomTypeRepository.deleteById(id);
+    public boolean deleteRoomType(Long id) {
+        if (roomTypeRepository.existsById(id)) {
+            roomTypeRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
-    // DTO Object => Model Entity
-    // Returns entity with stablished property relation
-    private RoomType mapDtoToEntity(RoomTypeDTO dto, Property property) {
-        RoomType roomType = new RoomType();
-        roomType.setName(dto.name());
-        roomType.setNumberOfBeds(dto.numberOfBeds());
-        roomType.setGuestCapacity(dto.guestCapacity());
-        roomType.setBasePrice(dto.basePrice());
-        roomType.setProperty(property);
-        return roomType;
+    public Optional<RoomTypeDTO> updateRoomType(Long id, RoomTypeDTO roomTypeDTO) {
+        return roomTypeRepository.findById(id)
+                .map(existingRoomType -> {
+                    existingRoomType.setName(roomTypeDTO.name());
+                    existingRoomType.setNumberOfBeds(roomTypeDTO.numberOfBeds());
+                    existingRoomType.setGuestCapacity(roomTypeDTO.guestCapacity());
+                    existingRoomType.setBasePrice(roomTypeDTO.basePrice());
+                    existingRoomType.setProperty(propertyRepository.findById(roomTypeDTO.propertyId())
+                            .orElseThrow(() -> new IllegalArgumentException("Property not found")));
+                    roomTypeRepository.save(existingRoomType);
+                    return mapEntityToDTO(existingRoomType);
+                });
     }
 
-    // Model Entity => Response DTO Object
-    // Returns with simple property ID
-    private RoomTypeDTO mapEntityToResponseDto(RoomType roomType) {
+    private RoomTypeDTO mapEntityToDTO(RoomType roomType) {
         return new RoomTypeDTO(
-            roomType.getId(), 
-            roomType.getName(), 
-            roomType.getNumberOfBeds(), 
-            roomType.getGuestCapacity(),
-            roomType.getBasePrice(), 
-            roomType.getProperty().getId());
+                roomType.getId(),
+                roomType.getName(),
+                roomType.getNumberOfBeds(),
+                roomType.getGuestCapacity(),
+                roomType.getBasePrice(),
+                roomType.getProperty().getId()
+        );
     }
 
-    public RoomType updateRoomType(Long id, RoomTypeDTO roomTypeDTO) {
-        RoomType roomType = roomTypeRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("RoomType not found with ID: " + id));
-
-        Property property = propertyRepository.findById(roomTypeDTO.propertyId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid property ID"));
-
+    private RoomType mapDtoToEntity(RoomTypeDTO roomTypeDTO) {
+        RoomType roomType = new RoomType();
         roomType.setName(roomTypeDTO.name());
         roomType.setNumberOfBeds(roomTypeDTO.numberOfBeds());
         roomType.setGuestCapacity(roomTypeDTO.guestCapacity());
         roomType.setBasePrice(roomTypeDTO.basePrice());
-        roomType.setProperty(property);
-
-        return roomTypeRepository.save(roomType);
+        roomType.setProperty(propertyRepository.findById(roomTypeDTO.propertyId())
+                .orElseThrow(() -> new IllegalArgumentException("Property not found")));
+        return roomType;
     }
 }
-

@@ -1,49 +1,69 @@
 package com.room_scout.controller;
 
 import com.room_scout.controller.dto.PropertyDTO;
-import com.room_scout.model.Property;
 import com.room_scout.service.PropertyService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/properties")
 @AllArgsConstructor
 public class PropertyController {
 
-    @Autowired
-    private PropertyService propertyService;
+    private final PropertyService propertyService;
 
     @GetMapping
     public ResponseEntity<List<PropertyDTO>> getAllProperties() {
-        return ResponseEntity.ok(propertyService.getAllProperties());
+        List<PropertyDTO> properties = propertyService.getAllProperties();
+        if (properties.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(properties);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PropertyDTO> getPropertyById(@PathVariable Long id) {
-        Optional<PropertyDTO> property = propertyService.getPropertyById(id);
-        return property.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        try {
+            PropertyDTO property = propertyService.getPropertyById(id);
+            return ResponseEntity.ok(property);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<PropertyDTO> createProperty(@RequestBody PropertyDTO propertyDTO) {
+        PropertyDTO savedProperty = propertyService.saveProperty(propertyDTO);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedProperty.id())
+                .toUri();
+        return ResponseEntity.created(location).body(savedProperty);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PropertyDTO> updateProperty(@PathVariable Long id, @RequestBody PropertyDTO propertyDTO) {
+        try {
+            PropertyDTO updatedProperty = propertyService.updateProperty(id, propertyDTO);
+            return ResponseEntity.ok(updatedProperty);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProperty(@PathVariable Long id) {
-        propertyService.deleteProperty(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping
-    public ResponseEntity<Property> createProperty(@RequestBody PropertyDTO propertyDTO) {
-        Property savedProperty = propertyService.saveProperty(propertyDTO);
-        return ResponseEntity.ok(savedProperty);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Property> updateProperty(@PathVariable Long id, @RequestBody PropertyDTO propertyDTO) {
-        Property updatedProperty = propertyService.updateProperty(id, propertyDTO);
-        return ResponseEntity.ok(updatedProperty);
+        if (propertyService.deleteProperty(id)) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }

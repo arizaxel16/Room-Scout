@@ -1,50 +1,60 @@
 package com.room_scout.controller;
 
 import com.room_scout.controller.dto.AddOnDTO;
-import com.room_scout.model.AddOn;
 import com.room_scout.service.AddOnService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/add-ons")
+@RequestMapping("/addons")
 @AllArgsConstructor
 public class AddOnController {
 
-    @Autowired
-    private AddOnService addOnService;
+    private final AddOnService addOnService;
 
     @GetMapping
     public ResponseEntity<List<AddOnDTO>> getAllAddOns() {
-        return ResponseEntity.ok(addOnService.getAllAddOns());
+        List<AddOnDTO> addOns = addOnService.getAllAddOns();
+        if (addOns.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(addOns);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AddOnDTO> getAddOnById(@PathVariable Long id) {
-        Optional<AddOnDTO> addOnDTO = addOnService.getAddOnById(id);
-        return addOnDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAddOn(@PathVariable Long id) {
-        addOnService.deleteAddOn(id);
-        return ResponseEntity.noContent().build();
+        Optional<AddOnDTO> addOn = addOnService.getAddOnById(id);
+        return addOn.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @PostMapping
     public ResponseEntity<AddOnDTO> createAddOn(@RequestBody AddOnDTO addOnDTO) {
         AddOnDTO savedAddOn = addOnService.saveAddOn(addOnDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedAddOn);
+        URI location = URI.create("/addons/" + savedAddOn.id());
+        return ResponseEntity.created(location).body(savedAddOn);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AddOn> updateAddOn(@PathVariable Long id, @RequestBody AddOnDTO addOnDTO) {
-        AddOn updatedAddOn = addOnService.updateAddOn(id, addOnDTO);
-        return ResponseEntity.ok(updatedAddOn);
+    public ResponseEntity<AddOnDTO> updateAddOn(@PathVariable Long id, @RequestBody AddOnDTO addOnDTO) {
+        Optional<AddOnDTO> updatedAddOn = addOnService.updateAddOn(id, addOnDTO);
+        if (updatedAddOn.isPresent()) {
+            return ResponseEntity.ok(updatedAddOn.get());
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAddOn(@PathVariable Long id) {
+        boolean isDeleted = addOnService.deleteAddOn(id);
+        if (!isDeleted) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.noContent().build();
     }
 }

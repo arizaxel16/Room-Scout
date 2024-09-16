@@ -1,7 +1,6 @@
 package com.room_scout.controller.dto;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public record BookingDTO(
     Long id,
