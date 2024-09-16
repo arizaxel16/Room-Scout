@@ -1,0 +1,194 @@
+.headerImage {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 20px;
+    transition: opacity 0.5s ease-in-out;
+}
+.headerSearch {
+    height: 30px;
+    background-color: white;
+    border: 3px solid #febb02;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 25px 0;
+    border-radius: 5px;
+    position: absolute;
+    bottom: -30px;
+    width: max-content;
+}
+.header.dark{
+    background-color: #222;
+}
+.headerSearch.dark {
+    background-color: black;
+}
+.headerSearchInput.dark {
+    background-color: black;
+}
+.headerIcon {
+    color: #504f4f;
+}
+.headerSearchItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    margin: 10px 16px;
+}
+.headerSearchInput {
+    border: none;
+    outline: none;
+}
+.headerSearchText {
+    color: lightgray;
+    cursor: pointer;
+}
+.date {
+    position: absolute;
+    top: 50px;
+    background-color: white;
+    color: black;
+}
+.date.dark {
+    background-color: black;
+    color: white;
+}
+.date.dark .rdrDateDisplayWrapper {
+    background-color: #444;
+}
+
+.date.dark .rdrDateDisplay {
+    background-color: #444;
+}
+.date.dark .rdrDateDisplayItem {
+    background-color: #444;
+    border-color: #444;
+}
+
+.date.dark .rdrDayNumber span {
+    color: white;
+}
+
+.date.dark .rdrMonthAndYearWrapper {
+    background-color: #030303;
+    color: white;
+}
+
+.date.dark .rdrNextPrevButton {
+    color: white;
+}
+.options{
+    position: absolute;
+    top: 50px;
+    background-color: white;
+    color: gray;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
+}
+.options.dark {
+    background-color: black;
+}
+.optionItem {
+    width: 230px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+.optionCounter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 0 10px;
+}
+
+.optionCounterButton {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #0071c2;
+    color: #0071c2;
+    background-color: white;
+    cursor: pointer;
+}
+.optionCounterButton.dark {
+    background-color: black;
+    color: white;
+}
+.optionCounterButton:disabled {
+    cursor: not-allowed;
+}
+.optionCounterNumber {
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.headerBtn{
+    background-color: #0071c2;
+    color: white;
+    font-weight: 600;
+    border-radius: 5px;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+}
+
+@media (max-width: 960px) {
+    .headerSearch {
+        flex-direction: row; 
+        width: max-content;
+        padding: 0px;
+        height: auto;
+        bottom: -110px;
+    }
+
+    .headerSearchItem {
+        font-size: 10px;
+    }
+
+    .date {
+        position: absolute;
+        top: 80px;
+        right: -5%;
+
+    }
+
+    .options{
+        position: absolute;
+        border: 3px solid #2d2d2d;
+        top: 100px;
+        right: 5%;
+    }
+}
+
+@media (max-width: 670px) {
+    .headerSearch {
+        flex-direction: column; 
+        width: max-content;
+        padding: 10px 0;
+        height: auto;
+        bottom: -110px;
+    }
+
+    .headerSearchItem {
+        font-size: 15px;
+    }
+
+    .date {
+        position: absolute;
+        top: 80px;
+        right: -5%;
+
+    }
+
+    .options{
+        position: absolute;
+        border: 3px solid #2d2d2d;
+        top: 100px;
+        right: 5%;
+    }
+}
+
