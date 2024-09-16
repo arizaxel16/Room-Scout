@@ -4,7 +4,8 @@ import './AdminFooter.scss';
 const AdminFooter = () => {
     return (
         <div className="footer">
-            Footer
+            <span>Room Scout</span>
+            <span>© Room Scout Admin Dashboard</span>
         </div>
     );
 };
