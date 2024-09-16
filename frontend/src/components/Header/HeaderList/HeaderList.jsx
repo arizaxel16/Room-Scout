@@ -1,0 +1,41 @@
+import React from 'react';
+import { useHeaderContext } from '../../../context/HeaderContext';
+import { FaHotel, FaBed } from "react-icons/fa";
+import { MdVilla, MdApartment } from "react-icons/md";
+import { FaIgloo, FaHouseChimney } from "react-icons/fa6";
+import './HeaderList.css';
+
+// Define icon mapping
+const iconMapping = {
+    hotel: <FaHotel />,
+    villa: <MdVilla />,
+    apartment: <MdApartment />,
+    glamping: <FaIgloo />,
+    house: <FaHouseChimney />,
+    motel: <FaBed />
+};
+
+const HeaderList = () => {
+    const { images, selectedImage, setSelectedImage } = useHeaderContext();
+
+    const handleClick = (type) => {
+        setSelectedImage(images[type]);
+    };
+
+    return (
+        <div className="headerList">
+            {Object.keys(images).map(type => (
+                <div
+                    key={type}
+                    className={`headerListItem ${selectedImage === images[type] ? "active" : ""}`}
+                    onClick={() => handleClick(type)}
+                >
+                    {iconMapping[type]}
+                    <span>{type.charAt(0).toUpperCase() + type.slice(1)}</span>
+                </div>
+            ))}
+        </div>
+    );
+};
+
+export default HeaderList;
