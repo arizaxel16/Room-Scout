@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link, Outlet} from 'react-router-dom';
 import './AdminHomePage.scss';
 import AdminNavBar from "../../components/AdminNavBar/AdminNavBar";
 import AdminFooter from "../../components/AdminFooter/AdminFooter";
