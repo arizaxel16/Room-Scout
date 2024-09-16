@@ -7,6 +7,7 @@ import UserAdminPage from "./pages/UserAdminPage/UserAdminPage";
 import HotelAdminPage from "./pages/HotelAdminPage/HotelAdminPage";
 import RoomAdminPage from "./pages/RoomAdminPage/RoomAdminPage";
 import AddOnAdminPage from "./pages/AddOnAdminPage/AddOnAdminPage";
+import BookingAdminPage from "./pages/BookingAdminPage/BookingAdminPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/admin/hotels" element={<HotelAdminPage />} />
         <Route path="/admin/rooms" element={<RoomAdminPage />} />
         <Route path="/admin/addOns" element={<AddOnAdminPage />} />
+        <Route path="/admin/bookings" element={<BookingAdminPage />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/user_auth" element={<LoginRegister />} />
         </Routes>
