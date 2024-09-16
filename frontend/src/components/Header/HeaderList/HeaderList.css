@@ -46,7 +46,7 @@
     }
 }
 
-@media (max-width: 670px) {
+@media (max-width: 720px) {
     .headerList {
         display: grid;
         grid-template-columns: repeat(3, 1fr);

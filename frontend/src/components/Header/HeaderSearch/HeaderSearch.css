@@ -27,19 +27,31 @@
     background-color: black;
 }
 .headerIcon {
+    margin: 0px 5px;
+    font-size: 22px;
     color: #504f4f;
 }
 .headerSearchItem {
     display: flex;
     align-items: center;
-    gap: 10px;
     font-size: 15px;
     font-weight: 500;
     margin: 10px 16px;
 }
+
+.dark {
+    --text-color: white;
+}
+
+.light {
+
+    --text-color: black;
+}
+
 .headerSearchInput {
     border: none;
     outline: none;
+    color: var(--text-color);
 }
 .headerSearchText {
     color: lightgray;
@@ -47,7 +59,8 @@
 }
 .date {
     position: absolute;
-    top: 50px;
+    top: 58px;
+    left: 160px;
     background-color: white;
     color: black;
 }
@@ -81,7 +94,7 @@
 }
 .options{
     position: absolute;
-    top: 50px;
+    top: 58px;
     background-color: white;
     color: gray;
     border-radius: 5px;
@@ -142,7 +155,7 @@
         width: max-content;
         padding: 0px;
         height: auto;
-        bottom: -110px;
+        bottom: -32px;
     }
 
     .headerSearchItem {
@@ -151,20 +164,19 @@
 
     .date {
         position: absolute;
-        top: 80px;
-        right: -5%;
-
+        top: 64px;
+        left: 133px;
     }
 
     .options{
         position: absolute;
         border: 3px solid #2d2d2d;
-        top: 100px;
-        right: 5%;
+        top: 64px;
+        right: 62px;
     }
 }
 
-@media (max-width: 670px) {
+@media (max-width: 720px) {
     .headerSearch {
         flex-direction: column; 
         width: max-content;
@@ -179,16 +191,15 @@
 
     .date {
         position: absolute;
-        top: 80px;
-        right: -5%;
-
+        width: max-content;
+        top: 212px;
+        left: -35px;
     }
 
     .options{
         position: absolute;
         border: 3px solid #2d2d2d;
-        top: 100px;
-        right: 5%;
+        top: 212px;
+        right: 4px;
     }
 }
-

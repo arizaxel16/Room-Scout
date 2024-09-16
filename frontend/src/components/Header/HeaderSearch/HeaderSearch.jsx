@@ -7,6 +7,8 @@ import { IoCalendarOutline } from "react-icons/io5";
 import { BiWorld } from "react-icons/bi";
 import { useTheme } from '../../../context/ThemeContext';
 import './HeaderSearch.css';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 
 const HeaderSearch = () => {
     const { theme } = useTheme();
@@ -24,6 +26,16 @@ const HeaderSearch = () => {
         }));
     };
 
+    const toggleFilterDate = () => {
+        setOpenDate(!openDate)
+        setOpenOptions(false)
+    }
+
+    const toggleFilterOptions = () => {
+        setOpenOptions(!openOptions)
+        setOpenDate(false)
+    }
+
     return (
         <div className={`headerSearch ${theme}`}>
             <div className="headerSearchItem">
@@ -38,7 +50,7 @@ const HeaderSearch = () => {
             </div>
             <div className="headerSearchItem">
                 <IoCalendarOutline className={`headerIcon ${theme}`} />
-                <span onClick={() => setOpenDate(!openDate)} className={`headerSearchText ${theme}`}>
+                <span onClick={() => toggleFilterDate()} className={`headerSearchText ${theme}`}>
                     {`${format(searchData.dates[0].startDate, "MM/dd/yyyy")} to ${format(searchData.dates[0].endDate, "MM/dd/yyyy")}`}
                 </span>
                 {openDate && <DateRange
@@ -51,7 +63,7 @@ const HeaderSearch = () => {
             </div>
             <div className="headerSearchItem">
                 <FaPerson className={`headerIcon ${theme}`} />
-                <span onClick={() => setOpenOptions(!openOptions)} className={`headerSearchText ${theme}`}>
+                <span onClick={() => toggleFilterOptions()} className={`headerSearchText ${theme}`}>
                     {`${searchData.options.adult} adult • ${searchData.options.children} children • ${searchData.options.room} room`}
                 </span>
                 {openOptions && <div className={`options ${theme}`}>
