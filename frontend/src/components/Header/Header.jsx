@@ -2,10 +2,12 @@ import React from 'react';
 import { useHeaderContext } from '../../context/HeaderContext';
 import HeaderList from './HeaderList/HeaderList';
 import HeaderSearch from './HeaderSearch/HeaderSearch';
+import { useTheme } from '../../context/ThemeContext';
 import './Header.css';
 
 const Header = () => {
-    const { selectedImage, theme } = useHeaderContext();
+    const { theme } = useTheme();
+    const { selectedImage } = useHeaderContext();
 
     return (
         <div

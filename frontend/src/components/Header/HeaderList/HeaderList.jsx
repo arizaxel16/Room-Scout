@@ -3,9 +3,9 @@ import { useHeaderContext } from '../../../context/HeaderContext';
 import { FaHotel, FaBed } from "react-icons/fa";
 import { MdVilla, MdApartment } from "react-icons/md";
 import { FaIgloo, FaHouseChimney } from "react-icons/fa6";
+import { useTheme } from '../../../context/ThemeContext';
 import './HeaderList.css';
 
-// Define icon mapping
 const iconMapping = {
     hotel: <FaHotel />,
     villa: <MdVilla />,
@@ -16,6 +16,7 @@ const iconMapping = {
 };
 
 const HeaderList = () => {
+    const { theme } = useTheme();
     const { images, selectedImage, setSelectedImage } = useHeaderContext();
 
     const handleClick = (type) => {
@@ -23,7 +24,7 @@ const HeaderList = () => {
     };
 
     return (
-        <div className="headerList">
+        <div className={`headerList ${theme}`}>
             {Object.keys(images).map(type => (
                 <div
                     key={type}

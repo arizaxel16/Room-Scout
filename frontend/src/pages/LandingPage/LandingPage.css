@@ -6,11 +6,12 @@
 }
 html, body {
     max-width: 100%;
-    overflow-x: hidden; /* Oculta y desactiva el desplazamiento horizontal */
+    overflow-x: hidden;
 }
 .container {
     width: 100vw;
     min-height: 100vh;
+    background: #d5effd;
 }
 .container.dark {
     background: #222;

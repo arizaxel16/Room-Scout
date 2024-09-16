@@ -34,10 +34,9 @@ export const HeaderProvider = ({ children }) => {
             room: 1
         }
     });
-    const [theme, setTheme] = useState('light');
 
     return (
-        <HeaderContext.Provider value={{ images, selectedImage, setSelectedImage, searchData, setSearchData, theme, setTheme }}>
+        <HeaderContext.Provider value={{ images, selectedImage, setSelectedImage, searchData, setSearchData }}>
             {children}
         </HeaderContext.Provider>
     );

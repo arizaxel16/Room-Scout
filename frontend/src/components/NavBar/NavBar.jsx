@@ -5,10 +5,12 @@ import logo_light from '../../assets/LOGO_LIGHT.png';
 import logo_dark from '../../assets/LOGO_DARK.png';
 import { MdOutlineWbSunny, MdMenu } from "react-icons/md";
 import { FaRegMoon, FaSearch, FaUser } from "react-icons/fa";
+import { useTheme } from '../../context/ThemeContext';
 
-const NavBar = ({theme, setTheme}) => {
+const NavBar = () => {
+    const { theme, setTheme } = useTheme();
     const [menuOpen, setMenuOpen] = React.useState(false);
-    
+
     const toggleTheme = () => {
         setTheme(theme === 'light' ? 'dark' : 'light');
     };
