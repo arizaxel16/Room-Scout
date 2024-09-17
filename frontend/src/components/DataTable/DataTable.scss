@@ -1,0 +1,27 @@
+.dataTable{
+  .dataGrid{
+    background-color: #fff;
+    padding: 20px;
+
+    .MuiDataGrid-toolbarContainer{
+      flex-direction: row-reverse;
+    }
+    .actionsButtons{
+      display: flex;
+      gap: 15px;
+      position: relative;
+      .icon-Edit{
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        color: green;
+      }
+      .icon-delete{
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        color: red;
+      }
+    }
+  }
+}
