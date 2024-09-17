@@ -21,18 +21,29 @@ const columns = [
         editable: true,
     },
     {
+        field: 'password',
+        headerName: 'Password',
+        width: 200,
+        editable: true,
+    },
+    {
         field: 'rol',
         headerName: 'Role',
         width: 150,
         editable: true,
+        renderCell: (params) => {
+            // Solo permite "Admin" o "User" como rol
+            const role = params.value === 'Admin' || params.value === 'User' ? params.value : 'User';
+            return <span>{role}</span>;
+        }
     },
 ];
 
 const rows = [
-    { id: 1, username: 'jsnow', email: 'jon.snow@nightswatch.org', rol: 'Admin' },
-    { id: 2, username: 'clannister', email: 'cersei.lannister@casterlyrock.com', rol: 'User' },
-    { id: 3, username: 'jlannister', email: 'jaime.lannister@kingsguard.com', rol: 'Moderator' },
-    { id: 4, username: 'astark', email: 'arya.stark@winterfell.com', rol: 'Admin' },
+    { id: 1, username: 'jsnow', email: 'jon.snow@nightswatch.org', password: 'password123', rol: 'Admin' },
+    { id: 2, username: 'clannister', email: 'cersei.lannister@casterlyrock.com', password: 'queen456', rol: 'User' },
+    { id: 3, username: 'jlannister', email: 'jaime.lannister@kingsguard.com', password: 'knight789', rol: 'User' }, // Cambiado a "User"
+    { id: 4, username: 'astark', email: 'arya.stark@winterfell.com', password: 'faceless321', rol: 'Admin' },
     // Agregar más usuarios según sea necesario
 ];
 
@@ -40,23 +51,23 @@ const UserAdminPage = () => {
     const [open, setOpen] = React.useState(false);
     return (
         <div className="main">
-            <AdminNavBar/>
+            <AdminNavBar />
             <div className="containerAdmin">
                 <div className="menuContainer">
-                    <AdminMenu/>
+                    <AdminMenu />
                 </div>
                 <div className="contentContainer">
                     <div className="users">
                         <div className="info">
                             <h1>Users</h1>
-                            <button onClick={() => setOpen(true)}>Add New Admin User</button>
+                            <button onClick={() => setOpen(true)}>Add New Admin/User</button>
                         </div>
-                        <DataTable columns={columns} rows={rows}/>
-                        {open && <Add slug="users" columns={columns} setOpen={setOpen}/>}
+                        <DataTable columns={columns} rows={rows} />
+                        {open && <Add slug="users" columns={columns} setOpen={setOpen} />}
                     </div>
                 </div>
             </div>
-            <AdminFooter/>
+            <AdminFooter />
         </div>
     );
 };
