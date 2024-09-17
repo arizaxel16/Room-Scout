@@ -2,7 +2,6 @@ package com.room_scout.controller.dto;
 
 import java.util.List;
 
-
 public record PropertyDTO(
     Long id,
     String name,

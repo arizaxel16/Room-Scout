@@ -59,30 +59,66 @@ public class PropertyService {
         return mapEntityToResponseDto(updatedProperty);
     }
 
-    private Property mapDtoToEntity(PropertyDTO dto) {
+    public Property mapDtoToEntity(PropertyDTO propertyDTO) {
         Property property = new Property();
-        property.setName(dto.name());
-        property.setAddress(dto.address());
-        property.setCountry(dto.country());
-        property.setCity(dto.city());
-        property.setType(dto.type());
+        property.setName(propertyDTO.name());
+        property.setAddress(propertyDTO.address());
+        property.setCountry(propertyDTO.country());
+        property.setCity(propertyDTO.city());
+        property.setType(propertyDTO.type());
+    
+        property.setRoomTypes(propertyDTO.roomTypes() != null ? 
+            propertyDTO.roomTypes().stream().map(this::mapRoomTypeDtoToEntity).collect(Collectors.toList()) : 
+            List.of());
+    
+        property.setAddOns(propertyDTO.addOns() != null ? 
+            propertyDTO.addOns().stream().map(this::mapAddOnDtoToEntity).collect(Collectors.toList()) : 
+            List.of());
+    
         return property;
     }
-
-        private RoomTypeDTO mapRoomTypeToDTO(RoomType roomType) {
-            return new RoomTypeDTO(
-                roomType.getId(),
-                roomType.getName(),
-                roomType.getNumberOfBeds(),
-                roomType.getGuestCapacity(),
-                roomType.getBasePrice(),
-                roomType.getProperty().getId()
-            );
-        }
     
-        private AddOnDTO mapAddOnToDTO(AddOn addOn) {
-            return new AddOnDTO(addOn.getId(), addOn.getName(), addOn.getPrice(), addOn.getProperty().getId());
-        }
+
+    private RoomTypeDTO mapRoomTypeToDTO(RoomType roomType) {
+        return new RoomTypeDTO(
+            roomType.getId(),
+            roomType.getName(),
+            roomType.getNumberOfBeds(),
+            roomType.getGuestCapacity(),
+            roomType.getBasePrice(),
+            roomType.getPropertyId()
+        );
+    }
+
+    private RoomType mapRoomTypeDtoToEntity(RoomTypeDTO roomTypeDTO) {
+        RoomType roomType = new RoomType();
+        roomType.setId(roomTypeDTO.id());
+        roomType.setName(roomTypeDTO.name());
+        roomType.setNumberOfBeds(roomTypeDTO.numberOfBeds());
+        roomType.setGuestCapacity(roomTypeDTO.guestCapacity());
+        roomType.setBasePrice(roomTypeDTO.basePrice());
+        roomType.setPropertyId(roomTypeDTO.propertyId());
+        return roomType;
+    }
+    
+
+    private AddOnDTO mapAddOnToDTO(AddOn addOn) {
+        return new AddOnDTO(
+            addOn.getId(), 
+            addOn.getName(), 
+            addOn.getPrice(), 
+            addOn.getPropertyId()
+        );
+    }
+
+    private AddOn mapAddOnDtoToEntity(AddOnDTO addOnDTO) {
+        AddOn addOn = new AddOn();
+        addOn.setId(addOnDTO.id());
+        addOn.setName(addOnDTO.name());
+        addOn.setPrice(addOnDTO.price());
+        addOn.setPropertyId(addOnDTO.propertyId());
+        return addOn;
+    }    
 
     private List<RoomTypeDTO> mapRoomTypesToDTOs(List<RoomType> roomTypes) {
         return roomTypes.stream()

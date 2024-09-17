@@ -31,9 +31,11 @@ public class Property {
     @Column(nullable = false)
     private String type;
 
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "property_id")
     private List<RoomType> roomTypes;
 
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "property_id")
     private List<AddOn> addOns;
 }

@@ -2,7 +2,6 @@ package com.room_scout.service;
 
 import com.room_scout.controller.dto.RoomTypeDTO;
 import com.room_scout.model.RoomType;
-import com.room_scout.repository.PropertyRepository;
 import com.room_scout.repository.RoomTypeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,6 @@ import java.util.Optional;
 public class RoomTypeService {
 
     private final RoomTypeRepository roomTypeRepository;
-    private final PropertyRepository propertyRepository;
 
     public RoomTypeDTO saveRoomType(RoomTypeDTO roomTypeDTO) {
         RoomType roomType = mapDtoToEntity(roomTypeDTO);
@@ -48,8 +46,7 @@ public class RoomTypeService {
                     existingRoomType.setNumberOfBeds(roomTypeDTO.numberOfBeds());
                     existingRoomType.setGuestCapacity(roomTypeDTO.guestCapacity());
                     existingRoomType.setBasePrice(roomTypeDTO.basePrice());
-                    existingRoomType.setProperty(propertyRepository.findById(roomTypeDTO.propertyId())
-                            .orElseThrow(() -> new IllegalArgumentException("Property not found")));
+                    existingRoomType.setPropertyId(roomTypeDTO.propertyId());
                     roomTypeRepository.save(existingRoomType);
                     return mapEntityToDTO(existingRoomType);
                 });
@@ -62,7 +59,7 @@ public class RoomTypeService {
                 roomType.getNumberOfBeds(),
                 roomType.getGuestCapacity(),
                 roomType.getBasePrice(),
-                roomType.getProperty().getId()
+                roomType.getPropertyId()
         );
     }
 
@@ -72,8 +69,7 @@ public class RoomTypeService {
         roomType.setNumberOfBeds(roomTypeDTO.numberOfBeds());
         roomType.setGuestCapacity(roomTypeDTO.guestCapacity());
         roomType.setBasePrice(roomTypeDTO.basePrice());
-        roomType.setProperty(propertyRepository.findById(roomTypeDTO.propertyId())
-                .orElseThrow(() -> new IllegalArgumentException("Property not found")));
+        roomType.setPropertyId(roomTypeDTO.propertyId());
         return roomType;
     }
 }

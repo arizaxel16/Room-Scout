@@ -49,7 +49,12 @@ public class AddOnService {
     }
 
     private AddOnDTO mapEntityToDTO(AddOn addOn) {
-        return new AddOnDTO(addOn.getId(), addOn.getName(), addOn.getPrice(), addOn.getProperty().getId());
+        return new AddOnDTO(
+            addOn.getId(), 
+            addOn.getName(), 
+            addOn.getPrice(), 
+            addOn.getPropertyId()
+        );
     }
 
     private AddOn mapDTOToEntity(AddOnDTO addOnDTO) {
