@@ -101,6 +101,7 @@
 
 .dark {
     --bg-color: black;
+    --border-color: white;
     --text-color: white;
     --search-text-color: black;
     --search-bg: white;
@@ -112,6 +113,7 @@
 
 .light {
     --bg-color: white;
+    --border-color: black;
     --text-color: black;
     --search-text-color: white;
     --search-bg: #161616;
@@ -131,6 +133,7 @@
         flex-direction: column;
         align-items: center;
         display: none;
+        border-bottom: 3px solid var(--border-color);
     }
 
     .nav-links.open {
