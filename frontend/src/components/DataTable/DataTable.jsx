@@ -11,6 +11,15 @@ const DataTable = ({ columns, rows }) => {
         //axios.delete(`/api/users/${id}`);
         console.log(`Eliminar usuario con ID: ${id}`);
     };
+    const columnsWithDates = columns.map(column => {
+        if (column.type === 'date') {
+            return {
+                ...column,
+                valueGetter: (params) => new Date(params.value),
+            };
+        }
+        return column;
+    });
     // Definir la columna de acciones
     const actionColumn = [
         {

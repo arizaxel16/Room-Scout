@@ -4,7 +4,7 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import LoginRegister from './pages/LoginRegister/LoginRegister'
 import AdminHomePage from "./pages/AdminHomePage/AdminHomePage";
 import UserAdminPage from "./pages/UserAdminPage/UserAdminPage";
-import HotelAdminPage from "./pages/HotelAdminPage/HotelAdminPage";
+import PropertiesAdminPage from "./pages/PropertiesAdminPage/PropertiesAdminPage";
 import RoomAdminPage from "./pages/RoomAdminPage/RoomAdminPage";
 import AddOnAdminPage from "./pages/AddOnAdminPage/AddOnAdminPage";
 import BookingAdminPage from "./pages/BookingAdminPage/BookingAdminPage";
@@ -15,7 +15,7 @@ function App() {
       <Routes>
         <Route path="/admin" element={<AdminHomePage />} />
         <Route path="/admin/users" element={<UserAdminPage />} />
-        <Route path="/admin/hotels" element={<HotelAdminPage />} />
+        <Route path="/admin/hotels" element={<PropertiesAdminPage />} />
         <Route path="/admin/rooms" element={<RoomAdminPage />} />
         <Route path="/admin/addOns" element={<AddOnAdminPage />} />
         <Route path="/admin/bookings" element={<BookingAdminPage />} />
