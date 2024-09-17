@@ -1,3 +1,4 @@
+@import "/src/responsive.scss";
 .navbarAdmin {
   width: 100%;
   padding: 20px;
@@ -9,10 +10,20 @@
     align-items: center;
     font-weight: bold;
     gap: 10px;
+    span{
+      @include sm {
+        display: none;
+      }
+    }
   }
   .icons {
     display: flex;
     align-items: center;
+    .icon{
+      @include md {
+        display: none;
+      }
+    }
     .notification {
       position: relative;
       span {
@@ -28,6 +39,9 @@
         align-items: center;
         justify-content: center;
         font-size: 12px;
+        @include md{
+          display: none;
+        }
       }
     }
     .user {
@@ -39,6 +53,10 @@
         height: 26px;
         border-radius: 50%;
         object-fit: cover;
+
+      }
+      @include sm{
+        display: none;
       }
     }
   }
