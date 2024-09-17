@@ -33,13 +33,13 @@ export const menu = [
             },
             {
                 id: 2,
-                title: "Hotels",
+                title: "Properties",
                 url: "/admin/hotels",
                 icon: "FaHotel"
             },
             {
                 id: 3,
-                title: "Rooms",
+                title: "Room Types",
                 url: "/admin/rooms",
                 icon: "IoBedOutline"
             },
@@ -194,5 +194,33 @@ export const chartRatio = {
         {name: "Thu", ratio: 400},
         {name: "Fri", ratio: 500},
         {name: "Sat", ratio: 400},
+    ]
+}
+export const chartBoxVisit = {
+    title: "Total Visit",
+    color: "#8884d8",
+    dataKey: "visit",
+    chartData: [
+        {name: "Sun", visit: 400},
+        {name: "Mon", visit: 600},
+        {name: "Tue", visit: 500},
+        {name: "Wed", visit: 700},
+        {name: "Thu", visit: 400},
+        {name: "Fri", visit: 500},
+        {name: "Sat", visit: 400},
+    ]
+}
+export const chartBoxRevenue = {
+    title: "Profit Earned",
+    color: "#82ca9d",
+    dataKey: "revenue",
+    chartData: [
+        {name: "Sun", revenue: 400},
+        {name: "Mon", revenue: 600},
+        {name: "Tue", revenue: 500},
+        {name: "Wed", revenue: 700},
+        {name: "Thu", revenue: 400},
+        {name: "Fri", revenue: 500},
+        {name: "Sat", revenue: 400},
     ]
 }
