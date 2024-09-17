@@ -20,7 +20,6 @@ public class AddOn {
     @Column(nullable = false)
     private Double price;
 
-    @ManyToOne
-    @JoinColumn(name = "property_id")
-    private Property property;
+    @Column(name = "property_id")
+    private Long propertyId;
 }

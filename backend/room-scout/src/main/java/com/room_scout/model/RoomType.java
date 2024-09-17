@@ -28,9 +28,8 @@ public class RoomType {
     @Column(nullable = false)
     private double basePrice;
 
-    @ManyToOne
-    @JoinColumn(name = "property_id")
-    private Property property;
+    @Column(name = "property_id")
+    private Long propertyId;
 
     @OneToMany(mappedBy = "roomType", cascade = CascadeType.ALL)
     private List<Booking> bookings;

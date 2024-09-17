@@ -1,13 +1,18 @@
 package com.room_scout.service;
 
+import com.room_scout.controller.dto.AddOnDTO;
 import com.room_scout.controller.dto.PropertyDTO;
+import com.room_scout.controller.dto.RoomTypeDTO;
+import com.room_scout.model.AddOn;
 import com.room_scout.model.Property;
+import com.room_scout.model.RoomType;
 import com.room_scout.repository.PropertyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -64,6 +69,33 @@ public class PropertyService {
         return property;
     }
 
+        private RoomTypeDTO mapRoomTypeToDTO(RoomType roomType) {
+            return new RoomTypeDTO(
+                roomType.getId(),
+                roomType.getName(),
+                roomType.getNumberOfBeds(),
+                roomType.getGuestCapacity(),
+                roomType.getBasePrice(),
+                roomType.getProperty().getId()
+            );
+        }
+    
+        private AddOnDTO mapAddOnToDTO(AddOn addOn) {
+            return new AddOnDTO(addOn.getId(), addOn.getName(), addOn.getPrice(), addOn.getProperty().getId());
+        }
+
+    private List<RoomTypeDTO> mapRoomTypesToDTOs(List<RoomType> roomTypes) {
+        return roomTypes.stream()
+                        .map(this::mapRoomTypeToDTO)
+                        .collect(Collectors.toList());
+    }
+
+    private List<AddOnDTO> mapAddOnsToDTOs(List<AddOn> addOns) {
+        return addOns.stream()
+                    .map(this::mapAddOnToDTO)
+                    .collect(Collectors.toList());
+    }
+
     private PropertyDTO mapEntityToResponseDto(Property property) {
         return new PropertyDTO(
                 property.getId(),
@@ -71,7 +103,9 @@ public class PropertyService {
                 property.getAddress(),
                 property.getCountry(),
                 property.getCity(),
-                property.getType()
+                property.getType(),
+                mapRoomTypesToDTOs(property.getRoomTypes()),
+                mapAddOnsToDTOs(property.getAddOns())
         );
     }
 }
