@@ -9,15 +9,27 @@ import Add from "../../components/Add/Add.tsx";
 const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
     {
-        field: 'username',
-        headerName: 'Username',
+        field: 'email',
+        headerName: 'Email',
+        width: 200,
+        editable: true,
+    },
+    {
+        field: 'name',
+        headerName: 'Name',
         width: 150,
         editable: true,
     },
     {
-        field: 'email',
-        headerName: 'Email',
-        width: 200,
+        field: 'surname',
+        headerName: 'Surname',
+        width: 150,
+        editable: true,
+    },
+    {
+        field: 'username',
+        headerName: 'Username',
+        width: 150,
         editable: true,
     },
     {
@@ -32,7 +44,6 @@ const columns = [
         width: 150,
         editable: true,
         renderCell: (params) => {
-            // Solo permite "Admin" o "User" como rol
             const role = params.value === 'Admin' || params.value === 'User' ? params.value : 'User';
             return <span>{role}</span>;
         }
@@ -40,11 +51,10 @@ const columns = [
 ];
 
 const rows = [
-    { id: 1, username: 'jsnow', email: 'jon.snow@nightswatch.org', password: 'password123', rol: 'Admin' },
-    { id: 2, username: 'clannister', email: 'cersei.lannister@casterlyrock.com', password: 'queen456', rol: 'User' },
-    { id: 3, username: 'jlannister', email: 'jaime.lannister@kingsguard.com', password: 'knight789', rol: 'User' }, // Cambiado a "User"
-    { id: 4, username: 'astark', email: 'arya.stark@winterfell.com', password: 'faceless321', rol: 'Admin' },
-    // Agregar más usuarios según sea necesario
+    { id: 1, email: 'jon.snow@nightswatch.org', name: 'Jon', surname: 'Snow', username: 'jsnow', password: 'password123', rol: 'Admin' },
+    { id: 2, email: 'cersei.lannister@casterlyrock.com', name: 'Cersei', surname: 'Lannister', username: 'clannister', password: 'queen456', rol: 'User' },
+    { id: 3, email: 'jaime.lannister@kingsguard.com', name: 'Jaime', surname: 'Lannister', username: 'jlannister', password: 'knight789', rol: 'User' },
+    { id: 4, email: 'arya.stark@winterfell.com', name: 'Arya', surname: 'Stark', username: 'astark', password: 'faceless321', rol: 'Admin' },
 ];
 
 const UserAdminPage = () => {
@@ -73,4 +83,5 @@ const UserAdminPage = () => {
 };
 
 export default UserAdminPage;
+
 
