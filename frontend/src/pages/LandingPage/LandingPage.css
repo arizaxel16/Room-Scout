@@ -1,0 +1,18 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", system-ui;
+}
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+.container {
+    width: 100vw;
+    min-height: 100vh;
+    background: #d5effd;
+}
+.container.dark {
+    background: #222;
+}
