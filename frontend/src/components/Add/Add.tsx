@@ -1,5 +1,6 @@
+import React from 'react';
 import './Add.scss';
-import {GridColDef} from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 
 type Props = {
     slug: string;
@@ -10,26 +11,27 @@ type Props = {
 const Add = (props: Props) => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        //add new item
-        //axios.post(`/api/${slug}s`, {})
     };
+
     return (
         <div className="add">
             <div className="modal">
-                <span className="close" onClick={()=>props.setOpen(false)}>X</span>
+                <span className="close" onClick={() => props.setOpen(false)}>X</span>
                 <h1>Add new {props.slug}</h1>
                 <form onSubmit={handleSubmit}>
-                    {props.columns.filter(item => item.field !== "id" && item.field !== "img" && item.field !== "action")
+                    {props.columns
+                        .filter(item => item.field !== "id" && item.field !== "action")
                         .map(column => (
-                        <div className="item">
-                            <label>{column.headerName}</label>
-                            <input type={column.type} placeholder={column.field}/>
-                        </div>
-                    ))}
+                            <div className="item" key={column.field}>
+                                <label>{column.headerName}</label>
+                                <input type="text" placeholder={column.field}/>
+                            </div>
+                        ))}
                     <button>Send</button>
                 </form>
             </div>
         </div>
     );
 };
+
 export default Add;
