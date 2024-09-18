@@ -5,6 +5,7 @@ import com.room_scout.model.User;
 import com.room_scout.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +44,7 @@ public class UserService {
         return userRepository.findById(id)
                 .map(existingUser -> {
                     existingUser.setUsername(userDTO.username());
+                    existingUser.setIdentification(userDTO.identification()); // Agregamos el campo identification
                     existingUser.setEmail(userDTO.email());
                     existingUser.setName(userDTO.name());
                     existingUser.setSurname(userDTO.surname());
@@ -57,6 +59,7 @@ public class UserService {
         return new UserDTO(
                 user.getId(),
                 user.getUsername(),
+                user.getIdentification(), // Mapeamos el campo identification
                 user.getEmail(),
                 user.getName(),
                 user.getSurname(),
@@ -68,6 +71,7 @@ public class UserService {
     private User mapDtoToEntity(UserDTO userDTO) {
         User user = new User();
         user.setUsername(userDTO.username());
+        user.setIdentification(userDTO.identification()); 
         user.setEmail(userDTO.email());
         user.setName(userDTO.name());
         user.setSurname(userDTO.surname());
@@ -76,3 +80,4 @@ public class UserService {
         return user;
     }
 }
+

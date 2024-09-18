@@ -11,6 +11,7 @@ const columns = [
   { field: 'id', headerName: 'ID', width: 90 },
   { field: 'email', headerName: 'Email', width: 200, editable: true },
   { field: 'name', headerName: 'Name', width: 150, editable: true },
+  { field: 'identification', headerName: 'Identification', width: 150, editable: true },
   { field: 'surname', headerName: 'Surname', width: 150, editable: true },
   { field: 'username', headerName: 'Username', width: 150, editable: true },
   { field: 'password', headerName: 'Password', width: 200, editable: true },
@@ -31,6 +32,7 @@ const UserAdminPage = () => {
     name: '',
     surname: '',
     password: '',
+    identification: '', 
     role: 'Admin',
   });
   const [rows, setRows] = useState([]);
