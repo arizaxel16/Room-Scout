@@ -4,10 +4,30 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation'; 
 import './CategoryResults.css';
+import axios from 'axios';
 
 const CategoryResults = () => {
-    const { selectedCategory, data } = useHeaderContext();
 
+    const { selectedCategory } = useHeaderContext();
+
+    const PropertyCarousel = ({ propertyType }) => 
+        {
+        const [properties, setProperties] = useState([]);
+      
+        useEffect(() => {
+          const fetchProperties = async () => {
+            try {
+              const response = await axios.get(`http://localhost:8080/properties/type/${propertyType}`);
+              setProperties(response.data);
+            } catch (error) {
+              console.error('Error al cargar las propiedades:', error);
+            }
+          };
+      
+          fetchProperties();
+        }, [propertyType]);
+    }
+    
     if (!selectedCategory || !data[selectedCategory]) return null;
 
     return (
