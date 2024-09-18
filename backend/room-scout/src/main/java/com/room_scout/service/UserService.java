@@ -1,5 +1,6 @@
 package com.room_scout.service;
 
+import com.room_scout.controller.dto.LoginDTO;
 import com.room_scout.controller.dto.UserDTO;
 import com.room_scout.model.User;
 import com.room_scout.repository.UserRepository;
@@ -16,6 +17,14 @@ public class UserService {
     private final UserRepository userRepository;
 
     public UserDTO saveUser(UserDTO userDTO) {
+        if (userRepository.existsByIdentification(userDTO.identification())) {
+            throw new IllegalArgumentException("Identification number already exists");
+        }
+
+        if (userRepository.existsByEmail(userDTO.email())) {
+            throw new IllegalArgumentException("e-mail already exists");
+        }
+
         User user = mapDtoToEntity(userDTO);
         User savedUser = userRepository.save(user);
         return mapEntityToDTO(savedUser);
@@ -26,6 +35,18 @@ public class UserService {
                 .map(this::mapEntityToDTO);
     }
 
+    public Optional<UserDTO> checkUserLogin(LoginDTO loginDTO) {
+        Optional<User> userOptional = userRepository.findByEmail(loginDTO.email());
+    
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (loginDTO.password().equals(user.getPassword())) {
+                return Optional.of(mapEntityToDTO(user));
+            }
+        }
+        return Optional.empty();
+    }
+    
     public List<UserDTO> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(this::mapEntityToDTO)
@@ -44,7 +65,7 @@ public class UserService {
         return userRepository.findById(id)
                 .map(existingUser -> {
                     existingUser.setUsername(userDTO.username());
-                    existingUser.setIdentification(userDTO.identification()); // Agregamos el campo identification
+                    existingUser.setIdentification(userDTO.identification());
                     existingUser.setEmail(userDTO.email());
                     existingUser.setName(userDTO.name());
                     existingUser.setSurname(userDTO.surname());
@@ -59,7 +80,7 @@ public class UserService {
         return new UserDTO(
                 user.getId(),
                 user.getUsername(),
-                user.getIdentification(), // Mapeamos el campo identification
+                user.getIdentification(),
                 user.getEmail(),
                 user.getName(),
                 user.getSurname(),

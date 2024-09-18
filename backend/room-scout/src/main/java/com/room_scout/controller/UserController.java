@@ -1,5 +1,6 @@
 package com.room_scout.controller;
 
+import com.room_scout.controller.dto.LoginDTO;
 import com.room_scout.controller.dto.UserDTO;
 import com.room_scout.service.UserService;
 import lombok.AllArgsConstructor;
@@ -53,4 +54,16 @@ public class UserController {
         if (updatedUser.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return ResponseEntity.ok(updatedUser.get());
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> loginUser(@RequestBody LoginDTO loginDTO) {
+        Optional<UserDTO> userDTO = userService.checkUserLogin(loginDTO);
+        
+        if (userDTO.isPresent()) {
+            return ResponseEntity.ok("Login successful");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+    }
+    
 }
