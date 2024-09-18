@@ -26,17 +26,23 @@ const CategoryResults = () => {
 
     const handleClick = (hotelName) => {
         const { dates } = searchData;
-
         
         if (!dates || dates.length === 0 || !dates[0].startDate || !dates[0].endDate) {
             alert("Por favor selecciona fechas antes de continuar.");
             return;
         }
 
-        
-        navigate(`/rooms/${hotelName}`, {
-            state: { dates: searchData.dates }
-        });
+        // Check if user is authenticated
+        const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+
+        if (isAuthenticated) {
+            navigate(`/rooms/${hotelName}`, {
+                state: { dates: searchData.dates }
+            });
+        } else {
+            alert("Por favor, inicie sesión para continuar.");
+            navigate('/user_auth'); // Redirect to LoginRegister page
+        }
     };
 
     if (!selectedCategory || properties.length === 0) return null;

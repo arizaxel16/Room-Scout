@@ -41,6 +41,7 @@ const LoginRegisterForm = () => {
             });
             console.log('User registered:', response.data);
             localStorage.setItem('isAuthenticated', 'true');
+            localStorage.setItem('identification', response.identification)
             navigate('/');
         } catch (err) {
             if (err.response && err.response.data) {
@@ -59,8 +60,8 @@ const LoginRegisterForm = () => {
                 password: loginPassword
             });
             console.log('Login successful:', response.data);
-
             localStorage.setItem('isAuthenticated', 'true');
+            localStorage.setItem('identification', response.data.identification)
             
             navigate('/');
         } catch (err) {

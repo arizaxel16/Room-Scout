@@ -56,13 +56,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<Optional<UserDTO>> loginUser(@RequestBody LoginDTO loginDTO) {
         Optional<UserDTO> userDTO = userService.checkUserLogin(loginDTO);
         
         if (userDTO.isPresent()) {
-            return ResponseEntity.ok("Login successful");
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(userDTO);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
     
