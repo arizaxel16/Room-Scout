@@ -12,6 +12,7 @@ const columns = [
     { field: 'name', headerName: 'Name', width: 150, editable: true },
     { field: 'guestCapacity', headerName: 'Capacity', width: 150, editable: true },
     { field: 'numberOfBeds', headerName: 'Beds', width: 150, editable: true, type: 'number' },
+    { field: 'numberOfRooms', headerName: 'Rooms', width: 150, editable: true, type: 'number' },
     { field: 'basePrice', headerName: 'Price', width: 150, editable: true, type: 'number' },
     { field: 'propertyName', headerName: 'Property', width: 150, editable: true },
 ];
@@ -22,6 +23,7 @@ const RoomAdminPage = () => {
         name: '',
         guestCapacity: '',
         numberOfBeds: '',
+        numberOfRooms: '',
         basePrice: '',
         propertyId: '',
     });

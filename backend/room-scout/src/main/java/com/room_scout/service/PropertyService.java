@@ -84,6 +84,7 @@ public class PropertyService {
             roomType.getId(),
             roomType.getName(),
             roomType.getNumberOfBeds(),
+            roomType.getNumberOfRooms(), 
             roomType.getGuestCapacity(),
             roomType.getBasePrice(),
             roomType.getPropertyId()
