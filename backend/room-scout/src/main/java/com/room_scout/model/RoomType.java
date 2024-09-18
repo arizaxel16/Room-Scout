@@ -23,10 +23,14 @@ public class RoomType {
     private int numberOfBeds;
 
     @Column(nullable = false)
+    private int numberOfRooms;
+
+    @Column(nullable = false)
     private int guestCapacity;
 
     @Column(nullable = false)
     private double basePrice;
+
 
     @Column(name = "property_id")
     private Long propertyId;

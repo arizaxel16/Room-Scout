@@ -1,35 +1,52 @@
+import React from 'react';
 import './Add.scss';
-import {GridColDef} from "@mui/x-data-grid";
 
-type Props = {
-    slug: string;
-    columns: GridColDef[];
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-const Add = (props: Props) => {
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        //add new item
-        //axios.post(`/api/${slug}s`, {})
-    };
-    return (
-        <div className="add">
-            <div className="modal">
-                <span className="close" onClick={()=>props.setOpen(false)}>X</span>
-                <h1>Add new {props.slug}</h1>
-                <form onSubmit={handleSubmit}>
-                    {props.columns.filter(item => item.field !== "id" && item.field !== "img" && item.field !== "action")
-                        .map(column => (
-                        <div className="item">
-                            <label>{column.headerName}</label>
-                            <input type={column.type} placeholder={column.field}/>
-                        </div>
+const Add = ({ columns, formData, handleChange, handleSubmit, setOpen, slug, properties }) => {
+  return (
+    <div className="add">
+      <div className="modal">
+        <span className="close" onClick={() => setOpen(false)}>X</span>
+        <h1>Add new {slug}</h1>
+        <form onSubmit={handleSubmit}>
+          {columns
+            .filter(item => item.field !== "id" && item.field !== "action")
+            .map(column => (
+              <div className="item" key={column.field}>
+                <label>{column.headerName}</label>
+                {column.field === 'propertyId' && properties.length > 0 ? (
+                  <select
+                    name="propertyId"
+                    value={formData.propertyId || ""}
+                    onChange={handleChange}
+                  >
+                    <option value="">Select a property</option>
+                    {properties.map(property => (
+                      <option key={property.id} value={property.id}>
+                        {property.name}
+                      </option>
                     ))}
-                    <button>Send</button>
-                </form>
-            </div>
-        </div>
-    );
+                  </select>
+                ) : (
+                  <input
+                    type={column.type === 'number' ? 'number' : 'text'}
+                    name={column.field}
+                    value={formData[column.field] || ''}
+                    onChange={handleChange}
+                    placeholder={column.headerName}
+                  />
+                )}
+              </div>
+            ))}
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    </div>
+  );
 };
+
 export default Add;
+
+
+
+
+

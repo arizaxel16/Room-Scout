@@ -44,6 +44,7 @@ public class RoomTypeService {
                 .map(existingRoomType -> {
                     existingRoomType.setName(roomTypeDTO.name());
                     existingRoomType.setNumberOfBeds(roomTypeDTO.numberOfBeds());
+                    existingRoomType.setNumberOfRooms(roomTypeDTO.numberOfRooms()); // Actualización del nuevo atributo
                     existingRoomType.setGuestCapacity(roomTypeDTO.guestCapacity());
                     existingRoomType.setBasePrice(roomTypeDTO.basePrice());
                     existingRoomType.setPropertyId(roomTypeDTO.propertyId());
@@ -57,6 +58,7 @@ public class RoomTypeService {
                 roomType.getId(),
                 roomType.getName(),
                 roomType.getNumberOfBeds(),
+                roomType.getNumberOfRooms(), // Mapeo del nuevo atributo
                 roomType.getGuestCapacity(),
                 roomType.getBasePrice(),
                 roomType.getPropertyId()
@@ -67,6 +69,7 @@ public class RoomTypeService {
         RoomType roomType = new RoomType();
         roomType.setName(roomTypeDTO.name());
         roomType.setNumberOfBeds(roomTypeDTO.numberOfBeds());
+        roomType.setNumberOfRooms(roomTypeDTO.numberOfRooms()); // Establecer el nuevo atributo
         roomType.setGuestCapacity(roomTypeDTO.guestCapacity());
         roomType.setBasePrice(roomTypeDTO.basePrice());
         roomType.setPropertyId(roomTypeDTO.propertyId());
