@@ -7,28 +7,25 @@ import './CategoryResults.css';
 import axios from 'axios';
 
 const CategoryResults = () => {
-
     const { selectedCategory } = useHeaderContext();
+    const [properties, setProperties] = React.useState([]);
 
-    const PropertyCarousel = ({ propertyType }) => 
-        {
-        const [properties, setProperties] = useState([]);
-      
-        useEffect(() => {
-          const fetchProperties = async () => {
+    React.useEffect(() => {
+        const fetchProperties = async () => {
+            if (!selectedCategory) return;
+
             try {
-              const response = await axios.get(`http://localhost:8080/properties/type/${propertyType}`);
-              setProperties(response.data);
+                const response = await axios.get(`http://localhost:8080/properties/type/${selectedCategory}`);
+                setProperties(response.data);
             } catch (error) {
-              console.error('Error al cargar las propiedades:', error);
+                console.error('Error al cargar las propiedades:', error);
             }
-          };
-      
-          fetchProperties();
-        }, [propertyType]);
-    }
-    
-    if (!selectedCategory || !data[selectedCategory]) return null;
+        };
+
+        fetchProperties();
+    }, [selectedCategory]);
+
+    if (!selectedCategory || properties.length === 0) return null;
 
     return (
         <div className="categoryResults">
@@ -51,12 +48,14 @@ const CategoryResults = () => {
                     },
                 }}
             >
-                {data[selectedCategory]?.map(item => (
+                {properties.map(item => (
                     <SwiperSlide key={item.id}>
                         <div className="resultItem">
-                            <img src={item.image} alt={item.name} className="resultImage" />
                             <h3>{item.name}</h3>
-                            <p>{item.location}</p>
+                            <p>{item.country}</p>
+                            <p>{item.city}</p>
+                            <p>{item.address}</p>
+                            
                         </div>
                     </SwiperSlide>
                 ))}
