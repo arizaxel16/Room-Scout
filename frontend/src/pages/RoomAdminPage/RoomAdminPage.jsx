@@ -14,7 +14,7 @@ const columns = [
     { field: 'numberOfBeds', headerName: 'Beds', width: 150, editable: true, type: 'number' },
     { field: 'numberOfRooms', headerName: 'Rooms', width: 150, editable: true, type: 'number' },
     { field: 'basePrice', headerName: 'Price', width: 150, editable: true, type: 'number' },
-    { field: 'propertyName', headerName: 'Property', width: 150, editable: true },
+    { field: 'propertyId', headerName: 'Property', width: 150, editable: true },
 ];
 
 const RoomAdminPage = () => {
@@ -30,34 +30,39 @@ const RoomAdminPage = () => {
     const [rows, setRows] = useState([]);
     const [properties, setProperties] = useState([]);
 
+    // Fetch rooms and add property names to the rows
     const fetchRooms = async () => {
         try {
             const response = await axios.get('http://localhost:8080/roomtypes');
             const rooms = response.data;
             const roomsWithPropertyNames = rooms.map(room => ({
                 ...room,
-                propertyName: properties.find(property => property.id === room.propertyId)?.name || 'Unknown'
+                propertyName: properties.find(property => property.id === room.propertyId)?.name || 'Unknown',
             }));
             setRows(roomsWithPropertyNames);
         } catch (err) {
             console.error('Error fetching rooms:', err);
-            alert('Error fetching rooms: ' + (err.response?.data?.message || err.message || 'Something went wrong'));
         }
     };
 
+    // Fetch properties for the select field
     const fetchProperties = async () => {
         try {
             const response = await axios.get('http://localhost:8080/properties');
             setProperties(response.data);
         } catch (err) {
             console.error('Error fetching properties:', err);
-            alert('Error fetching properties: ' + (err.response?.data?.message || err.message || 'Something went wrong'));
         }
     };
 
     useEffect(() => {
         fetchProperties();
-        fetchRooms();
+    }, []);
+
+    useEffect(() => {
+        if (properties.length > 0) {
+            fetchRooms();
+        }
     }, [properties]);
 
     const handleChange = (e) => {
@@ -70,12 +75,10 @@ const RoomAdminPage = () => {
         try {
             const response = await axios.post('http://localhost:8080/roomtypes', formData);
             console.log('Room created successfully:', response.data);
-            alert('Room created successfully!');
             setOpen(false);
-            fetchRooms();
+            fetchRooms(); // Refresh rooms after adding a new one
         } catch (err) {
             console.error('Error creating room:', err);
-            alert('Error creating room: ' + (err.response?.data?.message || err.message || 'Something went wrong'));
         }
     };
 
@@ -101,7 +104,7 @@ const RoomAdminPage = () => {
                                 handleChange={handleChange}
                                 handleSubmit={handleSubmit}
                                 setOpen={setOpen}
-                                properties={properties} 
+                                properties={properties} // Passing the properties for the select
                             />
                         )}
                     </div>

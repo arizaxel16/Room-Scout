@@ -13,14 +13,14 @@ const Add = ({ columns, formData, handleChange, handleSubmit, setOpen, slug, pro
             .map(column => (
               <div className="item" key={column.field}>
                 <label>{column.headerName}</label>
-                {column.field === 'propertyId' && properties ? (
+                {column.field === 'propertyId' && properties.length > 0 ? (
                   <select
                     name="propertyId"
-                    value={formData.propertyId}
+                    value={formData.propertyId || ""}
                     onChange={handleChange}
                   >
                     <option value="">Select a property</option>
-                    {properties.map((property) => (
+                    {properties.map(property => (
                       <option key={property.id} value={property.id}>
                         {property.name}
                       </option>
@@ -45,6 +45,7 @@ const Add = ({ columns, formData, handleChange, handleSubmit, setOpen, slug, pro
 };
 
 export default Add;
+
 
 
 

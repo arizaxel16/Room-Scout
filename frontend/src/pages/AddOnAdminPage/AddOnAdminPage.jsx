@@ -23,7 +23,7 @@ const columns = [
         editable: true,
     },
     { 
-        field: 'propertyName', 
+        field: 'propertyId', 
         headerName: 'Property', 
         width: 150, 
         editable: true,
@@ -39,6 +39,8 @@ const AddOnAdminPage = () => {
     });
     const [rows, setRows] = useState([]);
     const [properties, setProperties] = useState([]);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
 
     const fetchAddOns = async () => {
         try {
@@ -51,7 +53,7 @@ const AddOnAdminPage = () => {
             setRows(addOnsWithPropertyNames);
         } catch (err) {
             console.error('Error fetching add-ons:', err);
-            alert('Error fetching add-ons: ' + (err.response?.data?.message || err.message || 'Something went wrong'));
+            setErrorMessage('Error fetching add-ons. Please try again later.');
         }
     };
 
@@ -61,7 +63,7 @@ const AddOnAdminPage = () => {
             setProperties(response.data);
         } catch (err) {
             console.error('Error fetching properties:', err);
-            alert('Error fetching properties: ' + (err.response?.data?.message || err.message || 'Something went wrong'));
+            setErrorMessage('Error fetching properties. Please try again later.');
         }
     };
 
@@ -70,7 +72,9 @@ const AddOnAdminPage = () => {
     }, []);
 
     useEffect(() => {
-        fetchAddOns();
+        if (properties.length > 0) {
+            fetchAddOns();
+        }
     }, [properties]);
 
     const handleChange = (e) => {
@@ -86,12 +90,14 @@ const AddOnAdminPage = () => {
         try {
             const response = await axios.post('http://localhost:8080/addons', formData);
             console.log('Add-On created successfully:', response.data);
-            alert('Add-On created successfully!');
+            setSuccessMessage('Add-On created successfully!');
+            setErrorMessage(null);
             setOpen(false);
             fetchAddOns();
         } catch (err) {
             console.error('Error creating add-on:', err);
-            alert('Error creating add-on: ' + (err.response?.data?.message || err.message || 'Something went wrong'));
+            setErrorMessage('Error creating add-on. Please try again.');
+            setSuccessMessage(null);
         }
     };
 
@@ -108,6 +114,8 @@ const AddOnAdminPage = () => {
                             <h1>Add Ons</h1>
                             <button onClick={() => setOpen(true)}>Add New Add-On</button>
                         </div>
+                        
+                        
                         <DataTable columns={columns} rows={rows} />
                         {open && (
                             <Add
