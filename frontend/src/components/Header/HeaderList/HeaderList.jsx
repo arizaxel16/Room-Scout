@@ -17,10 +17,11 @@ const iconMapping = {
 
 const HeaderList = () => {
     const { theme } = useTheme();
-    const { images, selectedImage, setSelectedImage } = useHeaderContext();
+    const { images, selectedImage, setSelectedImage, setSelectedCategory } = useHeaderContext();
 
     const handleClick = (type) => {
         setSelectedImage(images[type]);
+        setSelectedCategory(type);
     };
 
     return (
