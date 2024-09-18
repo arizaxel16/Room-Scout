@@ -38,6 +38,16 @@ public class PropertyController {
         }
     }
 
+    @GetMapping("/type/{type}")
+    public ResponseEntity<List<PropertyDTO>> getPropertyByType(@PathVariable String type) {
+        try {
+            List<PropertyDTO> properties = propertyService.getPropertyByType(type);
+            return ResponseEntity.ok(properties);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<PropertyDTO> createProperty(@RequestBody PropertyDTO propertyDTO) {
         PropertyDTO savedProperty = propertyService.saveProperty(propertyDTO);

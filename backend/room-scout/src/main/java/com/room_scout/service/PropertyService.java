@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 @Service
 @AllArgsConstructor
 public class PropertyService {
@@ -144,5 +145,16 @@ public class PropertyService {
                 mapRoomTypesToDTOs(property.getRoomTypes()),
                 mapAddOnsToDTOs(property.getAddOns())
         );
+    }
+
+    public List<PropertyDTO> getPropertyByType(String type) 
+    {
+        List<Property> properties = propertyRepository.findByType(type);
+        if (properties.isEmpty()) {
+            throw new IllegalArgumentException("No properties found for type: " + type);
+        }
+        return properties.stream()
+                .map(this::mapEntityToResponseDto)
+                .collect(Collectors.toList());
     }
 }
