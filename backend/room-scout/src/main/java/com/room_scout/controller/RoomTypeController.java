@@ -14,6 +14,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/roomtypes")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class RoomTypeController {
 
     private final RoomTypeService roomTypeService;

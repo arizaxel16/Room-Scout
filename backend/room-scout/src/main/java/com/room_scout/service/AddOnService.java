@@ -61,6 +61,7 @@ public class AddOnService {
         AddOn addOn = new AddOn();
         addOn.setName(addOnDTO.name());
         addOn.setPrice(addOnDTO.price());
+        addOn.setPropertyId(addOnDTO.propertyId()); // Asignar el propertyId correctamente
         return addOn;
     }
 }

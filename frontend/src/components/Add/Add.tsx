@@ -1,50 +1,14 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import './Add.scss';
-import { GridColDef } from "@mui/x-data-grid";
 
-type Props = {
-  slug: string;
-  columns: GridColDef[];
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-const Add = (props: Props) => {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    name: '',
-    surname: '',
-    password: '',
-    role: ''
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({ ...prevState, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('http://localhost:8080/users', formData);
-      console.log('User created successfully:', response.data);
-      alert('User created successfully!');
-      
-      props.setOpen(false);
-    } catch (err) {
-      console.error('Error creating user:', err);
-      alert('Error creating user: ' + (err.response?.data?.message || err.message || 'Something went wrong'));
-    }
-  };
-
+const Add = ({ columns, formData, handleChange, handleSubmit, setOpen, slug }) => {
   return (
     <div className="add">
       <div className="modal">
-        <span className="close" onClick={() => props.setOpen(false)}>X</span>
-        <h1>Add new {props.slug}</h1>
+        <span className="close" onClick={() => setOpen(false)}>X</span>
+        <h1>Add new {slug}</h1>
         <form onSubmit={handleSubmit}>
-          {props.columns
+          {columns
             .filter(item => item.field !== "id" && item.field !== "action")
             .map(column => (
               <div className="item" key={column.field}>
@@ -52,9 +16,9 @@ const Add = (props: Props) => {
                 <input
                   type="text"
                   name={column.field}
-                  value={formData[column.field as keyof typeof formData]}
+                  value={formData[column.field] || ''} // Si no hay valor, deja vacío
                   onChange={handleChange}
-                  placeholder={column.field}
+                  placeholder={column.headerName}
                 />
               </div>
             ))}
@@ -66,4 +30,6 @@ const Add = (props: Props) => {
 };
 
 export default Add;
+
+
 
