@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './UserAdminPage.scss';
 import AdminNavBar from "../../components/AdminNavBar/AdminNavBar";
 import AdminMenu from "../../components/AdminMenu/AdminMenu";
@@ -23,13 +23,6 @@ const columns = [
   },
 ];
 
-const rows = [
-  { id: 1, email: 'jon.snow@nightswatch.org', name: 'Jon', surname: 'Snow', username: 'jsnow', password: 'password123', role: 'Admin' },
-  { id: 2, email: 'cersei.lannister@casterlyrock.com', name: 'Cersei', surname: 'Lannister', username: 'clannister', password: 'queen456', role: 'User' },
-  { id: 3, email: 'jaime.lannister@kingsguard.com', name: 'Jaime', surname: 'Lannister', username: 'jlannister', password: 'knight789', role: 'User' },
-  { id: 4, email: 'arya.stark@winterfell.com', name: 'Arya', surname: 'Stark', username: 'astark', password: 'faceless321', role: 'Admin' },
-];
-
 const UserAdminPage = () => {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -40,6 +33,22 @@ const UserAdminPage = () => {
     password: '',
     role: 'Admin',
   });
+  const [rows, setRows] = useState([]);
+
+  // Fetch users from the API
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/users');
+      setRows(response.data);
+    } catch (err) {
+      console.error('Error fetching users:', err);
+      alert('Error fetching users: ' + (err.response?.data?.message || err.message || 'Something went wrong'));
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,6 +62,7 @@ const UserAdminPage = () => {
       console.log('User created successfully:', response.data);
       alert('User created successfully!');
       setOpen(false);
+      fetchUsers(); // Refresh the list after adding a new user
     } catch (err) {
       console.error('Error creating user:', err);
       alert('Error creating user: ' + (err.response?.data?.message || err.message || 'Something went wrong'));
@@ -92,6 +102,7 @@ const UserAdminPage = () => {
 };
 
 export default UserAdminPage;
+
 
 
 

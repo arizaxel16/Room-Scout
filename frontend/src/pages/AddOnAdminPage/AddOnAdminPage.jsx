@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './AddOnAdminPage.scss';
 import AdminNavBar from "../../components/AdminNavBar/AdminNavBar";
 import AdminMenu from "../../components/AdminMenu/AdminMenu";
@@ -23,16 +23,11 @@ const columns = [
         editable: true,
     },
     { 
-        field: 'propertyId', 
+        field: 'propertyName', 
         headerName: 'Property', 
         width: 150, 
         editable: true,
     },
-];
-
-const rows = [
-    { id: 1, name: 'Breakfast Included', price: '20400', propertyId: '1' },
-    { id: 2, name: 'Spa Access', price: '15000', propertyId: '1' },
 ];
 
 const AddOnAdminPage = () => {
@@ -42,10 +37,45 @@ const AddOnAdminPage = () => {
         price: '',
         propertyId: '',
     });
+    const [rows, setRows] = useState([]);
+    const [properties, setProperties] = useState([]);
+
+    const fetchAddOns = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/addons');
+            const addOns = response.data;
+            const addOnsWithPropertyNames = addOns.map(addOn => ({
+                ...addOn,
+                propertyName: properties.find(property => property.id === addOn.propertyId)?.name || 'Unknown'
+            }));
+            setRows(addOnsWithPropertyNames);
+        } catch (err) {
+            console.error('Error fetching add-ons:', err);
+            alert('Error fetching add-ons: ' + (err.response?.data?.message || err.message || 'Something went wrong'));
+        }
+    };
+
+    const fetchProperties = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/properties');
+            setProperties(response.data);
+        } catch (err) {
+            console.error('Error fetching properties:', err);
+            alert('Error fetching properties: ' + (err.response?.data?.message || err.message || 'Something went wrong'));
+        }
+    };
+
+    useEffect(() => {
+        fetchProperties();
+    }, []);
+
+    useEffect(() => {
+        fetchAddOns();
+    }, [properties]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevState) => ({
+        setFormData(prevState => ({
             ...prevState,
             [name]: value,
         }));
@@ -58,6 +88,7 @@ const AddOnAdminPage = () => {
             console.log('Add-On created successfully:', response.data);
             alert('Add-On created successfully!');
             setOpen(false);
+            fetchAddOns();
         } catch (err) {
             console.error('Error creating add-on:', err);
             alert('Error creating add-on: ' + (err.response?.data?.message || err.message || 'Something went wrong'));
@@ -86,6 +117,7 @@ const AddOnAdminPage = () => {
                                 handleChange={handleChange}
                                 handleSubmit={handleSubmit}
                                 setOpen={setOpen}
+                                properties={properties} 
                             />
                         )}
                     </div>
@@ -97,4 +129,5 @@ const AddOnAdminPage = () => {
 };
 
 export default AddOnAdminPage;
+
 

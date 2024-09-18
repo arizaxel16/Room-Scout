@@ -1,7 +1,7 @@
 import React from 'react';
 import './Add.scss';
 
-const Add = ({ columns, formData, handleChange, handleSubmit, setOpen, slug }) => {
+const Add = ({ columns, formData, handleChange, handleSubmit, setOpen, slug, properties }) => {
   return (
     <div className="add">
       <div className="modal">
@@ -13,13 +13,28 @@ const Add = ({ columns, formData, handleChange, handleSubmit, setOpen, slug }) =
             .map(column => (
               <div className="item" key={column.field}>
                 <label>{column.headerName}</label>
-                <input
-                  type="text"
-                  name={column.field}
-                  value={formData[column.field] || ''} // Si no hay valor, deja vacío
-                  onChange={handleChange}
-                  placeholder={column.headerName}
-                />
+                {column.field === 'propertyId' && properties ? (
+                  <select
+                    name="propertyId"
+                    value={formData.propertyId}
+                    onChange={handleChange}
+                  >
+                    <option value="">Select a property</option>
+                    {properties.map((property) => (
+                      <option key={property.id} value={property.id}>
+                        {property.name}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type={column.type === 'number' ? 'number' : 'text'}
+                    name={column.field}
+                    value={formData[column.field] || ''}
+                    onChange={handleChange}
+                    placeholder={column.headerName}
+                  />
+                )}
               </div>
             ))}
           <button type="submit">Send</button>
@@ -30,6 +45,7 @@ const Add = ({ columns, formData, handleChange, handleSubmit, setOpen, slug }) =
 };
 
 export default Add;
+
 
 
 
