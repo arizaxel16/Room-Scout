@@ -63,11 +63,22 @@
     left: 160px;
     background-color: white;
     color: black;
+    z-index: 9999; 
+    overflow: visible; 
+}
+
+.parent-container {
+    overflow: visible; 
+    padding-bottom: 150px; 
 }
 .date.dark {
     background-color: black;
     color: white;
 }
+.date.dark .rdrDayDisabled{
+    background-color: #333;
+}
+
 .date.dark .rdrDateDisplayWrapper {
     background-color: #444;
 }
@@ -79,7 +90,6 @@
     background-color: #444;
     border-color: #444;
 }
-
 .date.dark .rdrDayNumber span {
     color: white;
 }

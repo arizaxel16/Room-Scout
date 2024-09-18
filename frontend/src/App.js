@@ -9,6 +9,7 @@ import RoomAdminPage from "./pages/RoomAdminPage/RoomAdminPage";
 import AddOnAdminPage from "./pages/AddOnAdminPage/AddOnAdminPage";
 import BookingAdminPage from "./pages/BookingAdminPage/BookingAdminPage";
 import { ThemeProvider } from "./context/ThemeContext";
+import RoomTypePage from './pages/RoomTypePage/RoomTypePage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/admin/addOns" element={<AddOnAdminPage />} />
           <Route path="/admin/bookings" element={<BookingAdminPage />} />
           <Route path="/" element={<LandingPage />} />
+          <Route path="/rooms/:hotelId" element={<RoomTypePage />} />
           <Route path="/user_auth" element={<LoginRegister />} />
           </Routes>
       </Router>

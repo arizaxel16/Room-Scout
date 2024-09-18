@@ -1,13 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useHeaderContext } from '../../context/HeaderContext';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/navigation'; 
 import './CategoryResults.css';
 import axios from 'axios';
 
 const CategoryResults = () => {
-    const { selectedCategory } = useHeaderContext();
+    const { selectedCategory, searchData } = useHeaderContext();
+    const navigate = useNavigate();
     const [properties, setProperties] = React.useState([]);
 
     React.useEffect(() => {
@@ -25,41 +24,36 @@ const CategoryResults = () => {
         fetchProperties();
     }, [selectedCategory]);
 
+    const handleClick = (hotelName) => {
+        const { dates } = searchData;
+
+        
+        if (!dates || dates.length === 0 || !dates[0].startDate || !dates[0].endDate) {
+            alert("Por favor selecciona fechas antes de continuar.");
+            return;
+        }
+
+        
+        navigate(`/rooms/${hotelName}`, {
+            state: { dates: searchData.dates }
+        });
+    };
+
     if (!selectedCategory || properties.length === 0) return null;
 
     return (
         <div className="categoryResults">
             <h2>{selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}s</h2>
-            <Swiper
-                spaceBetween={20}
-                slidesPerView={3}
-                loop={true}
-                navigation={true}
-                pagination={{ clickable: true }}
-                breakpoints={{
-                    640: {
-                        slidesPerView: 1,
-                    },
-                    768: {
-                        slidesPerView: 2,
-                    },
-                    1024: {
-                        slidesPerView: 3,
-                    },
-                }}
-            >
+            <div className="gridContainer">
                 {properties.map(item => (
-                    <SwiperSlide key={item.id}>
-                        <div className="resultItem">
-                            <h3>{item.name}</h3>
-                            <p>{item.country}</p>
-                            <p>{item.city}</p>
-                            <p>{item.address}</p>
-                            
-                        </div>
-                    </SwiperSlide>
+                    <div className="gridItem" key={item.id} onClick={() => handleClick(item.name)}>
+                        <h3>{item.name}</h3>
+                        <p>{item.country}</p>
+                        <p>{item.city}</p>
+                        <p>{item.address}</p>
+                    </div>
                 ))}
-            </Swiper>
+            </div>
         </div>
     );
 };

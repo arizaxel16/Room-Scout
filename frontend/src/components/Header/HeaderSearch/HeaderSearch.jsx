@@ -53,13 +53,17 @@ const HeaderSearch = () => {
                 <span onClick={() => toggleFilterDate()} className={`headerSearchText ${theme}`}>
                     {`${format(searchData.dates[0].startDate, "MM/dd/yyyy")} to ${format(searchData.dates[0].endDate, "MM/dd/yyyy")}`}
                 </span>
-                {openDate && <DateRange
-                    editableDateInputs={true}
-                    onChange={item => setSearchData(prev => ({ ...prev, dates: [item.selection] }))}
-                    moveRangeOnFirstSelection={false}
-                    ranges={searchData.dates}
-                    className={`date ${theme}`}
-                />}
+                {openDate && (
+                    <DateRange
+                        editableDateInputs={true}
+                        onChange={item => setSearchData(prev => ({ ...prev, dates: [item.selection] }))}
+                        moveRangeOnFirstSelection={false}
+                        ranges={searchData.dates}
+                        minDate={new Date()} 
+                        showMonthAndYearPickers={true} 
+                        className={`date ${theme}`}
+                    />
+                    )}
             </div>
             <div className="headerSearchItem">
                 <FaPerson className={`headerIcon ${theme}`} />

@@ -1,68 +1,72 @@
-/* CategoryResults.css */
 .categoryResults {
-    margin-top: 20px;
     padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-}
-
-.resultItem {
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
     background-color: #f9f9f9;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.resultImage {
+.categoryResults h2 {
+    text-align: center;
+    margin-top: 40px; 
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 20px;
     width: 100%;
-    height: auto;
-    border-radius: 4px;
+    max-width: 1200px;
+    justify-items: center;
+}
+
+
+.gridItem {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%; 
+    max-width: 300px; 
+}
+
+.gridItem h3 {
+    font-size: 18px;
+    color: #333;
     margin-bottom: 10px;
 }
 
-.resultItem h3 {
-    margin: 0;
+.gridItem p {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 5px;
 }
 
-.resultItem p {
-    margin: 5px 0 0;
+.gridItem:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-.swiper {
-    width: 100%;
-    height: 100%;
+@media (max-width: 768px) {
+    .categoryResults h2 {
+        margin-top: 100px; 
+    }
+    .gridContainer {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
 }
 
-.swiper-slide {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+@media (max-width: 480px) {
+    .gridContainer {
+        grid-template-columns: 1fr; 
+    }
 }
-/* Estilos para los botones de navegación */
-.swiper-button-prev, .swiper-button-next {
-    color: #000; /* Cambia el color de las flechas */
-    background-color: rgba(255, 255, 255, 0.7); /* Fondo semi-transparente */
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s ease;
-}
-
-.swiper-button-prev:hover, .swiper-button-next:hover {
-    background-color: rgba(255, 255, 255, 1); /* Color al hacer hover */
-}
-
-/* Ajustes de posición si lo deseas */
-.swiper-button-prev {
-    left: 10px; /* Posiciona a la izquierda */
-}
-
-.swiper-button-next {
-    right: 10px; /* Posiciona a la derecha */
-}
-
-

@@ -25,7 +25,7 @@ export const HeaderProvider = ({ children }) => {
         dates: [
             {
                 startDate: new Date(),
-                endDate: new Date(),
+                endDate: new Date(new Date().setDate(new Date().getDate() + 1)),
                 key: 'selection'
             }
         ],
