@@ -15,7 +15,7 @@ useEffect(() => {
     const fetchAvailability = async () => {
     try {
         const availabilityResponse = await axios.get(
-        `http://localhost:8080/bookings/availability?hotelId=${propertyId}&startDate=${startDate}&endDate=${endDate}`
+        `http://157.173.114.224:8080/bookings/availability?hotelId=${propertyId}&startDate=${startDate}&endDate=${endDate}`
         );
         setAvailabilityData(availabilityResponse.data);
     } catch (error) {
@@ -25,7 +25,7 @@ useEffect(() => {
     const fetchRoomTypes = async () => {
     try {
         const roomTypesResponse = await axios.get(
-        "http://localhost:8080/roomtypes"
+        "http://157.173.114.224:8080/roomtypes"
         );
         setRoomTypesData(roomTypesResponse.data);
     } catch (error) {
@@ -55,7 +55,7 @@ const handleBooking = async (room) => {
 
     try {
     const response = await axios.post(
-        "http://localhost:8080/bookings",
+        "http://157.173.114.224:8080/bookings",
         bookingData
     );
     alert("Booking successful!");
