@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useHeaderContext } from '../../context/HeaderContext';
 import './CategoryResults.css';
 import axios from 'axios';
+import { format } from 'date-fns'; 
 
 const CategoryResults = () => {
     const { selectedCategory, searchData } = useHeaderContext();
@@ -24,18 +25,23 @@ const CategoryResults = () => {
         fetchProperties();
     }, [selectedCategory]);
 
-    const handleClick = (hotelName) => {
+    const handleClick = (hotelName, propertyId) => {
         const { dates } = searchData;
 
-        
         if (!dates || dates.length === 0 || !dates[0].startDate || !dates[0].endDate) {
             alert("Por favor selecciona fechas antes de continuar.");
             return;
         }
 
-        
+        const startDate = format(dates[0].startDate, 'yyyy-MM-dd');
+        const endDate = format(dates[0].endDate, 'yyyy-MM-dd');
+
         navigate(`/rooms/${hotelName}`, {
-            state: { dates: searchData.dates }
+            state: {
+                propertyId: propertyId,
+                startDate: startDate,
+                endDate: endDate
+            }
         });
     };
 
@@ -46,7 +52,7 @@ const CategoryResults = () => {
             <h2>{selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}s</h2>
             <div className="gridContainer">
                 {properties.map(item => (
-                    <div className="gridItem" key={item.id} onClick={() => handleClick(item.name)}>
+                    <div className="gridItem" key={item.id} onClick={() => handleClick(item.name, item.id)}>
                         <h3>{item.name}</h3>
                         <p>{item.country}</p>
                         <p>{item.city}</p>
