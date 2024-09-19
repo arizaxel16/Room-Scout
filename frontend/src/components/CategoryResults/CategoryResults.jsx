@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useHeaderContext } from '../../context/HeaderContext';
 import './CategoryResults.css';
 import axios from 'axios';
-import { format } from 'date-fns'; 
 
 const CategoryResults = () => {
     const { selectedCategory, searchData } = useHeaderContext();
     const navigate = useNavigate();
-    const [properties, setProperties] = React.useState([]);
+    const [properties, setProperties] = useState([]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const fetchProperties = async () => {
             if (!selectedCategory) return;
 
@@ -31,28 +30,16 @@ const CategoryResults = () => {
             alert("Por favor selecciona fechas antes de continuar.");
             return;
         }
-
-    const startDate = format(dates[0].startDate, 'yyyy-MM-dd');
-        const endDate = format(dates[0].endDate, 'yyyy-MM-dd');
+        const startDate = dates[0].startDate;
+        const endDate = dates[0].endDate;
 
         navigate(`/rooms/${hotelName}`, {
             state: {
                 propertyId: propertyId,
-                startDate: startDate,
-                endDate: endDate
+                startDate,
+                endDate
             }
         });
-        // Check if user is authenticated
-        const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-
-        if (isAuthenticated) {
-            navigate(`/rooms/${hotelName}`, {
-                state: { dates: searchData.dates }
-            });
-        } else {
-            alert("Por favor, inicie sesión para continuar.");
-            navigate('/user_auth'); // Redirect to LoginRegister page
-        }
     };
 
     if (!selectedCategory || properties.length === 0) return null;
