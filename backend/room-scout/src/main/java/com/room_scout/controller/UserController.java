@@ -15,7 +15,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/users")
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://157.173.114.224:3000"})  // Replace with your frontend IP or domain
 public class UserController {
 
     private final UserService userService;

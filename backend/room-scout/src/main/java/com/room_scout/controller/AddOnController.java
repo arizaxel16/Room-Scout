@@ -14,7 +14,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/addons")
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://157.173.114.224:3000"})  // Replace with your frontend IP or domain
 public class AddOnController {
 
     private final AddOnService addOnService;

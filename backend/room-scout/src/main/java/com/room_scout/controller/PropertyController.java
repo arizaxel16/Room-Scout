@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/properties")
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://157.173.114.224:3000"})  // Replace with your frontend IP or domain
 public class PropertyController {
 
     private final PropertyService propertyService;

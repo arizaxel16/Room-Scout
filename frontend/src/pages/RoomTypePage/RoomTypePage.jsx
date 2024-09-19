@@ -15,7 +15,7 @@ useEffect(() => {
     const fetchAvailability = async () => {
     try {
         const availabilityResponse = await axios.get(
-        `http://localhost:8080/bookings/availability?hotelId=${propertyId}&startDate=${startDate}&endDate=${endDate}`
+        `http://157.173.114.224:8080/bookings/availability?hotelId=${propertyId}&startDate=${startDate}&endDate=${endDate}`
         );
 
         alert(
@@ -30,7 +30,7 @@ useEffect(() => {
     const fetchRoomTypes = async () => {
     try {
         const roomTypesResponse = await axios.get(
-        "http://localhost:8080/roomtypes"
+        "http://157.173.114.224:8080/roomtypes"
         );
 
         alert(`Room Types Data: ${JSON.stringify(roomTypesResponse.data)}`);

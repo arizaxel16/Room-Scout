@@ -30,7 +30,7 @@ const LoginRegisterForm = () => {
     const registerUser = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/users', {
+            const response = await axios.post('http://157.173.114.224:8080/users', {
                 username,
                 identification: parseInt(identification),
                 email,
@@ -55,7 +55,7 @@ const LoginRegisterForm = () => {
     const loginUser = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/users/login', {
+            const response = await axios.post('http://157.173.114.224:8080/users/login', {
                 email: loginEmail,
                 password: loginPassword
             });
