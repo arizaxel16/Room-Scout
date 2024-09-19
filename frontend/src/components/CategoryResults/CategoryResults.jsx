@@ -32,7 +32,7 @@ const CategoryResults = () => {
             return;
         }
 
-   const startDate = format(dates[0].startDate, 'yyyy-MM-dd');
+    const startDate = format(dates[0].startDate, 'yyyy-MM-dd');
         const endDate = format(dates[0].endDate, 'yyyy-MM-dd');
 
         navigate(`/rooms/${hotelName}`, {
