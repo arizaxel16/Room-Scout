@@ -3,6 +3,8 @@ package com.room_scout.controller;
 import com.room_scout.controller.dto.BookingDTO;
 import com.room_scout.service.BookingService;
 import lombok.AllArgsConstructor;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,10 +12,13 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/bookings")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
+
 public class BookingController {
 
     private final BookingService bookingService;
@@ -51,6 +56,16 @@ public class BookingController {
         Optional<BookingDTO> updatedBooking = bookingService.updateBooking(id, bookingDTO);
         if (updatedBooking.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return ResponseEntity.ok(updatedBooking.get());
+    }
+    
+    @GetMapping("/availability")
+    public ResponseEntity<List<long[]>> checkAvailability(
+            @RequestParam Long hotelId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+
+        List<long[]> availability = bookingService.checkAvailability(hotelId, startDate, endDate);
+        return ResponseEntity.ok(availability);
     }
 }
 
