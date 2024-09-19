@@ -15,18 +15,25 @@ useEffect(() => {
     const fetchAvailability = async () => {
     try {
         const availabilityResponse = await axios.get(
-        `http://157.173.114.224:8080/bookings/availability?hotelId=${propertyId}&startDate=${startDate}&endDate=${endDate}`
+        `http://localhost:8080/bookings/availability?hotelId=${propertyId}&startDate=${startDate}&endDate=${endDate}`
+        );
+
+        alert(
+        `Availability Data: ${JSON.stringify(availabilityResponse.data)}`
         );
         setAvailabilityData(availabilityResponse.data);
     } catch (error) {
         console.error("Error fetching availability:", error);
     }
     };
+
     const fetchRoomTypes = async () => {
     try {
         const roomTypesResponse = await axios.get(
         "http://157.173.114.224:8080/roomtypes"
         );
+
+        alert(`Room Types Data: ${JSON.stringify(roomTypesResponse.data)}`);
         setRoomTypesData(roomTypesResponse.data);
     } catch (error) {
         console.error("Error fetching room types:", error);
@@ -40,30 +47,6 @@ useEffect(() => {
 const availableRoomTypes = roomTypesData.filter((roomType) =>
     availabilityData.some((availability) => availability[0] === roomType.id)
 );
-
-const handleBooking = async (room) => {
-    const userId = localStorage.getItem("id");
-    const totalPrice = room.basePrice; // Supongo que 'basePrice' es el precio total
-
-    const bookingData = {
-    startDate,
-    endDate,
-    totalPrice,
-    roomTypeId: room.id,
-    userId,
-    };
-
-    try {
-    const response = await axios.post(
-        "http://157.173.114.224:8080/bookings",
-        bookingData
-    );
-    alert("Booking successful!");
-    } catch (error) {
-    console.error("Error creating booking:", error);
-    alert("Booking failed. Please try again.");
-    }
-};
 
 return (
     <div>
@@ -87,14 +70,12 @@ return (
                 <p className="roomCardInfo">{room.description}</p>
                 <p className="roomCardPrice">Price: ${room.basePrice}</p>
                 <p className="roomCardAvailability">
-                    Availability: {availability ? availability[1] : "Unknown"}
+                    Available Rooms:{" "}
+                    {availability ? availability[1] : "Unknown"}
                 </p>
-                <button
-                    onClick={() => handleBooking(room)}
-                    className="roomCardButton"
-                >
+                <Link to={`/book/${room.id}`} className="roomCardButton">
                     Book Now
-                </button>
+                </Link>
                 </div>
             </div>
             );
