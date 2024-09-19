@@ -15,7 +15,6 @@ const LandingPage = () => {
                 <Header />
                 <CategoryResults />
             </HeaderProvider>
-            <CategoryResults />
         </div>
     );
 };
