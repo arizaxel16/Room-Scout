@@ -10,6 +10,7 @@ const RoomTypesPage = () => {
 
     const [availabilityData, setAvailabilityData] = useState([]);
     const [roomTypesData, setRoomTypesData] = useState([]);
+    
 
     useEffect(() => {
         const fetchAvailability = async () => {
