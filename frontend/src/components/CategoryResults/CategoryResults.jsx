@@ -30,14 +30,16 @@ const CategoryResults = () => {
             alert("Por favor selecciona fechas antes de continuar.");
             return;
         }
-        const startDate = dates[0].startDate;
-        const endDate = dates[0].endDate;
+
+        // Format the dates as ISO strings (YYYY-MM-DD)
+        const startDate = new Date(dates[0].startDate).toISOString().split('T')[0];
+        const endDate = new Date(dates[0].endDate).toISOString().split('T')[0];
 
         navigate(`/rooms/${hotelName}`, {
             state: {
                 propertyId: propertyId,
-                startDate,
-                endDate
+                startDate: startDate,
+                endDate: endDate
             }
         });
     };
