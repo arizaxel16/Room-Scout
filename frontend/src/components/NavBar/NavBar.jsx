@@ -28,6 +28,8 @@ const NavBar = () => {
                 <li>Room</li>
                 <li>Features</li>
                 <li>About</li>
+                <li><Link to={'/admin'}>Admin</Link></li>
+                
             </ul>
 
             <div className="icons">
