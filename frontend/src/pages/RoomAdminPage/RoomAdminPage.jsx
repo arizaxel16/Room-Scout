@@ -33,7 +33,7 @@ const RoomAdminPage = () => {
     // Fetch rooms and add property names to the rows
     const fetchRooms = async () => {
         try {
-            const response = await axios.get('http://157.173.114.224:8080/roomtypes');
+            const response = await axios.get('http://localhost:8080/roomtypes');
             const rooms = response.data;
             const roomsWithPropertyNames = rooms.map(room => ({
                 ...room,
@@ -48,7 +48,7 @@ const RoomAdminPage = () => {
     // Fetch properties for the select field
     const fetchProperties = async () => {
         try {
-            const response = await axios.get('http://157.173.114.224:8080/properties');
+            const response = await axios.get('http://localhost:8080/properties');
             setProperties(response.data);
         } catch (err) {
             console.error('Error fetching properties:', err);
@@ -73,7 +73,7 @@ const RoomAdminPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://157.173.114.224:8080/roomtypes', formData);
+            const response = await axios.post('http://localhost:8080/roomtypes', formData);
             console.log('Room created successfully:', response.data);
             setOpen(false);
             fetchRooms(); // Refresh rooms after adding a new one

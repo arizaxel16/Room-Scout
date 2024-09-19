@@ -44,7 +44,7 @@ const AddOnAdminPage = () => {
 
     const fetchAddOns = async () => {
         try {
-            const response = await axios.get('http://157.173.114.224:8080/addons');
+            const response = await axios.get('http://localhost:8080/addons');
             const addOns = response.data;
             const addOnsWithPropertyNames = addOns.map(addOn => ({
                 ...addOn,
@@ -59,7 +59,7 @@ const AddOnAdminPage = () => {
 
     const fetchProperties = async () => {
         try {
-            const response = await axios.get('http://157.173.114.224:8080/properties');
+            const response = await axios.get('http://localhost:8080/properties');
             setProperties(response.data);
         } catch (err) {
             console.error('Error fetching properties:', err);
@@ -88,7 +88,7 @@ const AddOnAdminPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://157.173.114.224:8080/addons', formData);
+            const response = await axios.post('http://localhost:8080/addons', formData);
             console.log('Add-On created successfully:', response.data);
             setSuccessMessage('Add-On created successfully!');
             setErrorMessage(null);

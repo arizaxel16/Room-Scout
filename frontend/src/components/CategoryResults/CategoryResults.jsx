@@ -15,7 +15,7 @@ const CategoryResults = () => {
             if (!selectedCategory) return;
 
             try {
-                const response = await axios.get(`http://157.173.114.224:8080/properties/type/${selectedCategory}`);
+                const response = await axios.get(`http://localhost:8080/properties/type/${selectedCategory}`);
                 setProperties(response.data);
             } catch (error) {
                 console.error('Error al cargar las propiedades:', error);

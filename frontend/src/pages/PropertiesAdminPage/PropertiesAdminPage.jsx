@@ -30,7 +30,7 @@ const PropertiesAdminPage = () => {
   // Fetch properties from the API
   const fetchProperties = async () => {
     try {
-      const response = await axios.get('http://157.173.114.224:8080/properties');
+      const response = await axios.get('http://localhost:8080/properties');
       setRows(response.data);
     } catch (err) {
       console.error('Error fetching properties:', err);
@@ -50,7 +50,7 @@ const PropertiesAdminPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://157.173.114.224:8080/properties', formData);
+      const response = await axios.post('http://localhost:8080/properties', formData);
       console.log('Property created successfully:', response.data);
       alert('Property created successfully!');
       setOpen(false);

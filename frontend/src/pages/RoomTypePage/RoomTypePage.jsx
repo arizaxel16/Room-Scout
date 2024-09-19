@@ -30,7 +30,7 @@ useEffect(() => {
     const fetchRoomTypes = async () => {
     try {
         const roomTypesResponse = await axios.get(
-        "http://157.173.114.224:8080/roomtypes"
+        "http://localhost:8080/roomtypes"
         );
 
         alert(`Room Types Data: ${JSON.stringify(roomTypesResponse.data)}`);
