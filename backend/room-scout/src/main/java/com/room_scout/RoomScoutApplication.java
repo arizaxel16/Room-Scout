@@ -12,8 +12,9 @@ public class RoomScoutApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RoomScoutApplication.class, args);
 	}
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
+
+    @Bean
+    WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
