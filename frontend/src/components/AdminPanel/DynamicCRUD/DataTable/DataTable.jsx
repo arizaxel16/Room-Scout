@@ -7,8 +7,6 @@ import { MdDeleteOutline } from "react-icons/md";
 
 const DataTable = ({ columns, rows }) => {
     const handleDelete = (id) => {
-        // Lógica para eliminar el usuario con el ID proporcionado
-        //axios.delete(`/api/users/${id}`);
         console.log(`Eliminar usuario con ID: ${id}`);
     };
     const columnsWithDates = columns.map(column => {
@@ -20,7 +18,6 @@ const DataTable = ({ columns, rows }) => {
         }
         return column;
     });
-    // Definir la columna de acciones
     const actionColumn = [
         {
             field: "action",
@@ -37,7 +34,6 @@ const DataTable = ({ columns, rows }) => {
         },
     ];
 
-    // Combinar las columnas originales con la columna de acciones
     const allColumns = [...columns, ...actionColumn];
 
     return (
@@ -45,7 +41,7 @@ const DataTable = ({ columns, rows }) => {
             <DataGrid
                 className="dataGrid"
                 rows={rows}
-                columns={allColumns}  // Usar todas las columnas
+                columns={allColumns}
                 initialState={{
                     pagination: {
                         paginationModel: {
