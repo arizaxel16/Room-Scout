@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
-import logo_light from '../../assets/LOGO_LIGHT.png';
-import logo_dark from '../../assets/LOGO_DARK.png';
+import Logo from '../../Generic/Logo/Logo'
 import { MdOutlineWbSunny, MdMenu } from "react-icons/md";
 import { FaRegMoon, FaSearch, FaUser } from "react-icons/fa";
-import { useTheme } from '../../context/ThemeContext';
+import { useTheme } from '../../../context/ThemeContext';
 
 const NavBar = () => {
     const { theme, setTheme } = useTheme();
@@ -17,8 +16,7 @@ const NavBar = () => {
 
     return (
         <nav className={`navbar ${theme}`}>
-            <img src={theme === 'light' ? logo_light : logo_dark} alt="logo" className="logo" />
-            
+            <Logo />            
             <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
                 <div className="search-box">
                     <input type="text" placeholder="Search" />

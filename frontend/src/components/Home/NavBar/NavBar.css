@@ -6,11 +6,6 @@
     background-color: var(--bg-color);
 }
 
-.logo {
-    width: 160px;
-    cursor: pointer;
-}
-
 .nav-links {
     list-style: none;
     display: flex;

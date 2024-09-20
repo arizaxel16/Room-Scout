@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useHeaderContext } from '../../context/HeaderContext';
+import { useHeaderContext } from '../../../context/HeaderContext';
 import './CategoryResults.css';
 import axios from 'axios';
 

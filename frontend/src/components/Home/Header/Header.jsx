@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHeaderContext } from '../../context/HeaderContext';
 import HeaderList from './HeaderList/HeaderList';
-import HeaderSearch from './HeaderSearch/HeaderSearch';
+import HeaderSearch from '../HeaderSearch/HeaderSearch';
 import { useTheme } from '../../context/ThemeContext';
 import './Header.css';
 

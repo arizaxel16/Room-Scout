@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./RoomTypePage.css";
+import "./PropertyRoomBooking.css";
 import { Link, useLocation } from "react-router-dom";
 import NavBar from "../../components/NavBar/NavBar";
 import axios from "axios";
 
-const RoomTypePage = () => {
+const PropertyRoomBooking = () => {
     const location = useLocation();
     const { propertyId, startDate, endDate } = location.state || {};
 
@@ -116,4 +116,4 @@ const RoomTypePage = () => {
     );
 };
 
-export default RoomTypePage;
+export default PropertyRoomBooking;

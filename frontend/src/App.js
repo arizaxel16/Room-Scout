@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import LandingPage from './pages/LandingPage/LandingPage';
-import LoginRegister from './pages/LoginRegister/LoginRegister'
+import Home from './pages/Home/Home';
+import Auth from './pages/Auth/Auth'
 import AdminHomePage from "./pages/AdminHomePage/AdminHomePage";
 import UserAdminPage from "./pages/UserAdminPage/UserAdminPage";
 import PropertiesAdminPage from "./pages/PropertiesAdminPage/PropertiesAdminPage";
@@ -9,7 +9,7 @@ import RoomAdminPage from "./pages/RoomAdminPage/RoomAdminPage";
 import AddOnAdminPage from "./pages/AddOnAdminPage/AddOnAdminPage";
 import BookingAdminPage from "./pages/BookingAdminPage/BookingAdminPage";
 import { ThemeProvider } from "./context/ThemeContext";
-import RoomTypePage from './pages/RoomTypePage/RoomTypePage';
+import RoomTypePage from './pages/PropertyRoomBooking/PropertyRoomBooking';
 
 function App() {
   return (
@@ -22,9 +22,9 @@ function App() {
           <Route path="/admin/rooms" element={<RoomAdminPage />} />
           <Route path="/admin/addOns" element={<AddOnAdminPage />} />
           <Route path="/admin/bookings" element={<BookingAdminPage />} />
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/rooms/:hotelId" element={<RoomTypePage />} />
-          <Route path="/user_auth" element={<LoginRegister />} />
+          <Route path="/user_auth" element={<Auth />} />
           </Routes>
       </Router>
     </ThemeProvider>

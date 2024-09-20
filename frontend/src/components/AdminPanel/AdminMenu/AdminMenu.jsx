@@ -7,7 +7,7 @@ import { FaUsers } from "react-icons/fa6";
 import { IoIosWine } from "react-icons/io";
 import { LuClipboardList } from "react-icons/lu";
 import { BsFillFileEarmarkPostFill } from "react-icons/bs";
-import { menu } from "../../data.ts";
+import { menu } from "../../../data.ts";
 
 const iconMap = {
     IoHomeOutline: IoHomeOutline,

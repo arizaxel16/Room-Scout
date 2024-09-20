@@ -1,5 +1,5 @@
 import React from 'react';
-import {topDealUsers} from "../../data.ts";
+import {topDealUsers} from "../../../data.ts";
 import './TopBox.scss';
 
 const TopBox = () => {
