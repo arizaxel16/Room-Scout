@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './AddOnAdminPage.scss';
-import AdminNavBar from "../../components/AdminNavBar/AdminNavBar";
-import AdminMenu from "../../components/AdminMenu/AdminMenu";
-import AdminFooter from "../../components/AdminFooter/AdminFooter";
 import DataTable from "../../components/DataTable/DataTable";
 import Add from "../../components/Add/Add.tsx";
 import axios from 'axios';
@@ -39,8 +36,6 @@ const AddOnAdminPage = () => {
     });
     const [rows, setRows] = useState([]);
     const [properties, setProperties] = useState([]);
-    const [errorMessage, setErrorMessage] = useState(null);
-    const [successMessage, setSuccessMessage] = useState(null);
 
     const fetchAddOns = async () => {
         try {
@@ -102,36 +97,25 @@ const AddOnAdminPage = () => {
     };
 
     return (
-        <div className="main">
-            <AdminNavBar />
-            <div className="containerAdmin">
-                <div className="menuContainer">
-                    <AdminMenu />
-                </div>
-                <div className="contentContainer">
-                    <div className="add-ons">
-                        <div className="info">
-                            <h1>Add Ons</h1>
-                            <button onClick={() => setOpen(true)}>Add New Add-On</button>
-                        </div>
-                        
-                        
-                        <DataTable columns={columns} rows={rows} />
-                        {open && (
-                            <Add
-                                slug="add-ons"
-                                columns={columns}
-                                formData={formData}
-                                handleChange={handleChange}
-                                handleSubmit={handleSubmit}
-                                setOpen={setOpen}
-                                properties={properties} 
-                            />
-                        )}
-                    </div>
-                </div>
+        <div className="add-ons">
+            <div className="info">
+                <h1>Add Ons</h1>
+                <button onClick={() => setOpen(true)}>Add New Add-On</button>
             </div>
-            <AdminFooter />
+            
+            
+            <DataTable columns={columns} rows={rows} />
+            {open && (
+                <Add
+                    slug="add-ons"
+                    columns={columns}
+                    formData={formData}
+                    handleChange={handleChange}
+                    handleSubmit={handleSubmit}
+                    setOpen={setOpen}
+                    properties={properties} 
+                />
+            )}
         </div>
     );
 };
