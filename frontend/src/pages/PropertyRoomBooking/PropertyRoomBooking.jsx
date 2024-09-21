@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./PropertyRoomBooking.css";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import NavBar from "../../components/Generic/NavBar/NavBar";
 import axios from "axios";
 
@@ -64,7 +64,7 @@ const PropertyRoomBooking = () => {
         };
 
         try {
-            const response = await axios.post(
+            await axios.post(
                 "http://157.173.114.224:8080/bookings",
                 bookingDetails
             );

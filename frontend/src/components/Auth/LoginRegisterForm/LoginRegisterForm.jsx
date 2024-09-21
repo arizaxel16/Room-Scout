@@ -101,12 +101,12 @@ const LoginRegisterForm = () => {
                     </div>
                     <div className='remember-forgot'>
                         <label className='label-holder'><input type="checkbox"/>Remember me</label>
-                        <a>Forgot password?</a>
+                        <button type='button' className='link-button'>Forgot password?</button>
                     </div>
 
                     <button type='submit'>Login</button>
                     <div className='register-link'>
-                        <p>Don't have an account? <a onClick={registerLink}>Register</a></p>
+                        <p>Don't have an account? <button type='button' className='link-button' onClick={registerLink}>Register</button></p>
                     </div>
                 </form>
             </div>
@@ -144,7 +144,7 @@ const LoginRegisterForm = () => {
 
                     <button type='submit'>Register</button>
                     <div className='register-link'>
-                        <p>Already have an account? <a onClick={loginLink}>Login</a></p>
+                        <p>Already have an account? <button type='button' className='link-button' onClick={loginLink}>Login</button></p>
                     </div>
                 </form>
             </div>

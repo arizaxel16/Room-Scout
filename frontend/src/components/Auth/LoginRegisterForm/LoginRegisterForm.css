@@ -3,7 +3,7 @@
     position: relative;
     width: 90%;
     max-width: 420px;
-    height: 450px;
+    height: max-content;
     margin: 10%;
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
@@ -22,7 +22,13 @@
 }
 
 .form-container.active {
-    height: 570px;
+    height: 63%;
+}
+
+@media (max-height: 1000px) {
+    .form-container.active {
+        height: 69%;
+    }
 }
 
 /* Form Box Styling */
@@ -101,13 +107,18 @@ form h1 {
     color: white;
 }
 
-form a {
+form .link-button {
+    background-color: transparent;
+    margin: 0px;
+    padding: 0px;
     color: white;
     text-decoration: none;
     font-family: "Poppins", system-ui;
+    width: fit-content;
+    font-weight: 500;
 }
 
-form a:hover {
+.link-button:hover {
     text-decoration: underline;
 }
 
@@ -143,6 +154,6 @@ form button {
     margin-right: 6px;
 }
 
-a:hover {
+.link-button:hover {
     font-weight: bold;
 }

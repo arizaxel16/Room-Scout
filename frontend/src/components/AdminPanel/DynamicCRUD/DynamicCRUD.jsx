@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import DataTable from "./DataTable/DataTable";
+import React, { useState, useEffect, useCallback } from "react";
+import DataTable from './DataTable/DataTable';
 import Add from "./Add/Add";
 import axios from "axios";
 import './DynamicCRUD.scss'
@@ -34,7 +34,7 @@ const DynamicCrud = ({ title, columns, apiEndpoint, formFields }) => {
         setFormData(initialFormData);
     }, [formFields]);
 
-    const fetchRecords = async () => {
+    const fetchRecords = useCallback(async () => {
         try {
             const response = await axios.get(apiEndpoint);
             setRows(response.data);
@@ -42,11 +42,11 @@ const DynamicCrud = ({ title, columns, apiEndpoint, formFields }) => {
             console.error(`Error fetching ${title.toLowerCase()}:`, err);
             setErrorMessage(`Error fetching ${title.toLowerCase()}. Please try again later.`);
         }
-    };
+    }, [apiEndpoint, title]);
 
     useEffect(() => {
         fetchRecords();
-    }, [apiEndpoint]);
+    }, [fetchRecords]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -56,7 +56,7 @@ const DynamicCrud = ({ title, columns, apiEndpoint, formFields }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(apiEndpoint, formData);
+            await axios.post(apiEndpoint, formData);
             setSuccessMessage(`${title} created successfully!`);
             setErrorMessage(null);
             setOpen(false);
