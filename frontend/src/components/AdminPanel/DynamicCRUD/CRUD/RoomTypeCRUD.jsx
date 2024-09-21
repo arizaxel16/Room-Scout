@@ -1,5 +1,5 @@
 import React from "react";
-import DynamicCrud from "./DynamicCrud";
+import DynamicCrud from "../DynamicCRUD";
 
 const columns = [
 	{ field: "id", headerName: "ID", width: 90 },
@@ -48,10 +48,10 @@ const apiEndpoint = "http://157.173.114.224:8080/roomtypes";
 const RoomTypeCRUD = () => {
 	return (
 		<DynamicCrud
-		title="Room Type"
-		columns={columns}
-		apiEndpoint={apiEndpoint}
-		formFields={formFields}
+			title="Room Type"
+			columns={columns}
+			apiEndpoint={apiEndpoint}
+			formFields={formFields}
 		/>
 	);
 };

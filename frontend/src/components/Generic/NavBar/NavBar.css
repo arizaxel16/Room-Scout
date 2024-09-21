@@ -6,6 +6,11 @@
     background-color: var(--bg-color);
 }
 
+.logo-container-nav {
+    position: relative;
+    top: 8px;
+}
+
 .nav-links {
     list-style: none;
     display: flex;
@@ -152,3 +157,5 @@
         padding: 15px 2%;
     }
 }
+
+

@@ -10,3 +10,9 @@
     background-position: center;
     position: relative;
 }
+
+.logo-container-auth {
+    position: absolute;
+    left: 5%;
+    top: 5%;
+}

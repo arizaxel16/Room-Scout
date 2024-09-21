@@ -1,6 +1,5 @@
 import React from "react";
-import './CRUD.scss'
-import DynamicCrud from "./DynamicCrud";
+import DynamicCrud from "../DynamicCRUD";
 
 const columns = [
 	{ field: "id", headerName: "ID", width: 90 },

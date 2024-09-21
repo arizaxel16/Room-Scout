@@ -16,7 +16,9 @@ const NavBar = () => {
 
     return (
         <nav className={`navbar ${theme}`}>
-            <Logo />            
+            <div className="logo-container-nav">
+				<Logo />
+			</div>            
             <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
                 <div className="search-box">
                     <input type="text" placeholder="Search" />

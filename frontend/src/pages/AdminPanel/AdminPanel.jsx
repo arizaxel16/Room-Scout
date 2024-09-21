@@ -1,16 +1,16 @@
 import React from 'react';
 import './AdminPanel.scss';
-import AdminNavBar from "../../components/AdminNavBar/AdminNavBar";
-import AdminMenu from "../../components/AdminMenu/AdminMenu";
-import AdminFooter from "../../components/AdminFooter/AdminFooter";
-import { Routes, Route } from 'react-router-dom';
-import UserCRUD from '../../components/DynamicCrud/UserCRUD';
-// import AdminCRUD from '../../components/DynamicCrud/AdminCRUD';
-import PropertyCRUD from '../../components/DynamicCrud/PropertyCRUD';
-import RoomCRUD from '../../components/DynamicCrud/RoomCRUD';
-import AddOnCRUD from '../../components/DynamicCrud/AddOnCRUD';
-import BookingCRUD from '../../components/DynamicCrud/BookingCRUD';
-// import Placeholder from '../../components/Placeholder/Placeholder';
+import AdminNavBar from "../../components/AdminPanel/AdminNavBar/AdminNavBar";
+import AdminMenu from "../../components/AdminPanel/AdminMenu/AdminMenu";
+import AdminFooter from "../../components/AdminPanel/AdminFooter/AdminFooter";
+import { Routes, Route, Navigate } from 'react-router-dom';
+
+import UserCRUD from '../../components/AdminPanel/DynamicCRUD/CRUD/UserCRUD';
+import PropertyCRUD from '../../components/AdminPanel/DynamicCRUD/CRUD/PropertyCRUD';
+import RoomTypeCRUD from '../../components/AdminPanel/DynamicCRUD/CRUD/RoomTypeCRUD';
+import AddOnCRUD from '../../components/AdminPanel/DynamicCRUD/CRUD/AddOnCRUD';
+import BookingCRUD from '../../components/AdminPanel/DynamicCRUD/CRUD/BookingCRUD';
+import AdminStatView from '../../components/AdminPanel/AdminStatView/AdminStatView';
 
 const AdminPanel = () => {
     return (
@@ -22,15 +22,13 @@ const AdminPanel = () => {
                 </div>
                 <div className="contentContainer">
                     <Routes>
-                        <Route path="/" element={<Placeholder title="Dashboard" />} />
-                        {/* <Route path="/admins" element={<AdminCRUD />} /> */}
-                        <Route path="/users" element={<UserCRUD />} />
-                        <Route path="/properties" element={<PropertyCRUD />} />
-                        <Route path="/rooms" element={<RoomCRUD />} />
-                        <Route path="/addons" element={<AddOnCRUD />} />
-                        <Route path="/bookings" element={<BookingCRUD />} />
-                        {/* <Route path="/reports" element={<Placeholder title="Reports" />} /> */}
-                        {/* <Route path="/posts" element={<Placeholder title="Posts" />} /> */}
+                        <Route path="/" element={<Navigate to="/admin/users" />} />
+                        <Route path="panel" element={<AdminStatView />} />
+                        <Route path="users" element={<UserCRUD />} />
+                        <Route path="properties" element={<PropertyCRUD />} />
+                        <Route path="rooms" element={<RoomTypeCRUD />} />
+                        <Route path="addons" element={<AddOnCRUD />} />
+                        <Route path="bookings" element={<BookingCRUD />} />
                     </Routes>
                 </div>
             </div>

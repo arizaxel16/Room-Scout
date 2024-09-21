@@ -1,34 +1,25 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home/Home';
-import Auth from './pages/Auth/Auth'
-import AdminHomePage from "./pages/AdminHomePage/AdminHomePage";
-import UserAdminPage from "./pages/UserAdminPage/UserAdminPage";
-import PropertiesAdminPage from "./pages/PropertiesAdminPage/PropertiesAdminPage";
-import RoomAdminPage from "./pages/RoomAdminPage/RoomAdminPage";
-import AddOnAdminPage from "./pages/AddOnAdminPage/AddOnAdminPage";
-import BookingAdminPage from "./pages/BookingAdminPage/BookingAdminPage";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import Home from "./pages/Home/Home";
+import Auth from "./pages/Auth/Auth";
+import AdminPanel from "./pages/AdminPanel/AdminPanel";
+import PropertyRoomBooking from "./pages/PropertyRoomBooking/PropertyRoomBooking";
 import { ThemeProvider } from "./context/ThemeContext";
-import RoomTypePage from './pages/PropertyRoomBooking/PropertyRoomBooking';
 
 function App() {
-  return (
-    <ThemeProvider>
-      <Router>
-        <Routes>
-          <Route path="/admin" element={<AdminHomePage />} />
-          <Route path="/admin/users" element={<UserAdminPage />} />
-          <Route path="/admin/hotels" element={<PropertiesAdminPage />} />
-          <Route path="/admin/rooms" element={<RoomAdminPage />} />
-          <Route path="/admin/addOns" element={<AddOnAdminPage />} />
-          <Route path="/admin/bookings" element={<BookingAdminPage />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/rooms/:hotelId" element={<RoomTypePage />} />
-          <Route path="/user_auth" element={<Auth />} />
-          </Routes>
-      </Router>
-    </ThemeProvider>
-  );
+    return (
+        <ThemeProvider>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<Navigate to="/home" />} />
+                    <Route path="/admin/*" element={<AdminPanel />} />
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/rooms/:hotelId" element={<PropertyRoomBooking />} />
+                    <Route path="/user_auth" element={<Auth />} />
+                </Routes>
+            </Router>
+        </ThemeProvider>
+    );
 }
 
 export default App;

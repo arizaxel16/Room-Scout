@@ -1,10 +1,10 @@
 import React from 'react';
-import './LandingPage.css';
-import NavBar from "../../components/NavBar/NavBar";
-import Header from "../../components/Header/Header";
+import './Home.css';
+import NavBar from "../../components/Generic/NavBar/NavBar";
+import Header from "../../components/Home/Header/Header";
 import { HeaderProvider } from "../../context/HeaderContext";
 import { useTheme } from '../../context/ThemeContext';
-import CategoryResults from '../../components/CategoryResults/CategoryResults';
+import CategoryResults from '../../components/Home/CategoryResults/CategoryResults';
 
 const LandingPage = () => {
     const { theme } = useTheme();

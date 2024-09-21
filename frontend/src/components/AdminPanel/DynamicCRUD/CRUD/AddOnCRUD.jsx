@@ -19,10 +19,10 @@ const apiEndpoint = 'http://157.173.114.224:8080/addons';
 const AddOnCRUD = () => {
     return (
         <DynamicCrud
-        title="Add On"
-        columns={columns}
-        apiEndpoint={apiEndpoint}
-        formFields={formFields}
+            title="Add On"
+            columns={columns}
+            apiEndpoint={apiEndpoint}
+            formFields={formFields}
         />
     );
 };

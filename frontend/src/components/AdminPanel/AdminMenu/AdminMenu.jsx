@@ -17,13 +17,13 @@ const menu = [
             {
                 id: 1,
                 title: "Homepage",
-                url: "/admin",
+                url: "/admin/panel",
                 icon: IoHomeOutline,
             },
             {
                 id: 2,
                 title: "Profile",
-                url: "/admin/users/1",
+                url: "/admin",
                 icon: FaRegUser,
             },
         ],
@@ -41,7 +41,7 @@ const menu = [
             {
                 id: 2,
                 title: "Properties",
-                url: "/admin/hotels",
+                url: "/admin/properties",
                 icon: FaHotel,
             },
             {

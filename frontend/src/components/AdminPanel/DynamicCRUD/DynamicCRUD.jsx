@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import DataTable from "../../components/DataTable/DataTable";
-import Add from "../../components/Add/Add";
+import DataTable from "./DataTable/DataTable";
+import Add from "./Add/Add";
 import axios from "axios";
-import "./DynamicCrud.scss";
+import './DynamicCRUD.scss'
+
 
 const DynamicCrud = ({ title, columns, apiEndpoint, formFields }) => {
     const [open, setOpen] = useState(false);

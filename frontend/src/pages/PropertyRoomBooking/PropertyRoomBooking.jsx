@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./PropertyRoomBooking.css";
 import { Link, useLocation } from "react-router-dom";
-import NavBar from "../../components/NavBar/NavBar";
+import NavBar from "../../components/Generic/NavBar/NavBar";
 import axios from "axios";
 
 const PropertyRoomBooking = () => {
