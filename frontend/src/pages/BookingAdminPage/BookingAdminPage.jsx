@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './BookingAdminPage.scss';
 import AdminNavBar from "../../components/AdminNavBar/AdminNavBar";
 import AdminMenu from "../../components/AdminMenu/AdminMenu";
 import AdminFooter from "../../components/AdminFooter/AdminFooter";
 import DataTable from "../../components/DataTable/DataTable";
-import Add from "../../components/Add/Add.tsx";
+import axios from 'axios';
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -35,13 +35,6 @@ const columns = [
         editable: false,
     },
     {
-        field: 'pricePerNight',
-        headerName: 'Price per Night',
-        width: 150,
-        type: 'number',
-        editable: false,
-    },
-    {
         field: 'totalPrice',
         headerName: 'Total Price',
         width: 150,
@@ -56,94 +49,52 @@ const columns = [
     },
 ];
 
-const rows = [
-    {
-        id: 1,
-        guestName: 'John Doe',
-        roomType: 'Deluxe Suite',
-        checkInDate: new Date('2023-05-01'),
-        checkOutDate: new Date('2023-05-05'),
-        pricePerNight: 200,
-        totalPrice: 1000,
-        status: 'Confirmed'
-    },
-    {
-        id: 2,
-        guestName: 'Jane Smith',
-        roomType: 'Standard Room',
-        checkInDate: new Date('2023-05-10'),
-        checkOutDate: new Date('2023-05-15'),
-        pricePerNight: 150,
-        totalPrice: 750,
-        status: 'Confirmed'
-    },
-    {
-        id: 3,
-        guestName: 'Emily Johnson',
-        roomType: 'Suite',
-        checkInDate: new Date('2023-06-01'),
-        checkOutDate: new Date('2023-06-07'),
-        pricePerNight: 250,
-        totalPrice: 1500,
-        status: 'Pending'
-    },
-    {
-        id: 4,
-        guestName: 'Michael Brown',
-        roomType: 'King Suite',
-        checkInDate: new Date('2023-06-15'),
-        checkOutDate: new Date('2023-06-20'),
-        pricePerNight: 300,
-        totalPrice: 1500,
-        status: 'Cancelled'
-    },
-    {
-        id: 5,
-        guestName: 'Sara Wilson',
-        roomType: 'Standard Room',
-        checkInDate: new Date('2023-07-05'),
-        checkOutDate: new Date('2023-07-10'),
-        pricePerNight: 150,
-        totalPrice: 750,
-        status: 'Confirmed'
-    },
-    {
-        id: 6,
-        guestName: 'David Lee',
-        roomType: 'Family Suite',
-        checkInDate: new Date('2023-07-20'),
-        checkOutDate: new Date('2023-07-25'),
-        pricePerNight: 180,
-        totalPrice: 900,
-        status: 'Confirmed'
-    }
-];
-
-
-
 const BookingAdminPage = () => {
-    const [open, setOpen] = React.useState(false);
+    const [rows, setRows] = useState([]);
+
+    // Fetch bookings from the API
+    const fetchBookings = async () => {
+        try {
+            const response = await axios.get('http://157.173.114.224:8080/bookings');
+            const bookings = response.data.map(booking => ({
+                ...booking,
+                guestName: `${booking.userId}`, // This can be replaced with the actual user name if available
+                roomType: `${booking.roomTypeId}`, // This can be replaced with the actual room type name if available
+                checkInDate: new Date(booking.startDate),
+                checkOutDate: new Date(booking.endDate),
+                pricePerNight: booking.totalPrice / (new Date(booking.endDate) - new Date(booking.startDate)), // Example calculation
+                status: 'Confirmed' // Example status, modify according to actual data
+            }));
+            setRows(bookings);
+        } catch (err) {
+            console.error('Error fetching bookings:', err);
+        }
+    };
+
+    useEffect(() => {
+        fetchBookings();
+    }, []);
+
     return (
         <div className="main">
-            <AdminNavBar/>
+            <AdminNavBar />
             <div className="containerAdmin">
                 <div className="menuContainer">
-                    <AdminMenu/>
+                    <AdminMenu />
                 </div>
                 <div className="contentContainer">
                     <div className="booking">
                         <div className="info">
                             <h1>Booking</h1>
-                            <button onClick={() => setOpen(true)}>Add New Booking</button>
                         </div>
-                        <DataTable columns={columns} rows={rows}/>
-                        {open && <Add slug="add-ons" columns={columns} setOpen={setOpen}/>}
+                        <DataTable columns={columns} rows={rows} />
                     </div>
                 </div>
             </div>
-            <AdminFooter/>
+            <AdminFooter />
         </div>
     );
 };
 
 export default BookingAdminPage;
+

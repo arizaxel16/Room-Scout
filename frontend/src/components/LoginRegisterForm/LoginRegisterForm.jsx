@@ -41,7 +41,9 @@ const LoginRegisterForm = () => {
             });
             console.log('User registered:', response.data);
             localStorage.setItem('isAuthenticated', 'true');
-            localStorage.setItem('identification', response.identification)
+            localStorage.setItem('identification', response.data.id);
+            localStorage.setItem('username', response.data.username);
+            localStorage.setItem('document', response.data.identification);
             navigate('/');
         } catch (err) {
             if (err.response && err.response.data) {
@@ -61,7 +63,9 @@ const LoginRegisterForm = () => {
             });
             console.log('Login successful:', response.data);
             localStorage.setItem('isAuthenticated', 'true');
-            localStorage.setItem('identification', response.data.identification)
+            localStorage.setItem('identification', response.data.id);
+            localStorage.setItem('username', response.data.username);
+            localStorage.setItem('document', response.data.identification);
             
             navigate('/');
         } catch (err) {
@@ -73,7 +77,7 @@ const LoginRegisterForm = () => {
     return (
         <div className={`form-container ${action}`}>
             <div className='form-box login'>
-            <form onSubmit={loginUser}>
+                <form onSubmit={loginUser}>
                     <h1>Login</h1>
                     <div className='input-box'>
                         <input 
@@ -149,3 +153,4 @@ const LoginRegisterForm = () => {
 };
 
 export default LoginRegisterForm;
+
