@@ -41,7 +41,7 @@ const LoginRegisterForm = () => {
             });
             console.log('User registered:', response.data);
             localStorage.setItem('isAuthenticated', 'true');
-            localStorage.setItem('identification', response.identification)
+            localStorage.setItem('identification', response.id)
             navigate('/');
         } catch (err) {
             if (err.response && err.response.data) {
@@ -61,7 +61,7 @@ const LoginRegisterForm = () => {
             });
             console.log('Login successful:', response.data);
             localStorage.setItem('isAuthenticated', 'true');
-            localStorage.setItem('identification', response.data.identification)
+            localStorage.setItem('identification', response.data.id)
             
             navigate('/');
         } catch (err) {
