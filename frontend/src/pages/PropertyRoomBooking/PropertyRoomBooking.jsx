@@ -14,11 +14,11 @@ const PropertyRoomBooking = () => {
     useEffect(() => {
         const fetchAvailability = async () => {
             try {
-                console.log(propertyId, startDate, endDate)
+                console.log(propertyId, startDate, endDate);
                 const availabilityResponse = await axios.get(
                     `http://157.173.114.224:8080/bookings/availability?hotelId=${propertyId}&startDate=${startDate}&endDate=${endDate}`
                 );
-    
+
                 setAvailabilityData(availabilityResponse.data);
             } catch (error) {
                 console.error("Error fetching availability:", error);
@@ -46,9 +46,10 @@ const PropertyRoomBooking = () => {
     );
 
     const handleBooking = async (room) => {
-        console.log("hello")
-        console.log(room)
-        const userId = localStorage.getItem("identification"); // Replace with the key you use for user ID in local storage
+        const userId = localStorage.getItem("identification");
+        const username = localStorage.getItem("username"); // Recupera el nombre de usuario
+        const document = localStorage.getItem("document"); // Recupera el documento
+
         if (!userId) {
             alert("You must be logged in to make a booking.");
             return;
@@ -68,7 +69,7 @@ const PropertyRoomBooking = () => {
                 bookingDetails
             );
 
-            alert(`Booking confirmed! Booking ID: ${response.data.id}`);
+            alert(`Booking confirmed! \nName: ${username} \nDocument: ${document}`);
         } catch (error) {
             console.error("Error creating booking:", error);
             alert("Failed to create booking.");
