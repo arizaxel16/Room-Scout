@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import './AdminPanel.scss';
+import { Routes, Route, Navigate } from 'react-router-dom';
+
 import AdminNavBar from "../../components/AdminPanel/AdminNavBar/AdminNavBar";
 import AdminMenu from "../../components/AdminPanel/AdminMenu/AdminMenu";
 import AdminFooter from "../../components/AdminPanel/AdminFooter/AdminFooter";
-import { Routes, Route, Navigate } from 'react-router-dom';
 
 import UserCRUD from '../../components/AdminPanel/DynamicCRUD/CRUD/UserCRUD';
 import PropertyCRUD from '../../components/AdminPanel/DynamicCRUD/CRUD/PropertyCRUD';
@@ -33,7 +34,7 @@ const AdminPanel = () => {
                 </div>
                 <div className="contentContainer">
                     <Routes>
-                        <Route path="/" element={<Navigate to="/admin/users" />} />
+                        <Route path="/" element={<Navigate to="/admin/panel" />} />
                         <Route path="panel" element={<AdminStatView />} />
                         <Route path="users" element={<UserCRUD />} />
                         <Route path="properties" element={<PropertyCRUD />} />

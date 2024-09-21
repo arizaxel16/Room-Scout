@@ -1,7 +1,6 @@
 import React from 'react';
 import './BarChartBox.scss';
 import {Bar, BarChart, ResponsiveContainer, Tooltip} from "recharts";
-import {FaUsersBetweenLines} from "react-icons/fa6";
 
 const BarChartBox = (props) => {
     const { title = "Default Title", chartData = [], color = "#000", dataKey = "value" } = props;

@@ -1,11 +1,9 @@
 import React from 'react';
 import './ChartBox.scss';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, Tooltip, ResponsiveContainer } from 'recharts';
 import { Link } from 'react-router-dom';
 import { FaUsersBetweenLines } from "react-icons/fa6";
-import { LuClipboardList } from "react-icons/lu";
-import { FaCoins } from "react-icons/fa";
-import { MdAspectRatio } from "react-icons/md";
+
 
 const ChartBox = (props) => {
     const { icon: Icon = FaUsersBetweenLines, title = "Default Title", number = "0", chartData = [], color = "#000", percentage = 0, dataKey = "value" } = props;
