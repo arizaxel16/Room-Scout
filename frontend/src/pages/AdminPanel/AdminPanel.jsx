@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import './AdminPanel.scss';
 import AdminNavBar from "../../components/AdminPanel/AdminNavBar/AdminNavBar";
 import AdminMenu from "../../components/AdminPanel/AdminMenu/AdminMenu";
@@ -11,8 +11,19 @@ import RoomTypeCRUD from '../../components/AdminPanel/DynamicCRUD/CRUD/RoomTypeC
 import AddOnCRUD from '../../components/AdminPanel/DynamicCRUD/CRUD/AddOnCRUD';
 import BookingCRUD from '../../components/AdminPanel/DynamicCRUD/CRUD/BookingCRUD';
 import AdminStatView from '../../components/AdminPanel/AdminStatView/AdminStatView';
+import { useTheme } from '../../context/ThemeContext';
 
-const AdminPanel = () => {
+const AdminPanel = () => {    
+	const { forceTheme, restorePreviousTheme } = useTheme();
+
+    useEffect(() => {
+        forceTheme('dark');
+
+        return () => {
+            restorePreviousTheme();
+        };
+    }, [forceTheme, restorePreviousTheme]);
+
     return (
         <div className="main">
             <AdminNavBar />
