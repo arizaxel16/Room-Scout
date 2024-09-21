@@ -47,8 +47,8 @@ const PropertyRoomBooking = () => {
 
     const handleBooking = async (room) => {
         const userId = localStorage.getItem("identification");
-        const username = localStorage.getItem("username"); // Recupera el nombre de usuario
-        const document = localStorage.getItem("document"); // Recupera el documento
+        const username = localStorage.getItem("username");
+        const document = localStorage.getItem("document");
 
         if (!userId) {
             alert("You must be logged in to make a booking.");
