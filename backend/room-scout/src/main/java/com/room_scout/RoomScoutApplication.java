@@ -18,7 +18,7 @@ public class RoomScoutApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/greeting-javaconfig").allowedOrigins("http://157.173.114.224:3000");
+				registry.addMapping("/**").allowedOrigins("*");
 			}
 		};
 	}
