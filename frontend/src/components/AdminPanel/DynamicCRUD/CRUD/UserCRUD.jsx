@@ -3,27 +3,22 @@ import DynamicCrud from "../DynamicCRUD";
 
 const columns = [
 	{ field: "id", headerName: "ID", width: 90 },
+	{ field: "identification", headerName: "Identification", width: 150, editable: true },
+	{ field: "username", headerName: "Username", width: 150, editable: true },
 	{ field: "email", headerName: "Email", width: 200, editable: true },
 	{ field: "name", headerName: "Name", width: 150, editable: true },
-	{
-		field: "identification",
-		headerName: "Identification",
-		width: 150,
-		editable: true,
-	},
-	{
-		field: "phoneNumber",
-		headerName: "Phone Number",
-		width: 150,
-		editable: true,
-	},
+	{ field: "surname", headerName: "Surname", width: 150, editable: true },
+	{ field: "role", headerName: "Role", width: 150, editable: true },
 ];
 
 const formFields = [
-	{ name: "email", label: "Email", type: "text" },
-	{ name: "name", label: "Name", type: "text" },
 	{ name: "identification", label: "Identification", type: "text" },
-	{ name: "phoneNumber", label: "Phone Number", type: "text" },
+	{ name: "username", label: "Username", type: "text" },
+	{ name: "name", label: "Name", type: "text" },
+	{ name: "surname", label: "Surame", type: "text" },
+	{ name: "email", label: "Email", type: "text" },
+	{ name: "password", label: "Password", type: "text" },
+	{ name: "role", label: "Role", type: "text" },
 ];
 
 const apiEndpoint = "http://157.173.114.224:8080/users";
