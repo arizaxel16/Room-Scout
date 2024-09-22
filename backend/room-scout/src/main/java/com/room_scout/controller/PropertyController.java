@@ -59,6 +59,13 @@ public class PropertyController {
         return ResponseEntity.created(location).body(savedProperty);
     }
 
+    @PostMapping("/bulk")
+    public void createProperties(@RequestBody List<PropertyDTO> properties) {
+        for (PropertyDTO propertyDTO : properties) {
+            propertyService.saveProperty(propertyDTO);
+        }
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<PropertyDTO> updateProperty(@PathVariable Long id, @RequestBody PropertyDTO propertyDTO) {
         try {

@@ -47,6 +47,13 @@ public class RoomTypeController {
         return ResponseEntity.created(location).body(savedRoomType);
     }
 
+    @PostMapping("/bulk")
+    public void createRoomTypes(@RequestBody List<RoomTypeDTO> properties) {
+        for (RoomTypeDTO roomTypeDTO : properties) {
+            roomTypeService.saveRoomType(roomTypeDTO);
+        }
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<RoomTypeDTO> updateRoomType(@PathVariable Long id, @RequestBody RoomTypeDTO roomTypeDTO) {
         Optional<RoomTypeDTO> updatedRoomType = roomTypeService.updateRoomType(id, roomTypeDTO);
