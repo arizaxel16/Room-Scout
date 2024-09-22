@@ -2,7 +2,8 @@ import React from 'react';
 import { useHeaderContext } from '../../../context/HeaderContext';
 import { FaHotel, FaBed } from "react-icons/fa";
 import { MdVilla, MdApartment } from "react-icons/md";
-import { FaIgloo, FaHouseChimney } from "react-icons/fa6";
+import { FaHouseChimney } from "react-icons/fa6";
+import { GiCampingTent } from "react-icons/gi";
 import { useTheme } from '../../../context/ThemeContext';
 import './HeaderList.css';
 
@@ -10,7 +11,7 @@ const iconMapping = {
     hotel: <FaHotel />,
     villa: <MdVilla />,
     apartment: <MdApartment />,
-    glamping: <FaIgloo />,
+    glamping: <GiCampingTent />    ,
     house: <FaHouseChimney />,
     motel: <FaBed />
 };

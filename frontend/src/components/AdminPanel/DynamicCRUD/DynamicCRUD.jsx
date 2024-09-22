@@ -1,46 +1,63 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useReducer } from "react";
 import DataTable from './DataTable/DataTable';
 import Add from "./Add/Add";
 import axios from "axios";
-import './DynamicCRUD.scss'
+import './DynamicCRUD.scss';
 
+const initialState = {
+    open: false,
+    formData: {},
+    rows: [],
+    errorMessage: "",
+    successMessage: "",
+    properties: []
+};
+
+function reducer(state, action) {
+    switch (action.type) {
+        case 'SET_ROWS':
+            return { ...state, rows: action.payload };
+        case 'SET_PROPERTIES':
+            return { ...state, properties: action.payload };
+        case 'SET_FORM_DATA':
+            return { ...state, formData: action.payload };
+        case 'SET_OPEN':
+            return { ...state, open: action.payload };
+        case 'SET_ERROR_MESSAGE':
+            return { ...state, errorMessage: action.payload, successMessage: "" };
+        case 'SET_SUCCESS_MESSAGE':
+            return { ...state, successMessage: action.payload, errorMessage: "" };
+        default:
+            return state;
+    }
+}
 
 const DynamicCrud = ({ title, columns, apiEndpoint, formFields }) => {
-    const [open, setOpen] = useState(false);
-    const [formData, setFormData] = useState({});
-    const [rows, setRows] = useState([]);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
-    const [properties, setProperties] = useState([]);
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const { open, formData, rows, errorMessage, successMessage, properties } = state;
 
-    const fetchProperties = async () => {
+    const fetchProperties = useCallback(async () => {
         try {
             const response = await axios.get('http://157.173.114.224:8080/properties');
-            setProperties(response.data);
+            dispatch({ type: 'SET_PROPERTIES', payload: response.data });
         } catch (err) {
             console.error("Error fetching properties:", err);
         }
-    };
+    }, []);
 
     useEffect(() => {
         if (columns.some((column) => column.field === "propertyId")) {
             fetchProperties();
         }
-    }, [columns]);
-
-    useEffect(() => {
-        const initialFormData = {};
-        formFields.forEach((field) => (initialFormData[field.name] = ""));
-        setFormData(initialFormData);
-    }, [formFields]);
+    }, [columns, fetchProperties]);
 
     const fetchRecords = useCallback(async () => {
         try {
             const response = await axios.get(apiEndpoint);
-            setRows(response.data);
+            dispatch({ type: 'SET_ROWS', payload: response.data });
         } catch (err) {
             console.error(`Error fetching ${title.toLowerCase()}:`, err);
-            setErrorMessage(`Error fetching ${title.toLowerCase()}. Please try again later.`);
+            dispatch({ type: 'SET_ERROR_MESSAGE', payload: `Error fetching ${title.toLowerCase()}. Please try again later.` });
         }
     }, [apiEndpoint, title]);
 
@@ -48,49 +65,52 @@ const DynamicCrud = ({ title, columns, apiEndpoint, formFields }) => {
         fetchRecords();
     }, [fetchRecords]);
 
+    useEffect(() => {
+        const initialFormData = {};
+        formFields.forEach((field) => (initialFormData[field.name] = ""));
+        dispatch({ type: 'SET_FORM_DATA', payload: initialFormData });
+    }, [formFields]);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevState) => ({ ...prevState, [name]: value }));
+        dispatch({ type: 'SET_FORM_DATA', payload: { ...formData, [name]: value } });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await axios.post(apiEndpoint, formData);
-            setSuccessMessage(`${title} created successfully!`);
-            setErrorMessage(null);
-            setOpen(false);
+            dispatch({ type: 'SET_SUCCESS_MESSAGE', payload: `${title} created successfully!` });
+            dispatch({ type: 'SET_OPEN', payload: false });
             fetchRecords();
         } catch (err) {
             console.error(`Error creating ${title.toLowerCase()}:`, err);
-            setErrorMessage(`Error creating ${title.toLowerCase()}. Please try again.`);
-            setSuccessMessage(null);
+            dispatch({ type: 'SET_ERROR_MESSAGE', payload: `Error creating ${title.toLowerCase()}. Please try again.` });
         }
     };
 
     const handleUpdate = async (id, updatedData) => {
         try {
             await axios.put(`${apiEndpoint}/${id}`, updatedData);
-            setSuccessMessage(`${title} updated successfully!`);
-            setErrorMessage(null);
+            dispatch({ type: 'SET_SUCCESS_MESSAGE', payload: `${title} updated successfully!` });
             fetchRecords();
         } catch (err) {
             console.error(`Error updating ${title.toLowerCase()}:`, err);
-            setErrorMessage(`Error updating ${title.toLowerCase()}. Please try again.`);
-            setSuccessMessage(null);
+            dispatch({ type: 'SET_ERROR_MESSAGE', payload: `Error updating ${title.toLowerCase()}. Please try again.` });
         }
     };
 
     const handleDelete = async (id) => {
+        if (!window.confirm(`Are you sure you want to delete this ${title.toLowerCase()}?`)) {
+            return;
+        }
         try {
             await axios.delete(`${apiEndpoint}/${id}`);
-            setSuccessMessage(`${title} deleted successfully!`);
-            setErrorMessage(null);
+            dispatch({ type: 'SET_SUCCESS_MESSAGE', payload: `${title} deleted successfully!` });
             fetchRecords();
         } catch (err) {
             console.error(`Error deleting ${title.toLowerCase()}:`, err);
-            setErrorMessage(`Error deleting ${title.toLowerCase()}. Please try again.`);
-            setSuccessMessage(null);
+            dispatch({ type: 'SET_ERROR_MESSAGE', payload: `Error deleting ${title.toLowerCase()}. Please try again.` });
         }
     };
 
@@ -98,7 +118,11 @@ const DynamicCrud = ({ title, columns, apiEndpoint, formFields }) => {
         <div className="dynamic-crud">
             <div className="info">
                 <h1>{title}</h1>
-                <button onClick={() => setOpen(true)}>Add New {title}</button>
+                {title !== "Booking" && (
+                    <button onClick={() => dispatch({ type: 'SET_OPEN', payload: true })}>
+                        Add New {title}
+                    </button>
+                )}
             </div>
 
             {errorMessage && <p className="error">{errorMessage}</p>}
@@ -118,7 +142,7 @@ const DynamicCrud = ({ title, columns, apiEndpoint, formFields }) => {
                     formData={formData}
                     handleChange={handleChange}
                     handleSubmit={handleSubmit}
-                    setOpen={setOpen}
+                    setOpen={() => dispatch({ type: 'SET_OPEN', payload: false })}
                     properties={properties}
                 />
             )}
