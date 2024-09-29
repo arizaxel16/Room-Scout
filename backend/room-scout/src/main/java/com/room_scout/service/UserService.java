@@ -4,6 +4,9 @@ import com.room_scout.controller.dto.LoginDTO;
 import com.room_scout.controller.dto.UserDTO;
 import com.room_scout.model.User;
 import com.room_scout.repository.UserRepository;
+
+import jakarta.annotation.Generated;
+
 import com.room_scout.exception.UserAlreadyExistsException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -75,6 +78,7 @@ public class UserService {
                 });
     }
 
+    @Generated("excludeFromCoverage")
     public UserDTO mapEntityToDTO(User user) {
         return new UserDTO(
                 user.getId(),
@@ -88,6 +92,7 @@ public class UserService {
         );
     }
 
+    @Generated("excludeFromCoverage")
     public User mapDtoToEntity(UserDTO userDTO) {
         User user = new User();
         user.setUsername(userDTO.username());

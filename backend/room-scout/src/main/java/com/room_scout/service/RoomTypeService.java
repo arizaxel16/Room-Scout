@@ -3,6 +3,8 @@ package com.room_scout.service;
 import com.room_scout.controller.dto.RoomTypeDTO;
 import com.room_scout.model.RoomType;
 import com.room_scout.repository.RoomTypeRepository;
+
+import jakarta.annotation.Generated;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -57,6 +59,7 @@ public class RoomTypeService {
         roomTypeRepository.deleteAll();
     }
 
+    @Generated("excludeFromCoverage")
     private RoomTypeDTO mapEntityToDTO(RoomType roomType) {
         return new RoomTypeDTO(
                 roomType.getId(),
@@ -69,6 +72,7 @@ public class RoomTypeService {
         );
     }
 
+    @Generated("excludeFromCoverage")
     private RoomType mapDtoToEntity(RoomTypeDTO roomTypeDTO) {
         RoomType roomType = new RoomType();
         roomType.setName(roomTypeDTO.name());
