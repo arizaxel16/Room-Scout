@@ -14,7 +14,7 @@ function App() {
                     <Route path="/" element={<Navigate to="/home" />} />
                     <Route path="/admin/*" element={<AdminPanel />} />
                     <Route path="/home" element={<Home />} />
-                    <Route path="/rooms/:hotelId" element={<PropertyRoomBooking />} />
+                    <Route path="/rooms/:propertyId" element={<PropertyRoomBooking />} />
                     <Route path="/user_auth" element={<Auth />} />
                 </Routes>
             </Router>
