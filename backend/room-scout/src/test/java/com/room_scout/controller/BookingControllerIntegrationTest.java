@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -48,10 +49,11 @@ class BookingControllerIntegrationTest {
     private Long propertyId;
     private Long roomTypeId;
     private Long userId;
+    private Long bookingId;
 
     @BeforeEach
     void setup() {
-        // Create a Property
+
         Property property = new Property();
         property.setName("Test Property");
         property.setAddress("Test Address");
@@ -61,7 +63,6 @@ class BookingControllerIntegrationTest {
         propertyRepository.save(property);
         propertyId = property.getId();
 
-        // Create a RoomType for the Property
         RoomType roomType = new RoomType();
         roomType.setName("Single Room");
         roomType.setNumberOfBeds(1);
@@ -72,7 +73,6 @@ class BookingControllerIntegrationTest {
         roomTypeRepository.save(roomType);
         roomTypeId = roomType.getId();
 
-        // Create a User
         User user = new User();
         user.setUsername("testuser");
         user.setName("Test");
@@ -83,11 +83,16 @@ class BookingControllerIntegrationTest {
         user.setRole("CUSTOMER");
         userRepository.save(user);
         userId = user.getId();
+
+        BookingDTO bookingDTO = new BookingDTO(null, LocalDate.now(), LocalDate.now().plusDays(2), 200.0, roomTypeId,
+                userId);
+        bookingId = bookingService.saveBooking(bookingDTO).id();
     }
 
     @Test
     void shouldCreateBooking() throws Exception {
-        BookingDTO bookingDTO = new BookingDTO(null, LocalDate.now(), LocalDate.now().plusDays(2), 200.0, roomTypeId, userId);
+        BookingDTO bookingDTO = new BookingDTO(null, LocalDate.now(), LocalDate.now().plusDays(2), 200.0, roomTypeId,
+                userId);
 
         mockMvc.perform(post("/bookings")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -100,27 +105,34 @@ class BookingControllerIntegrationTest {
     }
 
     @Test
-    void shouldUpdateBooking() throws Exception {
-        // Arrange: Create and save a booking
-        BookingDTO bookingDTO = bookingService.saveBooking(new BookingDTO(null, LocalDate.now(), LocalDate.now().plusDays(2), 200.0, roomTypeId, userId));
-
-        // Create updated BookingDTO
-        BookingDTO updatedBookingDTO = new BookingDTO(null, LocalDate.now(), LocalDate.now().plusDays(3), 300.0, roomTypeId, userId);
-
-        // Act & Assert: Perform the put request
-        mockMvc.perform(put("/bookings/{id}", bookingDTO.id())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(updatedBookingDTO)))
+    void shouldGetBookingById() throws Exception {
+        mockMvc.perform(get("/bookings/{id}", bookingId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalPrice", is(300.0)))
+                .andExpect(jsonPath("$.id", is(bookingId.intValue())))
+                .andExpect(jsonPath("$.totalPrice", is(200.0)))
                 .andExpect(jsonPath("$.roomTypeId", is(roomTypeId.intValue())))
                 .andExpect(jsonPath("$.userId", is(userId.intValue())));
+    }
+
+    @Test
+    void shouldReturnNotFoundWhenBookingDoesNotExist() throws Exception {
+        mockMvc.perform(get("/bookings/{id}", 999L))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldDeleteBooking() throws Exception {
+        mockMvc.perform(delete("/bookings/{id}", bookingId))
+                .andExpect(status().isNoContent());
+
+        mockMvc.perform(get("/bookings/{id}", bookingId))
+                .andExpect(status().isNotFound());
     }
 
     private static String asJsonString(final Object obj) {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            mapper.registerModule(new JavaTimeModule()); // Register the JavaTimeModule for LocalDate support
+            mapper.registerModule(new JavaTimeModule());
             return mapper.writeValueAsString(obj);
         } catch (Exception e) {
             throw new RuntimeException(e);
