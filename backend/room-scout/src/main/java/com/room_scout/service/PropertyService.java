@@ -66,20 +66,19 @@ public class PropertyService {
         property.setCountry(propertyDTO.country());
         property.setCity(propertyDTO.city());
         property.setType(propertyDTO.type());
-    
+
         List<RoomType> roomTypes = propertyDTO.roomTypes().stream()
                 .map(this::mapRoomTypeDtoToEntity)
-                .collect(Collectors.toList());
+                .toList();
         property.setRoomTypes(roomTypes);
-    
+
         List<AddOn> addOns = propertyDTO.addOns().stream()
                 .map(this::mapAddOnDtoToEntity)
-                .collect(Collectors.toList());
+                .toList();
         property.setAddOns(addOns);
-    
+
         return property;
     }
-    
 
     private RoomTypeDTO mapRoomTypeToDTO(RoomType roomType) {
         return new RoomTypeDTO(
@@ -122,16 +121,15 @@ public class PropertyService {
 
     private List<RoomTypeDTO> mapRoomTypesToDTOs(List<RoomType> roomTypes) {
         return roomTypes.stream()
-                        .map(this::mapRoomTypeToDTO)
-                        .toList();
+                .map(this::mapRoomTypeToDTO)
+                .toList();
     }
-    
+
     private List<AddOnDTO> mapAddOnsToDTOs(List<AddOn> addOns) {
         return addOns.stream()
-                    .map(this::mapAddOnToDTO)
-                    .toList();
+                .map(this::mapAddOnToDTO)
+                .toList();
     }
-    
 
     private PropertyDTO mapEntityToResponseDto(Property property) {
         return new PropertyDTO(
