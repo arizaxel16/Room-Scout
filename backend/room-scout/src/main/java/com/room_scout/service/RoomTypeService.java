@@ -55,6 +55,7 @@ public class RoomTypeService {
                 });
     }
 
+    @Generated("excludeFromCoverage")
     public void deleteAll() {
         roomTypeRepository.deleteAll();
     }

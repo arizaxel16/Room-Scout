@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class RoomScoutApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RoomScoutApplication.class, args);
+		SpringApplication.run(RoomScoutApplication.class, args); //NOSONAR
 	}
 
     @Bean

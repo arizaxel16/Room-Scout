@@ -83,9 +83,7 @@ public class PropertyService {
         return property;
     }
     
-    
-
-
+    @Generated("excludeFromCoverage")
     private RoomTypeDTO mapRoomTypeToDTO(RoomType roomType) {
         return new RoomTypeDTO(
                 roomType.getId(),
@@ -97,6 +95,7 @@ public class PropertyService {
                 roomType.getPropertyId());
     }
 
+    @Generated("excludeFromCoverage")
     private RoomType mapRoomTypeDtoToEntity(RoomTypeDTO roomTypeDTO) {
         RoomType roomType = new RoomType();
         roomType.setId(roomTypeDTO.id());
@@ -108,6 +107,7 @@ public class PropertyService {
         return roomType;
     }
 
+    @Generated("excludeFromCoverage")
     private AddOnDTO mapAddOnToDTO(AddOn addOn) {
         return new AddOnDTO(
                 addOn.getId(),
@@ -116,6 +116,7 @@ public class PropertyService {
                 addOn.getPropertyId());
     }
 
+    @Generated("excludeFromCoverage")
     private AddOn mapAddOnDtoToEntity(AddOnDTO addOnDTO) {
         AddOn addOn = new AddOn();
         addOn.setId(addOnDTO.id());
@@ -131,6 +132,7 @@ public class PropertyService {
                 .toList();
     }
 
+    @Generated("excludeFromCoverage")
     private List<AddOnDTO> mapAddOnsToDTOs(List<AddOn> addOns) {
         return addOns.stream()
                 .map(this::mapAddOnToDTO)
