@@ -27,91 +27,93 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class BookingControllerIntegrationTest {
+class BookingControllerIntegrationTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+        @Autowired
+        private MockMvc mockMvc;
 
-    @Autowired
-    private BookingService bookingService;
+        @Autowired
+        private BookingService bookingService;
 
-    @Autowired
-    private PropertyService propertyService;
+        @Autowired
+        private PropertyService propertyService;
 
-    @Autowired
-    private RoomTypeService roomTypeService;
+        @Autowired
+        private RoomTypeService roomTypeService;
 
-    @Autowired
-    private UserService userService;
+        @Autowired
+        private UserService userService;
 
-    private Long roomTypeId;
-    private Long userId;
-    private LocalDate startDate;
-    private LocalDate endDate;
+        private Long roomTypeId;
+        private Long userId;
+        private LocalDate startDate;
+        private LocalDate endDate;
 
-    @BeforeEach
-    public void setUp() {
+        @BeforeEach
+        void setUp() {
 
-        UserDTO userDTO = new UserDTO(null, "testuser", 123456, "testuser@example.com", "Test", "User", "password",
-                "ROLE_USER");
-        userId = userService.saveUser(userDTO).id();
+                UserDTO userDTO = new UserDTO(null, "testuser", 123456, "testuser@example.com", "Test", "User",
+                                "password",
+                                "ROLE_USER");
+                userId = userService.saveUser(userDTO).id();
 
-        PropertyDTO propertyDTO = new PropertyDTO(null, "Test Hotel", "123 Test St", "Test Country", "Test City",
-                "Hotel", Collections.emptyList(), Collections.emptyList());
-        Long propertyId = propertyService.saveProperty(propertyDTO).id();
+                PropertyDTO propertyDTO = new PropertyDTO(null, "Test Hotel", "123 Test St", "Test Country",
+                                "Test City",
+                                "Hotel", Collections.emptyList(), Collections.emptyList());
+                Long propertyId = propertyService.saveProperty(propertyDTO).id();
 
-        RoomTypeDTO roomTypeDTO = new RoomTypeDTO(null, "Deluxe Room", 2, 5, 4, 100.0, propertyId);
-        roomTypeId = roomTypeService.saveRoomType(roomTypeDTO).id();
+                RoomTypeDTO roomTypeDTO = new RoomTypeDTO(null, "Deluxe Room", 2, 5, 4, 100.0, propertyId);
+                roomTypeId = roomTypeService.saveRoomType(roomTypeDTO).id();
 
-        startDate = LocalDate.now().plusDays(5);
-        endDate = LocalDate.now().plusDays(10);
-    }
+                startDate = LocalDate.now().plusDays(5);
+                endDate = LocalDate.now().plusDays(10);
+        }
 
-    @Test
-    public void testCreateBooking() throws Exception {
+        @Test
+        void testCreateBooking() throws Exception {
 
-        mockMvc.perform(post("/bookings")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\n" +
-                        "  \"startDate\": \"" + startDate + "\",\n" +
-                        "  \"endDate\": \"" + endDate + "\",\n" +
-                        "  \"totalPrice\": 500.0,\n" +
-                        "  \"roomTypeId\": " + roomTypeId + ",\n" +
-                        "  \"userId\": " + userId + "\n" +
-                        "}"))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.startDate", is(startDate.toString())))
-                .andExpect(jsonPath("$.endDate", is(endDate.toString())))
-                .andExpect(jsonPath("$.totalPrice", is(500.0)))
-                .andExpect(jsonPath("$.roomTypeId", is(roomTypeId.intValue())))
-                .andExpect(jsonPath("$.userId", is(userId.intValue())));
-    }
+                mockMvc.perform(post("/bookings")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{\n" +
+                                                "  \"startDate\": \"" + startDate + "\",\n" +
+                                                "  \"endDate\": \"" + endDate + "\",\n" +
+                                                "  \"totalPrice\": 500.0,\n" +
+                                                "  \"roomTypeId\": " + roomTypeId + ",\n" +
+                                                "  \"userId\": " + userId + "\n" +
+                                                "}"))
+                                .andExpect(status().isCreated())
+                                .andExpect(jsonPath("$.startDate", is(startDate.toString())))
+                                .andExpect(jsonPath("$.endDate", is(endDate.toString())))
+                                .andExpect(jsonPath("$.totalPrice", is(500.0)))
+                                .andExpect(jsonPath("$.roomTypeId", is(roomTypeId.intValue())))
+                                .andExpect(jsonPath("$.userId", is(userId.intValue())));
+        }
 
-    @Test
-    public void testGetBookingById() throws Exception {
+        @Test
+         void testGetBookingById() throws Exception {
 
-        BookingDTO bookingDTO = new BookingDTO(null, startDate, endDate, 500.0, roomTypeId, userId);
-        Long bookingId = bookingService.saveBooking(bookingDTO).id();
+                BookingDTO bookingDTO = new BookingDTO(null, startDate, endDate, 500.0, roomTypeId, userId);
+                Long bookingId = bookingService.saveBooking(bookingDTO).id();
 
-        mockMvc.perform(get("/bookings/{id}", bookingId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.startDate", is(startDate.toString())))
-                .andExpect(jsonPath("$.endDate", is(endDate.toString())))
-                .andExpect(jsonPath("$.totalPrice", is(500.0)))
-                .andExpect(jsonPath("$.roomTypeId", is(roomTypeId.intValue())))
-                .andExpect(jsonPath("$.userId", is(userId.intValue())));
-    }
+                mockMvc.perform(get("/bookings/{id}", bookingId))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.startDate", is(startDate.toString())))
+                                .andExpect(jsonPath("$.endDate", is(endDate.toString())))
+                                .andExpect(jsonPath("$.totalPrice", is(500.0)))
+                                .andExpect(jsonPath("$.roomTypeId", is(roomTypeId.intValue())))
+                                .andExpect(jsonPath("$.userId", is(userId.intValue())));
+        }
 
-    @Test
-    public void testDeleteBooking() throws Exception {
+        @Test
+         void testDeleteBooking() throws Exception {
 
-        BookingDTO bookingDTO = new BookingDTO(null, startDate, endDate, 500.0, roomTypeId, userId);
-        Long bookingId = bookingService.saveBooking(bookingDTO).id();
+                BookingDTO bookingDTO = new BookingDTO(null, startDate, endDate, 500.0, roomTypeId, userId);
+                Long bookingId = bookingService.saveBooking(bookingDTO).id();
 
-        mockMvc.perform(delete("/bookings/{id}", bookingId))
-                .andExpect(status().isNoContent());
+                mockMvc.perform(delete("/bookings/{id}", bookingId))
+                                .andExpect(status().isNoContent());
 
-        mockMvc.perform(get("/bookings/{id}", bookingId))
-                .andExpect(status().isNotFound());
-    }
+                mockMvc.perform(get("/bookings/{id}", bookingId))
+                                .andExpect(status().isNotFound());
+        }
 }

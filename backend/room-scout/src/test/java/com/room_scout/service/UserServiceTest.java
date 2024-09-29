@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
-public class UserServiceTest {
+class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;

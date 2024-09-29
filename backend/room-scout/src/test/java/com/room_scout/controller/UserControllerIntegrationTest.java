@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class UserControllerIntegrationTest {
+class UserControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -30,7 +30,7 @@ public class UserControllerIntegrationTest {
     private UserDTO testUserDTO;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
 
         User testUser = new User();
         testUser.setUsername("testuser");
@@ -54,7 +54,7 @@ public class UserControllerIntegrationTest {
     }
 
     @Test
-    public void shouldCreateUser() throws Exception {
+    void shouldCreateUser() throws Exception {
 
         String newUserJson = """
                     {
@@ -81,21 +81,21 @@ public class UserControllerIntegrationTest {
     }
 
     @Test
-    public void shouldGetAllUsers() throws Exception {
+    void shouldGetAllUsers() throws Exception {
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").isNotEmpty());
     }
 
     @Test
-    public void shouldGetUserById() throws Exception {
+    void shouldGetUserById() throws Exception {
         mockMvc.perform(get("/users/" + testUserDTO.id()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username").value(testUserDTO.username()));
     }
 
     @Test
-    public void shouldUpdateUser() throws Exception {
+    void shouldUpdateUser() throws Exception {
         String updatedUserJson = """
                     {
                         "username": "updateduser",
@@ -121,7 +121,7 @@ public class UserControllerIntegrationTest {
     }
 
     @Test
-    public void shouldDeleteUser() throws Exception {
+    void shouldDeleteUser() throws Exception {
         mockMvc.perform(delete("/users/" + testUserDTO.id()))
                 .andExpect(status().isNoContent());
 
@@ -129,7 +129,7 @@ public class UserControllerIntegrationTest {
     }
 
     @Test
-    public void shouldLoginUser() throws Exception {
+    void shouldLoginUser() throws Exception {
 
         String loginJson = """
                     {
@@ -146,7 +146,7 @@ public class UserControllerIntegrationTest {
     }
 
     @Test
-    public void shouldFailLoginWithIncorrectPassword() throws Exception {
+    void shouldFailLoginWithIncorrectPassword() throws Exception {
         String loginJson = """
                     {
                         "email": "testuser@example.com",
