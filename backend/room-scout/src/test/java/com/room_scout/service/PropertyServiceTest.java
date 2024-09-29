@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
-public class PropertyServiceTest {
+class PropertyServiceTest {
 
     @Mock
     private PropertyRepository propertyRepository;

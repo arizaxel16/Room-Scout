@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
-public class RoomTypeServiceTest {
+class RoomTypeServiceTest {
 
     @Mock
     private RoomTypeRepository roomTypeRepository;

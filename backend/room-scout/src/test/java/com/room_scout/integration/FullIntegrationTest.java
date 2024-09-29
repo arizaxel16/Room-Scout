@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class FullIntegrationTest {
+class FullIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -65,7 +65,7 @@ public class FullIntegrationTest {
     }
 
     @Test
-    public void givenUser_whenCreateUser_thenReturnsCreatedUser() throws Exception {
+    void givenUser_whenCreateUser_thenReturnsCreatedUser() throws Exception {
         UserDTO userDTO = new UserDTO(null, "john_doe", 1111111111, "test@mail.com", "john", "doe", "password", "Admin");
 
         mockMvc.perform(post("/users")
@@ -77,7 +77,7 @@ public class FullIntegrationTest {
     }
 
     @Test
-    public void givenProperty_whenCreateProperty_thenReturnsCreatedProperty() throws Exception {
+    void givenProperty_whenCreateProperty_thenReturnsCreatedProperty() throws Exception {
         PropertyDTO propertyDTO = new PropertyDTO(null, "Property 1", "My Address", "Colombia", "Bogotá", "Hotel", null, null);
 
         mockMvc.perform(post("/properties")
@@ -88,7 +88,7 @@ public class FullIntegrationTest {
     }
 
     @Test
-    public void givenRoomType_whenCreateRoomType_thenReturnsCreatedRoomType() throws Exception {
+    void givenRoomType_whenCreateRoomType_thenReturnsCreatedRoomType() throws Exception {
         // Create a property for the room type
         Property property = new Property();
         property.setName("Test Property");
@@ -108,7 +108,7 @@ public class FullIntegrationTest {
     }
 
     @Test
-    public void givenAddOn_whenCreateAddOn_thenReturnsCreatedAddOn() throws Exception {
+    void givenAddOn_whenCreateAddOn_thenReturnsCreatedAddOn() throws Exception {
         // Create a property for the add-on
         Property property = new Property();
         property.setName("Test Property");
@@ -128,7 +128,7 @@ public class FullIntegrationTest {
     }
 
     @Test
-    public void givenBooking_whenCreateBooking_thenReturnsCreatedBooking() throws Exception {
+    void givenBooking_whenCreateBooking_thenReturnsCreatedBooking() throws Exception {
         // Create user
         User user = new User();
         user.setUsername("john_doe");
@@ -172,7 +172,7 @@ public class FullIntegrationTest {
     }
 
     @Test
-    public void givenUser_whenLoginUser_thenReturnsUserDetails() throws Exception {
+    void givenUser_whenLoginUser_thenReturnsUserDetails() throws Exception {
         User user = new User();
         user.setUsername("john_doe");
         user.setIdentification(1111111111);
