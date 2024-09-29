@@ -142,6 +142,14 @@ class BookingControllerIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    void shouldReturnNotFoundWhenDeletingNonExistentBooking() throws Exception {
+        Long nonExistentBookingId = 9999L;
+
+        mockMvc.perform(delete("/bookings/{id}", nonExistentBookingId))
+                .andExpect(status().isNotFound());
+    }
+
     private static String asJsonString(final Object obj) {
         try {
             ObjectMapper mapper = new ObjectMapper();
