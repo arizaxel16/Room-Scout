@@ -6,16 +6,21 @@ import com.room_scout.model.AddOn;
 import com.room_scout.model.Property;
 import com.room_scout.repository.AddOnRepository;
 import com.room_scout.repository.PropertyRepository;
+import com.room_scout.service.AddOnService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -37,6 +42,9 @@ class AddOnControllerIntegrationTest {
     private PropertyRepository propertyRepository;
 
     private Property testProperty;
+
+    @MockBean
+    private AddOnService addOnService;
 
     @BeforeEach
     void setUp() {
@@ -134,6 +142,24 @@ class AddOnControllerIntegrationTest {
     void givenNonExistentAddOnId_whenGetAddOnById_thenReturnNotFound() throws Exception {
 
         mockMvc.perform(get("/addons/{id}", 999L))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldDeleteAddOnSuccessfully() throws Exception {
+        Long addOnId = 1L;
+        when(addOnService.deleteAddOn(addOnId)).thenReturn(true);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/addons/{id}", addOnId))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void shouldReturnNotFoundWhenAddOnDoesNotExist() throws Exception {
+        Long nonExistentAddOnId = 99L;
+        when(addOnService.deleteAddOn(nonExistentAddOnId)).thenReturn(false);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/addons/{id}", nonExistentAddOnId))
                 .andExpect(status().isNotFound());
     }
 }
