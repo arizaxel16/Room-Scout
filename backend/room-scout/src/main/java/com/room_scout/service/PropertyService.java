@@ -8,11 +8,11 @@ import com.room_scout.model.Property;
 import com.room_scout.model.RoomType;
 import com.room_scout.repository.PropertyRepository;
 import lombok.AllArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -66,19 +66,22 @@ public class PropertyService {
         property.setCountry(propertyDTO.country());
         property.setCity(propertyDTO.city());
         property.setType(propertyDTO.type());
-
+        
         List<RoomType> roomTypes = propertyDTO.roomTypes().stream()
                 .map(this::mapRoomTypeDtoToEntity)
                 .toList();
         property.setRoomTypes(roomTypes);
-
+        
         List<AddOn> addOns = propertyDTO.addOns().stream()
                 .map(this::mapAddOnDtoToEntity)
                 .toList();
         property.setAddOns(addOns);
-
+        
         return property;
     }
+    
+    
+
 
     private RoomTypeDTO mapRoomTypeToDTO(RoomType roomType) {
         return new RoomTypeDTO(
