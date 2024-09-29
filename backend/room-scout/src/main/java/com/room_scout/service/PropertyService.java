@@ -122,15 +122,16 @@ public class PropertyService {
 
     private List<RoomTypeDTO> mapRoomTypesToDTOs(List<RoomType> roomTypes) {
         return roomTypes.stream()
-                .map(this::mapRoomTypeToDTO)
-                .collect(Collectors.toList());
+                        .map(this::mapRoomTypeToDTO)
+                        .toList();
     }
-
+    
     private List<AddOnDTO> mapAddOnsToDTOs(List<AddOn> addOns) {
         return addOns.stream()
-                .map(this::mapAddOnToDTO)
-                .collect(Collectors.toList());
+                    .map(this::mapAddOnToDTO)
+                    .toList();
     }
+    
 
     private PropertyDTO mapEntityToResponseDto(Property property) {
         return new PropertyDTO(
