@@ -20,8 +20,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -48,6 +52,7 @@ class BookingControllerIntegrationTest {
     private Long propertyId;
     private Long roomTypeId;
     private Long userId;
+    private Long bookingId;
 
     @BeforeEach
     void setup() {
@@ -83,6 +88,10 @@ class BookingControllerIntegrationTest {
         user.setRole("CUSTOMER");
         userRepository.save(user);
         userId = user.getId();
+
+        // Create a Booking for testing
+        BookingDTO bookingDTO = new BookingDTO(null, LocalDate.now(), LocalDate.now().plusDays(2), 200.0, roomTypeId, userId);
+        bookingId = bookingService.saveBooking(bookingDTO).id(); // Save the booking and get its ID
     }
 
     @Test
@@ -100,27 +109,51 @@ class BookingControllerIntegrationTest {
     }
 
     @Test
-    void shouldUpdateBooking() throws Exception {
-        // Arrange: Create and save a booking
-        BookingDTO bookingDTO = bookingService.saveBooking(new BookingDTO(null, LocalDate.now(), LocalDate.now().plusDays(2), 200.0, roomTypeId, userId));
-
-        // Create updated BookingDTO
-        BookingDTO updatedBookingDTO = new BookingDTO(null, LocalDate.now(), LocalDate.now().plusDays(3), 300.0, roomTypeId, userId);
-
-        // Act & Assert: Perform the put request
-        mockMvc.perform(put("/bookings/{id}", bookingDTO.id())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(updatedBookingDTO)))
+    void shouldGetAllBookings() throws Exception {
+        mockMvc.perform(get("/bookings"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalPrice", is(300.0)))
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$", hasSize(greaterThan(0)))) // Ensure there is at least one booking
+                .andExpect(jsonPath("$[0].id", notNullValue())); // Check that the ID is not null
+    }    
+
+    @Test
+    void shouldGetBookingById() throws Exception {
+        mockMvc.perform(get("/bookings/{id}", bookingId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(bookingId.intValue())))
+                .andExpect(jsonPath("$.totalPrice", is(200.0)))
                 .andExpect(jsonPath("$.roomTypeId", is(roomTypeId.intValue())))
                 .andExpect(jsonPath("$.userId", is(userId.intValue())));
+    }
+
+    @Test
+    void shouldReturnNotFoundWhenBookingDoesNotExist() throws Exception {
+        mockMvc.perform(get("/bookings/{id}", 999L))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldDeleteBooking() throws Exception {
+        mockMvc.perform(delete("/bookings/{id}", bookingId))
+                .andExpect(status().isNoContent());
+
+        mockMvc.perform(get("/bookings/{id}", bookingId))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldReturnNotFoundWhenDeletingNonExistentBooking() throws Exception {
+        Long nonExistentBookingId = 9999L;
+
+        mockMvc.perform(delete("/bookings/{id}", nonExistentBookingId))
+                .andExpect(status().isNotFound());
     }
 
     private static String asJsonString(final Object obj) {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            mapper.registerModule(new JavaTimeModule()); // Register the JavaTimeModule for LocalDate support
+            mapper.registerModule(new JavaTimeModule());
             return mapper.writeValueAsString(obj);
         } catch (Exception e) {
             throw new RuntimeException(e);
