@@ -4,16 +4,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.room_scout.controller.dto.PropertyDTO;
 import com.room_scout.model.Property;
 import com.room_scout.repository.PropertyRepository;
+import com.room_scout.service.PropertyService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -33,6 +38,9 @@ class PropertyControllerIntegrationTest {
     @Autowired
     private PropertyRepository propertyRepository;
 
+    @MockBean
+    private PropertyService propertyService;
+
     @BeforeEach
     void setUp() {
         propertyRepository.deleteAll();
@@ -40,7 +48,8 @@ class PropertyControllerIntegrationTest {
 
     @Test
     void givenValidProperty_whenCreateProperty_thenPropertyIsCreated() throws Exception {
-        PropertyDTO newProperty = new PropertyDTO(null, "Test Property", "123 Test St", "Test Country", "Test City", "Hotel", null, null);
+        PropertyDTO newProperty = new PropertyDTO(null, "Test Property", "123 Test St", "Test Country", "Test City",
+                "Hotel", null, null);
 
         mockMvc.perform(post("/properties")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -91,7 +100,8 @@ class PropertyControllerIntegrationTest {
         property.setType("Motel");
         property = propertyRepository.save(property);
 
-        PropertyDTO updatedProperty = new PropertyDTO(property.getId(), "Updated Property", "789 Updated St", "Updated Country", "Updated City", "Updated Type", null, null);
+        PropertyDTO updatedProperty = new PropertyDTO(property.getId(), "Updated Property", "789 Updated St",
+                "Updated Country", "Updated City", "Updated Type", null, null);
 
         mockMvc.perform(put("/properties/{id}", property.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -122,37 +132,59 @@ class PropertyControllerIntegrationTest {
         mockMvc.perform(get("/properties/{id}", 999L))
                 .andExpect(status().isNotFound());
     }
+
     @Test
     void whenNoProperties_thenReturnNoContent() throws Exception {
-    mockMvc.perform(get("/properties"))
-           .andExpect(status().isNoContent());
+        mockMvc.perform(get("/properties"))
+                .andExpect(status().isNoContent());
     }
+
     @Test
     void givenNonExistentPropertyType_whenGetPropertyByType_thenReturnNotFound() throws Exception {
         mockMvc.perform(get("/properties/type/{type}", "NonExistentType"))
-           .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
+
     @Test
     void whenCreatePropertiesInBulk_thenPropertiesAreCreated() throws Exception {
-    List<PropertyDTO> properties = List.of(
-        new PropertyDTO(null, "Property 1", "Address 1", "Country 1", "City 1", "Hotel", null, null),
-        new PropertyDTO(null, "Property 2", "Address 2", "Country 2", "City 2", "Resort", null, null)
-    );
+        List<PropertyDTO> properties = List.of(
+                new PropertyDTO(null, "Property 1", "Address 1", "Country 1", "City 1", "Hotel", null, null),
+                new PropertyDTO(null, "Property 2", "Address 2", "Country 2", "City 2", "Resort", null, null));
 
-    mockMvc.perform(post("/properties/bulk")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(properties)))
-            .andExpect(status().isOk());
+        mockMvc.perform(post("/properties/bulk")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(properties)))
+                .andExpect(status().isOk());
     }
+
     @Test
     void givenNonExistentId_whenUpdateProperty_thenReturnNotFound() throws Exception {
-    PropertyDTO updatedProperty = new PropertyDTO(999L, "Updated Property", "789 Updated St", "Updated Country", "Updated City", "Updated Type", null, null);
+        PropertyDTO updatedProperty = new PropertyDTO(999L, "Updated Property", "789 Updated St", "Updated Country",
+                "Updated City", "Updated Type", null, null);
 
-    mockMvc.perform(put("/properties/{id}", 999L)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(updatedProperty)))
-            .andExpect(status().isNotFound());
+        mockMvc.perform(put("/properties/{id}", 999L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatedProperty)))
+                .andExpect(status().isNotFound());
     }
 
+    @Test
+    void shouldDeletePropertySuccessfully() throws Exception {
 
+        Long propertyId = 1L;
+        when(propertyService.deleteProperty(propertyId)).thenReturn(true);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/properties/{id}", propertyId))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void shouldReturnNotFoundWhenPropertyDoesNotExist() throws Exception {
+
+        Long nonExistentPropertyId = 99L;
+        when(propertyService.deleteProperty(nonExistentPropertyId)).thenReturn(false);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/properties/{id}", nonExistentPropertyId))
+                .andExpect(status().isNotFound());
+    }
 }
