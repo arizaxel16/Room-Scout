@@ -60,11 +60,11 @@ public class BookingController {
     
     @GetMapping("/availability")
     public ResponseEntity<List<long[]>> checkAvailability(
-            @RequestParam Long hotelId,
+            @RequestParam Long propertyId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
-        List<long[]> availability = bookingService.checkAvailability(hotelId, startDate, endDate);
+        List<long[]> availability = bookingService.checkAvailability(propertyId, startDate, endDate);
         return ResponseEntity.ok(availability);
     }
 }

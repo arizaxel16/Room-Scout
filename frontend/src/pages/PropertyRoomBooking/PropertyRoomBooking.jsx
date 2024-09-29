@@ -16,7 +16,7 @@ const PropertyRoomBooking = () => {
             try {
                 console.log(propertyId, startDate, endDate);
                 const availabilityResponse = await axios.get(
-                    `http://157.173.114.224:8080/bookings/availability?hotelId=${propertyId}&startDate=${startDate}&endDate=${endDate}`
+                    `http://157.173.114.224:8080/bookings/availability?propertyId=${propertyId}&startDate=${startDate}&endDate=${endDate}`
                 );
 
                 setAvailabilityData(availabilityResponse.data);
