@@ -1,4 +1,4 @@
-package com.room_scout.integration;
+package com.room_scout.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.room_scout.controller.dto.PropertyDTO;
