@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
 @Service
 @AllArgsConstructor
 public class PropertyService {
@@ -68,13 +67,15 @@ public class PropertyService {
         property.setCity(propertyDTO.city());
         property.setType(propertyDTO.type());
     
-        property.setRoomTypes(propertyDTO.roomTypes() != null ? 
-            propertyDTO.roomTypes().stream().map(this::mapRoomTypeDtoToEntity).collect(Collectors.toList()) : 
-            List.of());
+        List<RoomType> roomTypes = propertyDTO.roomTypes().stream()
+                .map(this::mapRoomTypeDtoToEntity)
+                .collect(Collectors.toList());
+        property.setRoomTypes(roomTypes);
     
-        property.setAddOns(propertyDTO.addOns() != null ? 
-            propertyDTO.addOns().stream().map(this::mapAddOnDtoToEntity).collect(Collectors.toList()) : 
-            List.of());
+        List<AddOn> addOns = propertyDTO.addOns().stream()
+                .map(this::mapAddOnDtoToEntity)
+                .collect(Collectors.toList());
+        property.setAddOns(addOns);
     
         return property;
     }
@@ -82,14 +83,13 @@ public class PropertyService {
 
     private RoomTypeDTO mapRoomTypeToDTO(RoomType roomType) {
         return new RoomTypeDTO(
-            roomType.getId(),
-            roomType.getName(),
-            roomType.getNumberOfBeds(),
-            roomType.getNumberOfRooms(), 
-            roomType.getGuestCapacity(),
-            roomType.getBasePrice(),
-            roomType.getPropertyId()
-        );
+                roomType.getId(),
+                roomType.getName(),
+                roomType.getNumberOfBeds(),
+                roomType.getNumberOfRooms(),
+                roomType.getGuestCapacity(),
+                roomType.getBasePrice(),
+                roomType.getPropertyId());
     }
 
     private RoomType mapRoomTypeDtoToEntity(RoomTypeDTO roomTypeDTO) {
@@ -102,15 +102,13 @@ public class PropertyService {
         roomType.setPropertyId(roomTypeDTO.propertyId());
         return roomType;
     }
-    
 
     private AddOnDTO mapAddOnToDTO(AddOn addOn) {
         return new AddOnDTO(
-            addOn.getId(), 
-            addOn.getName(), 
-            addOn.getPrice(), 
-            addOn.getPropertyId()
-        );
+                addOn.getId(),
+                addOn.getName(),
+                addOn.getPrice(),
+                addOn.getPropertyId());
     }
 
     private AddOn mapAddOnDtoToEntity(AddOnDTO addOnDTO) {
@@ -120,18 +118,18 @@ public class PropertyService {
         addOn.setPrice(addOnDTO.price());
         addOn.setPropertyId(addOnDTO.propertyId());
         return addOn;
-    }    
+    }
 
     private List<RoomTypeDTO> mapRoomTypesToDTOs(List<RoomType> roomTypes) {
         return roomTypes.stream()
-                        .map(this::mapRoomTypeToDTO)
-                        .collect(Collectors.toList());
+                .map(this::mapRoomTypeToDTO)
+                .collect(Collectors.toList());
     }
 
     private List<AddOnDTO> mapAddOnsToDTOs(List<AddOn> addOns) {
         return addOns.stream()
-                    .map(this::mapAddOnToDTO)
-                    .collect(Collectors.toList());
+                .map(this::mapAddOnToDTO)
+                .collect(Collectors.toList());
     }
 
     private PropertyDTO mapEntityToResponseDto(Property property) {
@@ -143,18 +141,16 @@ public class PropertyService {
                 property.getCity(),
                 property.getType(),
                 mapRoomTypesToDTOs(property.getRoomTypes()),
-                mapAddOnsToDTOs(property.getAddOns())
-        );
+                mapAddOnsToDTOs(property.getAddOns()));
     }
 
-    public List<PropertyDTO> getPropertyByType(String type) 
-    {
+    public List<PropertyDTO> getPropertyByType(String type) {
         List<Property> properties = propertyRepository.findByType(type);
         if (properties.isEmpty()) {
             throw new IllegalArgumentException("No properties found for type: " + type);
         }
         return properties.stream()
                 .map(this::mapEntityToResponseDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 }
