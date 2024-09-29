@@ -1,3 +1,4 @@
+// NOSONAR
 package com.room_scout;
 
 import org.springframework.boot.SpringApplication;
