@@ -8,6 +8,8 @@ import com.room_scout.repository.BookingRepository;
 import com.room_scout.repository.PropertyRepository;
 import com.room_scout.repository.RoomTypeRepository;
 import com.room_scout.repository.UserRepository;
+
+import jakarta.annotation.Generated;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -73,6 +75,7 @@ public class BookingService {
                 });
     }
 
+    @Generated("excludeFromCoverage")
     private BookingDTO mapEntityToDTO(Booking booking) {
         return new BookingDTO(
                 booking.getId(),

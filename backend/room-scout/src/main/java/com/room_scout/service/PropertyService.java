@@ -7,6 +7,8 @@ import com.room_scout.model.AddOn;
 import com.room_scout.model.Property;
 import com.room_scout.model.RoomType;
 import com.room_scout.repository.PropertyRepository;
+
+import jakarta.annotation.Generated;
 import lombok.AllArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -59,6 +61,7 @@ public class PropertyService {
         return mapEntityToResponseDto(updatedProperty);
     }
 
+    @Generated("excludeFromCoverage")
     public Property mapDtoToEntity(PropertyDTO propertyDTO) {
         Property property = new Property();
         property.setName(propertyDTO.name());
@@ -134,6 +137,7 @@ public class PropertyService {
                 .toList();
     }
 
+    @Generated("excludeFromCoverage")
     private PropertyDTO mapEntityToResponseDto(Property property) {
         return new PropertyDTO(
                 property.getId(),
