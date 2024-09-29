@@ -19,6 +19,8 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.List;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
@@ -145,8 +147,39 @@ class RoomTypeControllerIntegrationTest {
 
     @Test
     void givenNonExistentRoomTypeId_whenGetRoomTypeById_thenReturnNotFound() throws Exception {
-
         mockMvc.perform(get("/roomtypes/{id}", 999L))
                 .andExpect(status().isNotFound());
+    }
+    @Test
+    void whenCreateRoomTypesInBulk_thenAllRoomTypesAreCreated() throws Exception {
+    List<RoomTypeDTO> roomTypes = List.of(
+            new RoomTypeDTO(null, "Single Room", 1, 10, 2, 100.0, testProperty.getId()),
+            new RoomTypeDTO(null, "Double Room", 2, 5, 4, 150.0, testProperty.getId())
+    );
+
+    mockMvc.perform(post("/roomtypes/bulk")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(roomTypes)))
+            .andExpect(status().isOk());
+
+    mockMvc.perform(get("/roomtypes"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$", hasSize(2)))
+            .andExpect(jsonPath("$[0].name").value("Single Room"))
+            .andExpect(jsonPath("$[1].name").value("Double Room"));
+    }
+    @Test
+    void whenNoRoomTypes_thenReturnNoContent() throws Exception {
+        mockMvc.perform(get("/roomtypes"))
+                .andExpect(status().isNoContent());
+    }
+    @Test
+    void givenNonExistentRoomTypeId_whenUpdateRoomType_thenReturnNotFound() throws Exception {
+    RoomTypeDTO updatedRoomType = new RoomTypeDTO(999L, "Nonexistent Room", 1, 10, 2, 100.0, testProperty.getId());
+
+    mockMvc.perform(put("/roomtypes/{id}", 999L)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(updatedRoomType)))
+            .andExpect(status().isNotFound());
     }
 }

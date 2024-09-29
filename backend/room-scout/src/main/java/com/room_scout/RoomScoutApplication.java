@@ -1,4 +1,3 @@
-// NOSONAR
 package com.room_scout;
 
 import org.springframework.boot.SpringApplication;
@@ -9,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class RoomScoutApplication {
-
+	@SuppressWarnings("squid:S1186")
 	public static void main(String[] args) {
 		SpringApplication.run(RoomScoutApplication.class, args); //NOSONAR
 	}
