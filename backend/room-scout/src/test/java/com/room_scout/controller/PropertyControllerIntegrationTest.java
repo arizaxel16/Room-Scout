@@ -17,6 +17,8 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.List;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
@@ -120,4 +122,37 @@ class PropertyControllerIntegrationTest {
         mockMvc.perform(get("/properties/{id}", 999L))
                 .andExpect(status().isNotFound());
     }
+    @Test
+    void whenNoProperties_thenReturnNoContent() throws Exception {
+    mockMvc.perform(get("/properties"))
+           .andExpect(status().isNoContent());
+    }
+    @Test
+    void givenNonExistentPropertyType_whenGetPropertyByType_thenReturnNotFound() throws Exception {
+        mockMvc.perform(get("/properties/type/{type}", "NonExistentType"))
+           .andExpect(status().isNotFound());
+    }
+    @Test
+    void whenCreatePropertiesInBulk_thenPropertiesAreCreated() throws Exception {
+    List<PropertyDTO> properties = List.of(
+        new PropertyDTO(null, "Property 1", "Address 1", "Country 1", "City 1", "Hotel", null, null),
+        new PropertyDTO(null, "Property 2", "Address 2", "Country 2", "City 2", "Resort", null, null)
+    );
+
+    mockMvc.perform(post("/properties/bulk")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(properties)))
+            .andExpect(status().isOk());
+    }
+    @Test
+    void givenNonExistentId_whenUpdateProperty_thenReturnNotFound() throws Exception {
+    PropertyDTO updatedProperty = new PropertyDTO(999L, "Updated Property", "789 Updated St", "Updated Country", "Updated City", "Updated Type", null, null);
+
+    mockMvc.perform(put("/properties/{id}", 999L)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(updatedProperty)))
+            .andExpect(status().isNotFound());
+    }
+
+
 }
