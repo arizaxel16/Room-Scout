@@ -21,8 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -53,7 +56,7 @@ class BookingControllerIntegrationTest {
 
     @BeforeEach
     void setup() {
-
+        // Create a Property
         Property property = new Property();
         property.setName("Test Property");
         property.setAddress("Test Address");
@@ -63,6 +66,7 @@ class BookingControllerIntegrationTest {
         propertyRepository.save(property);
         propertyId = property.getId();
 
+        // Create a RoomType for the Property
         RoomType roomType = new RoomType();
         roomType.setName("Single Room");
         roomType.setNumberOfBeds(1);
@@ -73,6 +77,7 @@ class BookingControllerIntegrationTest {
         roomTypeRepository.save(roomType);
         roomTypeId = roomType.getId();
 
+        // Create a User
         User user = new User();
         user.setUsername("testuser");
         user.setName("Test");
@@ -84,15 +89,14 @@ class BookingControllerIntegrationTest {
         userRepository.save(user);
         userId = user.getId();
 
-        BookingDTO bookingDTO = new BookingDTO(null, LocalDate.now(), LocalDate.now().plusDays(2), 200.0, roomTypeId,
-                userId);
-        bookingId = bookingService.saveBooking(bookingDTO).id();
+        // Create a Booking for testing
+        BookingDTO bookingDTO = new BookingDTO(null, LocalDate.now(), LocalDate.now().plusDays(2), 200.0, roomTypeId, userId);
+        bookingId = bookingService.saveBooking(bookingDTO).id(); // Save the booking and get its ID
     }
 
     @Test
     void shouldCreateBooking() throws Exception {
-        BookingDTO bookingDTO = new BookingDTO(null, LocalDate.now(), LocalDate.now().plusDays(2), 200.0, roomTypeId,
-                userId);
+        BookingDTO bookingDTO = new BookingDTO(null, LocalDate.now(), LocalDate.now().plusDays(2), 200.0, roomTypeId, userId);
 
         mockMvc.perform(post("/bookings")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -103,6 +107,15 @@ class BookingControllerIntegrationTest {
                 .andExpect(jsonPath("$.roomTypeId", is(roomTypeId.intValue())))
                 .andExpect(jsonPath("$.userId", is(userId.intValue())));
     }
+
+    @Test
+    void shouldGetAllBookings() throws Exception {
+        mockMvc.perform(get("/bookings"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$", hasSize(greaterThan(0)))) // Ensure there is at least one booking
+                .andExpect(jsonPath("$[0].id", notNullValue())); // Check that the ID is not null
+    }    
 
     @Test
     void shouldGetBookingById() throws Exception {
