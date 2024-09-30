@@ -5,11 +5,10 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copia el archivo JAR del backend a la imagen
-COPY backend/room-scout/build/libs/.room-scout-0.0.1-SNAPSHOT.jar app.jar
+COPY backend/room-scout/build/libs/room-scout-0.0.1-SNAPSHOT.jar app.jar
 
 # Expone el puerto en el que la aplicación se ejecuta
 EXPOSE 8080
 
 # Comando para ejecutar la aplicación
 CMD ["java", "-jar", "app.jar"]
-
