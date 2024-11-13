@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class RoomScoutApplication {
 	@SuppressWarnings("squid:S1186")
 	public static void main(String[] args) {
-		SpringApplication.run(RoomScoutApplication.class, args); //NOSONAR
+		SpringApplication.run(RoomScoutApplication.class, args);
 	}
 
     @Bean
