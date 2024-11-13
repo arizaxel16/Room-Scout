@@ -13,8 +13,8 @@ jobs:
     services:
       sonarqube:
         image: sonarqube:community  # Use the official SonarQube Docker image
-        options: >-
-          --health-cmd='curl http://localhost:9000/api/system/health || exit 1'  # Check if SonarQube is up and running
+        options: >
+          --health-cmd="curl --fail http://localhost:9000/api/system/health || exit 1"  # Check if SonarQube is up and running
           --health-interval=5s  # Interval between health checks
           --health-timeout=30s  # Timeout for health check
           --health-retries=10  # Number of retries before failing the container
