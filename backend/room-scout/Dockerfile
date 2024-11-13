@@ -1,15 +1,14 @@
-# Usa una imagen base de OpenJDK
+# Use a base image with OpenJDK 17
 FROM openjdk:17-jdk-slim
 
-# Establece el directorio de trabajo
+# Set the working directory to /app
 WORKDIR /app
 
-# Copia el archivo JAR del backend a la imagen
+# Copy the built JAR file into the container
 COPY build/libs/room-scout-0.0.1-SNAPSHOT.jar app.jar
 
-
-# Expone el puerto en el que la aplicación se ejecuta
+# Expose port 8080 for the backend service
 EXPOSE 8080
 
-# Comando para ejecutar la aplicación
+# Command to run the application when the container starts
 CMD ["java", "-jar", "app.jar"]
