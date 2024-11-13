@@ -28,11 +28,23 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Step 3: Build the Spring Boot application using Gradle
+      # Step 3: Install Gradle
+      - name: Install Gradle
+        run: |
+          wget https://services.gradle.org/distributions/gradle-7.5.1-bin.zip
+          unzip gradle-7.5.1-bin.zip
+          export PATH=$PWD/gradle-7.5.1/bin:$PATH
+          gradle --version  # Verify Gradle installation
+
+      # Step 4: Generate Gradle Wrapper (if missing)
+      - name: Generate Gradle Wrapper
+        run: gradle wrapper
+
+      # Step 5: Build with Gradle (now that gradlew is available)
       - name: Build with Gradle
         run: ./gradlew clean build --no-daemon -p backend  # Runs Gradle build for backend project
 
-      # Step 4: Analyze with SonarQube
+      # Step 6: Analyze with SonarQube
       - name: Analyze with SonarQube
         uses: SonarSource/sonarqube-scan-action@v1.1.0
         env:
@@ -40,16 +52,15 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # SonarQube token from secrets
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}  # SonarQube URL from secrets
         with:
-          # Pass additional arguments for SonarQube analysis
           args: |
-            -Dsonar.projectKey=com:room-scout  # Replace with your actual project key from SonarQube
+            -Dsonar.projectKey=com:room-scout
             -Dsonar.sources=src/main/java  # Path to main source files (default is the project base directory)
             -Dsonar.tests=src/test/java  # Path to test files (default is the project base directory)
             -Dsonar.java.binaries=build/classes  # Path to compiled class files (for Java projects)
             -Dsonar.junit.reportPaths=build/test-results/test  # Path to JUnit test report
             -Dsonar.jacoco.reportPaths=build/jacoco/test.exec  # Path to JaCoCo code coverage report
 
-      # Step 5: Check the coverage percentage to ensure it meets the required threshold
+      # Step 7: Verify Code Coverage
       - name: Verify Code Coverage
         run: |
           COVERAGE=$(./gradlew jacocoTestReport -p backend --quiet | grep "Total" | awk '{print $4}' | sed 's/%//')
@@ -59,7 +70,7 @@ jobs:
             exit 1
           fi
 
-      # Step 6: Upload SonarQube report and display the result
+      # Step 8: Upload SonarQube Report
       - name: Upload SonarQube Report
         run: |
           echo "SonarQube analysis complete. Check the report at: ${{ secrets.SONAR_HOST_URL }}/dashboard?id=my-backend-project"
