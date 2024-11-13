@@ -9,11 +9,10 @@ import java.util.List;
 import java.time.LocalDate;
 
 @Repository
-public interface BookingRepository extends JpaRepository<Booking, Long> 
-{
-    @Query("SELECT b FROM Booking b WHERE b.roomType.id = :roomTypeId AND " +
-           "(b.startDate <= :endDate AND b.endDate >= :startDate)")
-    List<Booking> findByRoomTypeAndDateOverlap(@Param("roomTypeId") Long roomTypeId,
-                                               @Param("startDate") LocalDate startDate,
-                                               @Param("endDate") LocalDate endDate);
+public interface BookingRepository extends JpaRepository<Booking, Long> {
+       @Query("SELECT b FROM Booking b WHERE b.roomType.id = :roomTypeId AND " +
+                     "(b.startDate <= :endDate AND b.endDate >= :startDate)")
+       List<Booking> findByRoomTypeAndDateOverlap(@Param("roomTypeId") Long roomTypeId,
+                     @Param("startDate") LocalDate startDate,
+                     @Param("endDate") LocalDate endDate);
 }

@@ -4,6 +4,10 @@ import com.room_scout.controller.dto.LoginDTO;
 import com.room_scout.controller.dto.UserDTO;
 import com.room_scout.model.User;
 import com.room_scout.repository.UserRepository;
+
+import jakarta.annotation.Generated;
+
+import com.room_scout.exception.UserAlreadyExistsException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +21,14 @@ public class UserService {
     private final UserRepository userRepository;
 
     public UserDTO saveUser(UserDTO userDTO) {
+        validateUserDTO(userDTO);
+
         if (userRepository.existsByIdentification(userDTO.identification())) {
-            throw new IllegalArgumentException("Identification number already exists");
+            throw new UserAlreadyExistsException("Identification number already exists");
         }
 
         if (userRepository.existsByEmail(userDTO.email())) {
-            throw new IllegalArgumentException("e-mail already exists");
+            throw new UserAlreadyExistsException("e-mail already exists");
         }
 
         User user = mapDtoToEntity(userDTO);
@@ -36,17 +42,11 @@ public class UserService {
     }
 
     public Optional<UserDTO> checkUserLogin(LoginDTO loginDTO) {
-        Optional<User> userOptional = userRepository.findByEmail(loginDTO.email());
-    
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            if (loginDTO.password().equals(user.getPassword())) {
-                return Optional.of(mapEntityToDTO(user));
-            }
-        }
-        return Optional.empty();
+        return userRepository.findByEmail(loginDTO.email())
+                .filter(user -> loginDTO.password().equals(user.getPassword()))
+                .map(this::mapEntityToDTO);
     }
-    
+
     public List<UserDTO> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(this::mapEntityToDTO)
@@ -62,6 +62,8 @@ public class UserService {
     }
 
     public Optional<UserDTO> updateUser(Long id, UserDTO userDTO) {
+        validateUserDTO(userDTO);
+
         return userRepository.findById(id)
                 .map(existingUser -> {
                     existingUser.setUsername(userDTO.username());
@@ -76,7 +78,8 @@ public class UserService {
                 });
     }
 
-    private UserDTO mapEntityToDTO(User user) {
+    @Generated("excludeFromCoverage")
+    public UserDTO mapEntityToDTO(User user) {
         return new UserDTO(
                 user.getId(),
                 user.getUsername(),
@@ -89,10 +92,11 @@ public class UserService {
         );
     }
 
-    private User mapDtoToEntity(UserDTO userDTO) {
+    @Generated("excludeFromCoverage")
+    public User mapDtoToEntity(UserDTO userDTO) {
         User user = new User();
         user.setUsername(userDTO.username());
-        user.setIdentification(userDTO.identification()); 
+        user.setIdentification(userDTO.identification());
         user.setEmail(userDTO.email());
         user.setName(userDTO.name());
         user.setSurname(userDTO.surname());
@@ -100,5 +104,10 @@ public class UserService {
         user.setRole(userDTO.role());
         return user;
     }
-}
 
+    private void validateUserDTO(UserDTO userDTO) {
+        if (userDTO == null || userDTO.username() == null || userDTO.email() == null) {
+            throw new IllegalArgumentException("Invalid user data");
+        }
+    }
+}

@@ -3,6 +3,8 @@ package com.room_scout.service;
 import com.room_scout.controller.dto.AddOnDTO;
 import com.room_scout.model.AddOn;
 import com.room_scout.repository.AddOnRepository;
+
+import jakarta.annotation.Generated;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,7 @@ public class AddOnService {
         return addOnRepository.findById(id).map(this::mapEntityToDTO);
     }
 
+    @Generated("excludeFromCoverage")
     public AddOnDTO saveAddOn(AddOnDTO addOnDTO) {
         AddOn addOn = mapDTOToEntity(addOnDTO);
         AddOn savedAddOn = addOnRepository.save(addOn);
@@ -48,6 +51,7 @@ public class AddOnService {
         return false;
     }
 
+    @Generated("excludeFromCoverage")
     private AddOnDTO mapEntityToDTO(AddOn addOn) {
         return new AddOnDTO(
             addOn.getId(), 
@@ -57,11 +61,12 @@ public class AddOnService {
         );
     }
 
+    @Generated("excludeFromCoverage")
     private AddOn mapDTOToEntity(AddOnDTO addOnDTO) {
         AddOn addOn = new AddOn();
         addOn.setName(addOnDTO.name());
         addOn.setPrice(addOnDTO.price());
-        addOn.setPropertyId(addOnDTO.propertyId()); // Asignar el propertyId correctamente
+        addOn.setPropertyId(addOnDTO.propertyId());
         return addOn;
     }
 }

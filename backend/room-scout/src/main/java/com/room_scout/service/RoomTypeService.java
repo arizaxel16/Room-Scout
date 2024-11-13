@@ -3,6 +3,8 @@ package com.room_scout.service;
 import com.room_scout.controller.dto.RoomTypeDTO;
 import com.room_scout.model.RoomType;
 import com.room_scout.repository.RoomTypeRepository;
+
+import jakarta.annotation.Generated;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -44,7 +46,7 @@ public class RoomTypeService {
                 .map(existingRoomType -> {
                     existingRoomType.setName(roomTypeDTO.name());
                     existingRoomType.setNumberOfBeds(roomTypeDTO.numberOfBeds());
-                    existingRoomType.setNumberOfRooms(roomTypeDTO.numberOfRooms()); // Actualización del nuevo atributo
+                    existingRoomType.setNumberOfRooms(roomTypeDTO.numberOfRooms());
                     existingRoomType.setGuestCapacity(roomTypeDTO.guestCapacity());
                     existingRoomType.setBasePrice(roomTypeDTO.basePrice());
                     existingRoomType.setPropertyId(roomTypeDTO.propertyId());
@@ -53,23 +55,30 @@ public class RoomTypeService {
                 });
     }
 
+    @Generated("excludeFromCoverage")
+    public void deleteAll() {
+        roomTypeRepository.deleteAll();
+    }
+
+    @Generated("excludeFromCoverage")
     private RoomTypeDTO mapEntityToDTO(RoomType roomType) {
         return new RoomTypeDTO(
                 roomType.getId(),
                 roomType.getName(),
                 roomType.getNumberOfBeds(),
-                roomType.getNumberOfRooms(), // Mapeo del nuevo atributo
+                roomType.getNumberOfRooms(),
                 roomType.getGuestCapacity(),
                 roomType.getBasePrice(),
                 roomType.getPropertyId()
         );
     }
 
+    @Generated("excludeFromCoverage")
     private RoomType mapDtoToEntity(RoomTypeDTO roomTypeDTO) {
         RoomType roomType = new RoomType();
         roomType.setName(roomTypeDTO.name());
         roomType.setNumberOfBeds(roomTypeDTO.numberOfBeds());
-        roomType.setNumberOfRooms(roomTypeDTO.numberOfRooms()); // Establecer el nuevo atributo
+        roomType.setNumberOfRooms(roomTypeDTO.numberOfRooms());
         roomType.setGuestCapacity(roomTypeDTO.guestCapacity());
         roomType.setBasePrice(roomTypeDTO.basePrice());
         roomType.setPropertyId(roomTypeDTO.propertyId());

@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @RestController
 @RequestMapping("/bookings")
 @AllArgsConstructor
-@CrossOrigin(origins = {"http://localhost:3000", "http://157.173.114.224:3000"})  // Replace with your frontend IP or domain
+@CrossOrigin(origins = {"http://localhost:3000", "http://157.173.114.224:3000"})
 
 public class BookingController {
 
@@ -60,11 +60,11 @@ public class BookingController {
     
     @GetMapping("/availability")
     public ResponseEntity<List<long[]>> checkAvailability(
-            @RequestParam Long hotelId,
+            @RequestParam Long propertyId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
-        List<long[]> availability = bookingService.checkAvailability(hotelId, startDate, endDate);
+        List<long[]> availability = bookingService.checkAvailability(propertyId, startDate, endDate);
         return ResponseEntity.ok(availability);
     }
 }
