@@ -8,7 +8,6 @@ on:
 jobs:
   sonarQubeAnalysis:
     runs-on: ubuntu-latest
-    needs: [previous_job]
 
     services:
       # Run SonarQube in a container during the job
