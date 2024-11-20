@@ -86,7 +86,10 @@ pipeline {
 
         stage('Subir Imagen a DockerHub') {
             when {
-                branch 'develop'
+                anyOf {
+                    branch 'main'
+                    branch 'develop'
+                }
             }
             steps {
                 script {
