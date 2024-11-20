@@ -34,6 +34,13 @@ pipeline {
                 }
             }
         }
+        stage('Run Tests with Coverage') {
+            steps {
+                dir('backend/room-scout') {
+                    sh './gradlew test jacocoTestReport --daemon'  // Ejecuta los tests y genera el reporte de cobertura
+                }
+            }
+        }
 
         stage('Análisis SonarQube') {
             steps {
@@ -80,6 +87,7 @@ pipeline {
         stage('Subir Imagen a DockerHub') {
             when {
                 branch 'main'
+                branch 'develop'
             }
             steps {
                 script {
