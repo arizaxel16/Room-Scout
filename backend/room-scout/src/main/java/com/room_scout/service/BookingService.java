@@ -17,7 +17,6 @@ import java.util.Optional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-
 @Service
 @AllArgsConstructor
 public class BookingService {
@@ -30,7 +29,8 @@ public class BookingService {
     public BookingDTO saveBooking(BookingDTO bookingDTO) {
         Booking booking = new Booking();
         RoomType roomType = roomTypeRepository.findById(bookingDTO.roomTypeId())
-                .orElseThrow(() -> new IllegalArgumentException("RoomType not found with ID: " + bookingDTO.roomTypeId()));
+                .orElseThrow(
+                        () -> new IllegalArgumentException("RoomType not found with ID: " + bookingDTO.roomTypeId()));
         booking.setRoomType(roomType);
         booking.setUser(userRepository.findById(bookingDTO.userId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + bookingDTO.userId())));
@@ -83,24 +83,21 @@ public class BookingService {
                 booking.getEndDate(),
                 booking.getTotalPrice(),
                 booking.getRoomType().getId(),
-                booking.getUser().getId()
-        );
+                booking.getUser().getId());
     }
-    public List<long[]> checkAvailability(Long propertyId, LocalDate startDate, LocalDate endDate) 
-    {
-    Property property = propertyRepository.findById(propertyId)
-            .orElseThrow(() -> new IllegalArgumentException("Property not found with ID: " + propertyId));
-    List<RoomType> roomTypes = property.getRoomTypes();
-    List<long[]> availabilityList = new ArrayList<>();
-    for (RoomType roomType : roomTypes) {
-        List<Booking> overlappingBookings = bookingRepository.findByRoomTypeAndDateOverlap(
-                roomType.getId(), startDate, endDate
-        );
-        int roomsBooked = overlappingBookings.size();
-        int availableRooms = roomType.getNumberOfRooms() - roomsBooked;
-        availabilityList.add(new long[]{roomType.getId(), availableRooms});
-    }
-    return availabilityList;
-}
-}
 
+    public List<long[]> checkAvailability(Long propertyId, LocalDate startDate, LocalDate endDate) {
+        Property property = propertyRepository.findById(propertyId)
+                .orElseThrow(() -> new IllegalArgumentException("Property not found with ID: " + propertyId));
+        List<RoomType> roomTypes = property.getRoomTypes();
+        List<long[]> availabilityList = new ArrayList<>();
+        for (RoomType roomType : roomTypes) {
+            List<Booking> overlappingBookings = bookingRepository.findByRoomTypeAndDateOverlap(
+                    roomType.getId(), startDate, endDate);
+            int roomsBooked = overlappingBookings.size();
+            int availableRooms = roomType.getNumberOfRooms() - roomsBooked;
+            availabilityList.add(new long[] { roomType.getId(), availableRooms });
+        }
+        return availabilityList;
+    }
+}

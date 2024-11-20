@@ -88,8 +88,7 @@ public class UserService {
                 user.getName(),
                 user.getSurname(),
                 user.getPassword(),
-                user.getRole()
-        );
+                user.getRole());
     }
 
     @Generated("excludeFromCoverage")

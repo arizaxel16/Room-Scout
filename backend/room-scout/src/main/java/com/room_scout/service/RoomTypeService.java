@@ -69,8 +69,7 @@ public class RoomTypeService {
                 roomType.getNumberOfRooms(),
                 roomType.getGuestCapacity(),
                 roomType.getBasePrice(),
-                roomType.getPropertyId()
-        );
+                roomType.getPropertyId());
     }
 
     @Generated("excludeFromCoverage")
