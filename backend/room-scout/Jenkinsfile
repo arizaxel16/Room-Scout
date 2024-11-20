@@ -14,12 +14,10 @@ pipeline {
 
     stages {
         stage('Clonar Repositorio') {
-            steps {
-                git branch: 'develop',
-                    url: 'https://github.com/arizaxel16/Room-Scout.git',
-                    credentialsId: 'github-credentials' // Reemplaza con el ID configurado en Jenkins
-            }
-        }
+                    steps {
+                        git branch: 'develop', url: 'https://github.com/arizaxel16/Room-Scout.git'
+                    }
+                }
 
         stage('Configurar Permisos') {
             steps {
