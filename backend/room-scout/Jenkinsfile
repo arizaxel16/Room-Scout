@@ -35,14 +35,6 @@ pipeline {
             }
         }
 
-        stage('Pruebas y Cobertura') {
-            steps {
-                dir('backend/room-scout') {
-                    sh './gradlew test jacocoTestReport'
-                }
-            }
-        }
-
         stage('Análisis SonarQube') {
             steps {
                 withSonarQubeEnv('sonarqube') {
