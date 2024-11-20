@@ -64,7 +64,8 @@ pipeline {
         stage('Construir Imagen Docker') {
             steps {
                 script {
-                    def image = docker.build("${DOCKER_IMAGE}:${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
+                    def image = docker.build("${DOCKER_IMAGE}:${env.BRANCH_NAME}-${env.BUILD_NUMBER}", "backend/room-scout/")
+
                     sh "docker images"
                 }
             }
