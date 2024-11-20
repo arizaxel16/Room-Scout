@@ -83,6 +83,11 @@ pipeline {
                 }
             }
         }
+        stage('Depuración de Nombre de Rama') {
+            steps {
+                echo "Branch Name: ${env.BRANCH_NAME}"
+            }
+        }
 
         stage('Subir Imagen a DockerHub') {
             when {
