@@ -69,20 +69,20 @@ public class PropertyService {
         property.setCountry(propertyDTO.country());
         property.setCity(propertyDTO.city());
         property.setType(propertyDTO.type());
-        
+
         List<RoomType> roomTypes = propertyDTO.roomTypes().stream()
                 .map(this::mapRoomTypeDtoToEntity)
                 .toList();
         property.setRoomTypes(roomTypes);
-        
+
         List<AddOn> addOns = propertyDTO.addOns().stream()
                 .map(this::mapAddOnDtoToEntity)
                 .toList();
         property.setAddOns(addOns);
-        
+
         return property;
     }
-    
+
     @Generated("excludeFromCoverage")
     private RoomTypeDTO mapRoomTypeToDTO(RoomType roomType) {
         return new RoomTypeDTO(

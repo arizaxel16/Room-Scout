@@ -54,11 +54,10 @@ public class AddOnService {
     @Generated("excludeFromCoverage")
     private AddOnDTO mapEntityToDTO(AddOn addOn) {
         return new AddOnDTO(
-            addOn.getId(), 
-            addOn.getName(), 
-            addOn.getPrice(), 
-            addOn.getPropertyId()
-        );
+                addOn.getId(),
+                addOn.getName(),
+                addOn.getPrice(),
+                addOn.getPropertyId());
     }
 
     @Generated("excludeFromCoverage")
