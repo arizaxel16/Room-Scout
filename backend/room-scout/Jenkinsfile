@@ -34,7 +34,16 @@ pipeline {
                 }
             }
         }
-
+        stage('Obtener Nombre de Rama') {
+            steps {
+                script {
+                    // Obtener el nombre de la rama usando git
+                    def branchName = sh(script: "git rev-parse --abbrev-ref HEAD", returnStdout: true).trim()
+                    echo "Branch Name: ${branchName}"
+                    env.BRANCH_NAME = branchName  // Asignar el nombre de la rama a la variable BRANCH_NAME
+                }
+            }
+        }
         stage('Run Tests with Coverage') {
             steps {
                 dir('backend/room-scout') {
@@ -86,6 +95,12 @@ pipeline {
         }
 
         stage('Subir Imagen a DockerHub') {
+            when {
+                anyOf {
+                    branch 'main'
+                    branch 'develop'
+                }
+            }
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS}") {
