@@ -34,6 +34,16 @@ pipeline {
                 }
             }
         }
+        stage('Obtener Nombre de Rama') {
+            steps {
+                script {
+                    // Obtener el nombre de la rama usando git
+                    def branchName = sh(script: "git rev-parse --abbrev-ref HEAD", returnStdout: true).trim()
+                    echo "Branch Name: ${branchName}"
+                    env.BRANCH_NAME = branchName  // Asignar el nombre de la rama a la variable BRANCH_NAME
+                }
+            }
+        }
         stage('Run Tests with Coverage') {
             steps {
                 dir('backend/room-scout') {
@@ -81,12 +91,6 @@ pipeline {
                       ${DOCKER_IMAGE}:${env.BRANCH_NAME}-${env.BUILD_NUMBER}
                     """
                 }
-            }
-        }
-        stage('Depuración de Nombre de Rama') {
-            steps {
-                def branchName = env.GIT_BRANCH.replace("refs/heads/", "")
-                echo "Branch: ${branchName}"
             }
         }
 
