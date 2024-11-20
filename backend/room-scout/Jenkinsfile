@@ -85,7 +85,8 @@ pipeline {
         }
         stage('Depuración de Nombre de Rama') {
             steps {
-                echo "Branch Name: ${env.BRANCH_NAME}"
+                def branchName = env.GIT_BRANCH.replace("refs/heads/", "")
+                echo "Branch: ${branchName}"
             }
         }
 
