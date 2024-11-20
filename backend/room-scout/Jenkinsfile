@@ -1,0 +1,108 @@
+pipeline {
+    agent any
+
+    tools {
+        jdk 'JDK17' // Reemplaza con tu versión de JDK configurada en Jenkins
+        gradle 'GRADLE_HOME' // Reemplaza con tu configuración de Gradle en Jenkins
+        dockerTool 'docker'
+    }
+
+    environment {
+        DOCKER_IMAGE = 'juancorral/room-scout-backend'
+        DOCKER_CREDENTIALS = 'dockerhub-credentials-id' // ID de credenciales de DockerHub
+    }
+
+    stages {
+        stage('Clonar Repositorio') {
+            steps {
+                git branch: 'develop', url: 'https://github.com/arizaxel16/Room-Scout.git'
+            }
+        }
+
+        stage('Configurar Permisos') {
+            steps {
+                dir('backend/room-scout') {
+                    sh 'chmod +x gradlew'
+                }
+            }
+        }
+
+        stage('Compilar y Construir') {
+            steps {
+                dir('backend/room-scout') {
+                    sh './gradlew clean build --daemon'
+                }
+            }
+        }
+
+        stage('Pruebas y Cobertura') {
+            steps {
+                dir('backend/room-scout') {
+                    sh './gradlew test jacocoTestReport'
+                }
+            }
+        }
+
+        stage('Análisis SonarQube') {
+            steps {
+                withSonarQubeEnv('sonarqube') {
+                    dir('backend/room-scout') {
+                        sh './gradlew sonarqube'
+                    }
+                }
+            }
+        }
+
+        stage('Esperar Quality Gate') {
+            steps {
+                timeout(time: 10, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
+        stage('Construir Imagen Docker') {
+            steps {
+                script {
+                    def image = docker.build("${DOCKER_IMAGE}:${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
+                    sh "docker images"
+                }
+            }
+        }
+
+        stage('Escaneo de Vulnerabilidades con Trivy') {
+            steps {
+                script {
+                    sh "trivy image --exit-code 1 --severity HIGH,CRITICAL ${DOCKER_IMAGE}:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+                }
+            }
+        }
+
+        stage('Subir Imagen a DockerHub') {
+            when {
+                branch 'main'
+            }
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS}") {
+                        def image = docker.image("${DOCKER_IMAGE}:${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
+                        image.push()
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            junit 'backend/room-scout/build/test-results/test/*.xml'
+            cleanWs()
+        }
+        failure {
+            echo 'Build Failed'
+        }
+        success {
+            echo 'Build Succeeded'
+        }
+    }
+}
