@@ -17,7 +17,7 @@ pipeline {
             steps {
                 git branch: 'develop',
                     url: 'https://github.com/arizaxel16/Room-Scout.git',
-                    credentialsId: 'github-credentials-id' // Reemplaza con el ID configurado en Jenkins
+                    credentialsId: 'github-credentials' // Reemplaza con el ID configurado en Jenkins
             }
         }
 
