@@ -2,9 +2,7 @@ pipeline {
     agent any
 
     triggers {
-        githubPullRequest {
-            targetBranch('main') // Escucha eventos solo cuando el PR es hacia 'main'
-        }
+        githubPush() // Trigger para escuchar eventos de GitHub Push (también captura PR)
     }
 
     tools {
@@ -27,8 +25,8 @@ pipeline {
         stage('Instalar Dependencias y Build') {
             when {
                 expression {
-                    // Verifica si el PR es hacia la rama 'main'
-                    return env.CHANGE_TARGET == 'main'
+                    // Verifica si el evento es de un Pull Request hacia 'main'
+                    return env.CHANGE_TARGET == 'main' || env.BRANCH_NAME == 'main'
                 }
             }
             steps {
@@ -42,8 +40,8 @@ pipeline {
         stage('Construir Imagen Docker') {
             when {
                 expression {
-                    // Verifica si el PR es hacia la rama 'main'
-                    return env.CHANGE_TARGET == 'main'
+                    // Verifica si el evento es de un Pull Request hacia 'main'
+                    return env.CHANGE_TARGET == 'main' || env.BRANCH_NAME == 'main'
                 }
             }
             steps {
@@ -57,8 +55,8 @@ pipeline {
         stage('Trivy Vulnerability Scan') {
             when {
                 expression {
-                    // Verifica si el PR es hacia la rama 'main'
-                    return env.CHANGE_TARGET == 'main'
+                    // Verifica si el evento es de un Pull Request hacia 'main'
+                    return env.CHANGE_TARGET == 'main' || env.BRANCH_NAME == 'main'
                 }
             }
             steps {
@@ -77,8 +75,8 @@ pipeline {
         stage('Subir Imagen a DockerHub') {
             when {
                 expression {
-                    // Verifica si el PR es hacia la rama 'main'
-                    return env.CHANGE_TARGET == 'main'
+                    // Verifica si el evento es de un Pull Request hacia 'main'
+                    return env.CHANGE_TARGET == 'main' || env.BRANCH_NAME == 'main'
                 }
             }
             steps {
