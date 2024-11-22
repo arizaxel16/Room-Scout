@@ -1,34 +1,36 @@
 package com.room_scout.config;
 
 import org.springframework.amqp.core.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
-
-    @Value("${spring.rabbitmq.queue.email}")
-    private String queueName;
-
-    @Value("${spring.rabbitmq.exchange}")
-    private String exchange;
-
-    @Value("${spring.rabbitmq.routingkey}")
-    private String routingKey;
+    
+    private static final String EMAIL_QUEUE = "emailQueue";
+    private static final String EMAIL_EXCHANGE = "emailExchange";
+    private static final String EMAIL_ROUTING_KEY = "emailRoutingKey";
 
     @Bean
-    Queue queue() {
-        return new Queue(queueName, true);
+    Queue emailQueue() {
+        return new Queue(EMAIL_QUEUE, true);
     }
 
     @Bean
-    TopicExchange exchange() {
-        return new TopicExchange(exchange);
+    DirectExchange emailExchange() {
+        return new DirectExchange(EMAIL_EXCHANGE);
     }
 
     @Bean
-    Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(routingKey);
+    Binding emailBinding(Queue emailQueue, DirectExchange emailExchange) {
+        return BindingBuilder.bind(emailQueue).to(emailExchange).with(EMAIL_ROUTING_KEY);
+    }
+
+    public String getExchange() {
+        return EMAIL_EXCHANGE;
+    }
+
+    public String getRoutingKey() {
+        return EMAIL_ROUTING_KEY;
     }
 }
