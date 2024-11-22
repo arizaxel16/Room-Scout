@@ -24,9 +24,9 @@ pipeline {
 
         stage('Instalar Dependencias y Build') {
             when {
-                expression {
-                    // Verifica si el evento es de un Pull Request hacia 'main'
-                    return env.CHANGE_TARGET == 'main' || env.BRANCH_NAME == 'main'
+                anyOf {
+                    branch 'main'  // Si es un push a la rama main
+                    changeRequest() // Si es un Pull Request hacia main
                 }
             }
             steps {
@@ -39,9 +39,9 @@ pipeline {
 
         stage('Construir Imagen Docker') {
             when {
-                expression {
-                    // Verifica si el evento es de un Pull Request hacia 'main'
-                    return env.CHANGE_TARGET == 'main' || env.BRANCH_NAME == 'main'
+                anyOf {
+                    branch 'main'  // Si es un push a la rama main
+                    changeRequest() // Si es un Pull Request hacia main
                 }
             }
             steps {
@@ -54,9 +54,9 @@ pipeline {
 
         stage('Trivy Vulnerability Scan') {
             when {
-                expression {
-                    // Verifica si el evento es de un Pull Request hacia 'main'
-                    return env.CHANGE_TARGET == 'main' || env.BRANCH_NAME == 'main'
+                anyOf {
+                    branch 'main'  // Si es un push a la rama main
+                    changeRequest() // Si es un Pull Request hacia main
                 }
             }
             steps {
@@ -74,9 +74,9 @@ pipeline {
 
         stage('Subir Imagen a DockerHub') {
             when {
-                expression {
-                    // Verifica si el evento es de un Pull Request hacia 'main'
-                    return env.CHANGE_TARGET == 'main' || env.BRANCH_NAME == 'main'
+                anyOf {
+                    branch 'main'  // Si es un push a la rama main
+                    changeRequest() // Si es un Pull Request hacia main
                 }
             }
             steps {
