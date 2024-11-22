@@ -2,10 +2,8 @@ pipeline {
     agent any
 
     triggers {
-        // Este trigger activará el pipeline solo para PRs hacia 'main'
-        githubPullRequest {
-            targetBranch('main') // Solo se ejecuta si el PR va hacia la rama 'main'
-        }
+        // Este trigger solo ejecutará el pipeline cuando haya un push a la rama 'main'
+        githubPush()
     }
 
     tools {
@@ -81,7 +79,7 @@ pipeline {
         stage('Construir Imagen Docker') {
             steps {
                 script {
-                    def image = docker.build("${DOCKER_IMAGE}:${env.BRANCH_NAME}-${env.BUILD_NUMBER}", "backend/room-scout/")
+                    def image = docker.build("${DOCKER_IMAGE}:${env.BRANCH_NAME}-${env.BUILD_NUMBER}", "backend/room-scout/")                    
                     sh "docker images"
                 }
             }
