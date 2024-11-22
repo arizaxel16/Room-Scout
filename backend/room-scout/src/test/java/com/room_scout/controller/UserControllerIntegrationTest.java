@@ -119,6 +119,28 @@ class UserControllerIntegrationTest {
         assertThat(updatedUser).isNotNull();
         assertThat(updatedUser.getUsername()).isEqualTo("updateduser");
     }
+    @Test
+    void shouldReturnNotFoundWhenUpdatingNonExistentUser() throws Exception {
+        Long nonExistentUserId = 9999L; // ID que no existe en la base de datos
+
+        String updatedUserJson = """
+                {
+                    "username": "nonexistentuser",
+                    "identification": 654321,
+                    "email": "nonexistent@example.com",
+                    "name": "Nonexistent",
+                    "surname": "User",
+                    "password": "password",
+                    "role": "ROLE_USER"
+                }
+            """;
+
+        mockMvc.perform(put("/users/" + nonExistentUserId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedUserJson))
+                .andExpect(status().isNotFound());
+    }
+
 
     @Test
     void shouldDeleteUser() throws Exception {
@@ -127,6 +149,22 @@ class UserControllerIntegrationTest {
 
         assertThat(userRepository.findById(testUserDTO.id())).isEmpty();
     }
+    @Test
+    void shouldReturnNoContentWhenNoUsers() throws Exception {
+        userRepository.deleteAll();
+
+        mockMvc.perform(get("/users"))
+                .andExpect(status().isNoContent());
+    }
+    @Test
+    void shouldReturnNotFoundWhenDeletingNonExistentUser() throws Exception {
+        Long nonExistentUserId = 9999L; // ID que no existe en la base de datos
+
+        mockMvc.perform(delete("/users/" + nonExistentUserId))
+                .andExpect(status().isNotFound());
+    }
+
+
 
     @Test
     void shouldLoginUser() throws Exception {
