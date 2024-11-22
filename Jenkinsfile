@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    triggers {
+        githubPush() // Escucha los eventos del webhook de GitHub
+    }
+
     tools {
         nodejs 'NodeJS'
         dockerTool 'docker'
@@ -19,6 +23,12 @@ pipeline {
         }
 
         stage('Instalar Dependencias y Build') {
+            when {
+                expression {
+                    // Verifica si el PR es hacia la rama 'main'
+                    return env.CHANGE_TARGET == 'main'
+                }
+            }
             steps {
                 dir('frontend/room-scout') {
                     sh 'npm install'
@@ -28,6 +38,12 @@ pipeline {
         }
 
         stage('Construir Imagen Docker') {
+            when {
+                expression {
+                    // Verifica si el PR es hacia la rama 'main'
+                    return env.CHANGE_TARGET == 'main'
+                }
+            }
             steps {
                 script {
                     def image = docker.build("${DOCKER_IMAGE}:${env.BUILD_NUMBER}", "frontend/room-scout/")
@@ -37,6 +53,12 @@ pipeline {
         }
 
         stage('Trivy Vulnerability Scan') {
+            when {
+                expression {
+                    // Verifica si el PR es hacia la rama 'main'
+                    return env.CHANGE_TARGET == 'main'
+                }
+            }
             steps {
                 script {
                     sh """
@@ -51,6 +73,12 @@ pipeline {
         }
 
         stage('Subir Imagen a DockerHub') {
+            when {
+                expression {
+                    // Verifica si el PR es hacia la rama 'main'
+                    return env.CHANGE_TARGET == 'main'
+                }
+            }
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS}") {
