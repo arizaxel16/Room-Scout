@@ -23,12 +23,6 @@ pipeline {
         }
 
         stage('Instalar Dependencias y Build') {
-            when {
-                anyOf {
-                    branch 'main'  // Si es un push a la rama main
-                    changeRequest() // Si es un Pull Request hacia main
-                }
-            }
             steps {
                 dir('frontend/room-scout') {
                     sh 'npm install'
@@ -38,12 +32,6 @@ pipeline {
         }
 
         stage('Construir Imagen Docker') {
-            when {
-                anyOf {
-                    branch 'main'  // Si es un push a la rama main
-                    changeRequest() // Si es un Pull Request hacia main
-                }
-            }
             steps {
                 script {
                     def image = docker.build("${DOCKER_IMAGE}:${env.BUILD_NUMBER}", "frontend/room-scout/")
@@ -53,12 +41,6 @@ pipeline {
         }
 
         stage('Trivy Vulnerability Scan') {
-            when {
-                anyOf {
-                    branch 'main'  // Si es un push a la rama main
-                    changeRequest() // Si es un Pull Request hacia main
-                }
-            }
             steps {
                 script {
                     sh """
@@ -73,12 +55,6 @@ pipeline {
         }
 
         stage('Subir Imagen a DockerHub') {
-            when {
-                anyOf {
-                    branch 'main'  // Si es un push a la rama main
-                    changeRequest() // Si es un Pull Request hacia main
-                }
-            }
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS}") {
