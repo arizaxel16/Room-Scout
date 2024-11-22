@@ -2,7 +2,9 @@ pipeline {
     agent any
 
     triggers {
-        githubPush() // Escucha los eventos del webhook de GitHub
+        githubPullRequest {
+            targetBranch('main') // Escucha eventos solo cuando el PR es hacia 'main'
+        }
     }
 
     tools {
