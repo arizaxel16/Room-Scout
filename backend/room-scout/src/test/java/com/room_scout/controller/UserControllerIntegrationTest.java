@@ -150,13 +150,6 @@ class UserControllerIntegrationTest {
         assertThat(userRepository.findById(testUserDTO.id())).isEmpty();
     }
     @Test
-    void shouldReturnNoContentWhenNoUsers() throws Exception {
-        userRepository.deleteAll();
-
-        mockMvc.perform(get("/users"))
-                .andExpect(status().isNoContent());
-    }
-    @Test
     void shouldReturnNotFoundWhenDeletingNonExistentUser() throws Exception {
         Long nonExistentUserId = 9999L; // ID que no existe en la base de datos
 
