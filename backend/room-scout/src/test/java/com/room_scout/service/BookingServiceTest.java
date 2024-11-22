@@ -83,6 +83,24 @@ class BookingServiceTest {
         assertEquals(200.0, savedBooking.totalPrice());
         verify(bookingRepository, times(1)).save(any(Booking.class));
     }
+    @Test
+    void shouldThrowExceptionWhenRoomTypeNotFound() {
+        BookingDTO invalidBookingDTO = new BookingDTO(
+                null,
+                LocalDate.now(),
+                LocalDate.now().plusDays(2),
+                200.0,
+                9999L, // ID inexistente para RoomType
+                user.getId()
+
+        );
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            bookingService.saveBooking(invalidBookingDTO);
+        });
+        assertEquals("RoomType not found with ID: 9999", exception.getMessage());
+    }
+
 
     @Test
     void shouldGetBookingById() {
