@@ -114,6 +114,10 @@ pipeline {
 
     post {
         always {
+            script {
+                        sh "docker rmi ${DOCKER_IMAGE}:${env.BRANCH_NAME}-${env.BUILD_NUMBER} || true"
+                        sh 'docker rm -f trivy_scan || true'
+                    }
             junit 'backend/room-scout/build/test-results/test/*.xml'
             cleanWs()
         }
