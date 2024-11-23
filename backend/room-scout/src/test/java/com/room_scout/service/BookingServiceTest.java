@@ -68,22 +68,6 @@ public class BookingServiceTest {
         property.setRoomTypes(List.of(roomType));
     }
 
-    /*@Test
-    void shouldSaveBooking() {
-        BookingDTO bookingDTO = new BookingDTO(null, LocalDate.now(), LocalDate.now().plusDays(2), 200.0, roomType.getId(), user.getId());
-
-        when(roomTypeRepository.findById(roomType.getId())).thenReturn(Optional.of(roomType));
-        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
-        when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
-
-        BookingDTO savedBooking = bookingService.saveBooking(bookingDTO);
-
-        assertNotNull(savedBooking);
-        assertEquals(200.0, savedBooking.totalPrice());
-        verify(bookingRepository, times(1)).save(any(Booking.class));
-
-    }*/
-
     @Test
     void shouldThrowExceptionWhenRoomTypeNotFound() {
         BookingDTO invalidBookingDTO = new BookingDTO(
@@ -123,30 +107,6 @@ public class BookingServiceTest {
         assertEquals(1, bookings.size());
         assertEquals(200.0, bookings.get(0).totalPrice());
     }
-
-        /*@Test
-        void shouldDeleteBooking() {
-            when(bookingRepository.existsById(1L)).thenReturn(true);
-
-            boolean isDeleted = bookingService.deleteBooking(1L);
-
-            assertTrue(isDeleted);
-            verify(bookingRepository, times(1)).deleteById(1L);
-        }
-
-        @Test
-        void shouldUpdateBooking() {
-            BookingDTO updatedBookingDTO = new BookingDTO(null, LocalDate.now(), LocalDate.now().plusDays(3), 300.0, roomType.getId(), user.getId());
-
-            when(bookingRepository.findById(1L)).thenReturn(Optional.of(booking));
-            when(roomTypeRepository.findById(roomType.getId())).thenReturn(Optional.of(roomType));
-            when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
-
-            Optional<BookingDTO> updatedBooking = bookingService.updateBooking(1L, updatedBookingDTO);
-
-            assertTrue(updatedBooking.isPresent());
-            assertEquals(300.0, updatedBooking.get().totalPrice());
-        }*/
 
     @Test
     void shouldCheckAvailability() {
