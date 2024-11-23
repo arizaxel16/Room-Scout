@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class EmailService {
     public void sendEmail(BookingNotificationDTO notification) {
-        log.info("Sending EMAIL (FUNCIONOOOOO)");
+        log.info("Sending EMAIL (FUNCIONOOOOO){}", notification);
     }
 }
