@@ -41,6 +41,12 @@ public class UserService {
                 .map(this::mapEntityToDTO);
     }
 
+    public String getEmailById(Long id) {
+        return getUserById(id)
+                .map(UserDTO::email)
+                .orElse(null);
+    }
+
     public Optional<UserDTO> checkUserLogin(LoginDTO loginDTO) {
         return userRepository.findByEmail(loginDTO.email())
                 .filter(user -> loginDTO.password().equals(user.getPassword()))

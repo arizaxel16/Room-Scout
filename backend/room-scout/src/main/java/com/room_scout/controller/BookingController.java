@@ -86,9 +86,7 @@ public class BookingController {
     @PutMapping("/{id}")
     public ResponseEntity<BookingDTO> updateBooking(@PathVariable Long id, @RequestBody BookingDTO bookingDTO) {
         Optional<BookingDTO> updatedBooking = bookingService.updateBooking(id, bookingDTO);
-        if (updatedBooking.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        return ResponseEntity.ok(updatedBooking.get());
+        return updatedBooking.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @Operation(summary = "Check room availability", description = "Check availability of rooms for booking within a specific date range")
