@@ -38,6 +38,15 @@ public class UserController {
             return ResponseEntity.noContent().build();
         return ResponseEntity.ok(users);
     }
+    @Operation(summary = "Retrieve email by ID", description = "Fetch email by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved email"),
+            @ApiResponse(responseCode = "204", description = "User not found with the provided ID")
+    })
+    @GetMapping("/email/{id}")
+    public String getEmailById(@PathVariable Long id) {
+        return userService.getEmailById(id);
+    }
 
     @Operation(summary = "Retrieve a user by ID", description = "Fetch details of a specific user using their ID")
     @ApiResponses(value = {
