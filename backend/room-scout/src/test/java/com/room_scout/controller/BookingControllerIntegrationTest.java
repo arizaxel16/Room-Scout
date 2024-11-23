@@ -133,15 +133,6 @@ class BookingControllerIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-   /* @Test
-    void shouldDeleteBooking() throws Exception {
-        mockMvc.perform(delete("/bookings/{id}", bookingId))
-                .andExpect(status().isNoContent());
-
-        mockMvc.perform(get("/bookings/{id}", bookingId))
-                .andExpect(status().isNotFound());
-    }*/
-
     @Test
     void shouldReturnNotFoundWhenDeletingNonExistentBooking() throws Exception {
         Long nonExistentBookingId = 9999L;
