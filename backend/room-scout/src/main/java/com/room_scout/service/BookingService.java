@@ -29,8 +29,7 @@ public class BookingService {
     private final RoomTypeRepository roomTypeRepository;
     private final PropertyRepository propertyRepository;
     private final UserRepository userRepository;
-    private final RabbitTemplate rabbitTemplate;
-    private final RabbitMQConfig rabbitMQConfig;
+    private final BookingEmailPublisher emailPublisher;
 
     public BookingDTO saveBooking(BookingDTO bookingDTO) {
         Booking booking = new Booking();
@@ -44,8 +43,7 @@ public class BookingService {
         booking.setTotalPrice(bookingDTO.totalPrice());
         Booking savedBooking = bookingRepository.save(booking);
 
-        // Publicar el mensaje en el queue
-        publishToQueue(mapEntityToDTO(savedBooking), "CREATED");
+        emailPublisher.sendBookingNotification(mapEntityToDTO(savedBooking), "CREATED");
 
         return mapEntityToDTO(savedBooking);
     }
@@ -66,8 +64,7 @@ public class BookingService {
         if (booking.isPresent()) {
             bookingRepository.deleteById(id);
 
-            // Publicar el mensaje en el queue
-            publishToQueue(mapEntityToDTO(booking.get()), "DELETED");
+            emailPublisher.sendBookingNotification(mapEntityToDTO(booking.get()), "DELETED");
 
             return true;
         }
@@ -86,8 +83,7 @@ public class BookingService {
                             .orElseThrow(() -> new IllegalArgumentException("User not found")));
                     Booking updatedBooking = bookingRepository.save(existingBooking);
 
-                    // Publicar el mensaje en el queue
-                    publishToQueue(mapEntityToDTO(updatedBooking), "UPDATED");
+                    emailPublisher.sendBookingNotification(mapEntityToDTO(updatedBooking), "UPDATED");
 
                     return mapEntityToDTO(updatedBooking);
                 });
@@ -118,34 +114,4 @@ public class BookingService {
         }
         return availabilityList;
     }
-
-    private void publishToQueue(BookingDTO bookingDTO, String eventType) {
-        // Obtener el correo del usuario
-        String userEmail = userRepository.findById(bookingDTO.userId())
-                .map(user -> user.getEmail())
-                .orElse("Email not found");
-
-        // Crear la notificación
-        BookingNotificationDTO notification = new BookingNotificationDTO(
-                bookingDTO.id(),
-                bookingDTO.startDate(),
-                bookingDTO.endDate(),
-                bookingDTO.totalPrice(),
-                bookingDTO.roomTypeId(),
-                bookingDTO.userId(),
-                userEmail,
-                eventType,
-                LocalDateTime.now()
-        );
-
-        // Enviar al RabbitMQ
-        rabbitTemplate.convertAndSend(
-                rabbitMQConfig.getExchange(),    // Exchange configurado
-                rabbitMQConfig.getRoutingKey(), // Routing key configurada
-                notification                    // Mensaje (DTO)
-        );
-
-        System.out.println("Notification sent: " + notification);
-    }
-
 }
