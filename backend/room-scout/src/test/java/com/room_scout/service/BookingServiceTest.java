@@ -112,7 +112,7 @@ class BookingServiceTest {
     @Test
     void testDeleteBooking() {
         when(bookingRepository.findById(1L)).thenReturn(Optional.of(booking));
-        
+
         doNothing().when(emailPublisher).sendBookingNotification(any(BookingDTO.class), eq("DELETED"));
 
         boolean isDeleted = bookingService.deleteBooking(1L);
