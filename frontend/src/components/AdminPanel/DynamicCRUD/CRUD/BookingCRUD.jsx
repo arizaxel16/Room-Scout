@@ -3,11 +3,10 @@ import DynamicCrud from "../DynamicCRUD";
 
 const columns = [
 	{ field: "id", headerName: "ID", width: 90 },
-	{ field: "guestName", headerName: "Guest Name", width: 150, editable: true },
 	{ field: "checkIn", headerName: "Check In", width: 150, type: "date", editable: true },
 	{ field: "checkOut", headerName: "Check Out", width: 150, type: "date", editable: true },
-	{ field: "amount", headerName: "Amount", width: 150, type: "number", editable: true },
-	{ field: "propertyId", headerName: "Property", width: 150, editable: true },
+	{ field: "totalPrice", headerName: "Amount", width: 150, type: "number", editable: true },
+	{ field: "roomTypeId", headerName: "Property", width: 150, editable: true },
 	{ field: "userId", headerName: "User", width: 150, editable: true },
 ];
 
