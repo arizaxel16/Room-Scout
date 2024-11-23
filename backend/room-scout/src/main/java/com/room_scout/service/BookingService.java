@@ -1,6 +1,8 @@
 package com.room_scout.service;
 
 import com.room_scout.controller.dto.BookingDTO;
+import com.room_scout.controller.dto.BookingNotificationDTO;
+import com.room_scout.config.RabbitMQConfig;
 import com.room_scout.model.Booking;
 import com.room_scout.model.RoomType;
 import com.room_scout.model.Property;
@@ -8,14 +10,16 @@ import com.room_scout.repository.BookingRepository;
 import com.room_scout.repository.PropertyRepository;
 import com.room_scout.repository.RoomTypeRepository;
 import com.room_scout.repository.UserRepository;
-
-import jakarta.annotation.Generated;
-import lombok.AllArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
+import lombok.AllArgsConstructor;
+import jakarta.annotation.Generated;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.time.LocalDate;
-import java.util.ArrayList;
 
 @Service
 @AllArgsConstructor
@@ -25,12 +29,13 @@ public class BookingService {
     private final RoomTypeRepository roomTypeRepository;
     private final PropertyRepository propertyRepository;
     private final UserRepository userRepository;
+    private final RabbitTemplate rabbitTemplate;
+    private final RabbitMQConfig rabbitMQConfig;
 
     public BookingDTO saveBooking(BookingDTO bookingDTO) {
         Booking booking = new Booking();
         RoomType roomType = roomTypeRepository.findById(bookingDTO.roomTypeId())
-                .orElseThrow(
-                        () -> new IllegalArgumentException("RoomType not found with ID: " + bookingDTO.roomTypeId()));
+                .orElseThrow(() -> new IllegalArgumentException("RoomType not found with ID: " + bookingDTO.roomTypeId()));
         booking.setRoomType(roomType);
         booking.setUser(userRepository.findById(bookingDTO.userId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + bookingDTO.userId())));
@@ -38,6 +43,10 @@ public class BookingService {
         booking.setEndDate(bookingDTO.endDate());
         booking.setTotalPrice(bookingDTO.totalPrice());
         Booking savedBooking = bookingRepository.save(booking);
+
+        // Publicar el mensaje en el queue
+        publishToQueue(mapEntityToDTO(savedBooking), "CREATED");
+
         return mapEntityToDTO(savedBooking);
     }
 
@@ -53,8 +62,13 @@ public class BookingService {
     }
 
     public boolean deleteBooking(Long id) {
-        if (bookingRepository.existsById(id)) {
+        Optional<Booking> booking = bookingRepository.findById(id);
+        if (booking.isPresent()) {
             bookingRepository.deleteById(id);
+
+            // Publicar el mensaje en el queue
+            publishToQueue(mapEntityToDTO(booking.get()), "DELETED");
+
             return true;
         }
         return false;
@@ -70,8 +84,12 @@ public class BookingService {
                             .orElseThrow(() -> new IllegalArgumentException("RoomType not found")));
                     existingBooking.setUser(userRepository.findById(bookingDTO.userId())
                             .orElseThrow(() -> new IllegalArgumentException("User not found")));
-                    bookingRepository.save(existingBooking);
-                    return mapEntityToDTO(existingBooking);
+                    Booking updatedBooking = bookingRepository.save(existingBooking);
+
+                    // Publicar el mensaje en el queue
+                    publishToQueue(mapEntityToDTO(updatedBooking), "UPDATED");
+
+                    return mapEntityToDTO(updatedBooking);
                 });
     }
 
@@ -100,4 +118,34 @@ public class BookingService {
         }
         return availabilityList;
     }
+
+    private void publishToQueue(BookingDTO bookingDTO, String eventType) {
+        // Obtener el correo del usuario
+        String userEmail = userRepository.findById(bookingDTO.userId())
+                .map(user -> user.getEmail())
+                .orElse("Email not found");
+
+        // Crear la notificación
+        BookingNotificationDTO notification = new BookingNotificationDTO(
+                bookingDTO.id(),
+                bookingDTO.startDate(),
+                bookingDTO.endDate(),
+                bookingDTO.totalPrice(),
+                bookingDTO.roomTypeId(),
+                bookingDTO.userId(),
+                userEmail,
+                eventType,
+                LocalDateTime.now()
+        );
+
+        // Enviar al RabbitMQ
+        rabbitTemplate.convertAndSend(
+                rabbitMQConfig.getExchange(),    // Exchange configurado
+                rabbitMQConfig.getRoutingKey(), // Routing key configurada
+                notification                    // Mensaje (DTO)
+        );
+
+        System.out.println("Notification sent: " + notification);
+    }
+
 }

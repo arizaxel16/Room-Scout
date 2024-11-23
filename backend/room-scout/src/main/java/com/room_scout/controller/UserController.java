@@ -38,6 +38,16 @@ public class UserController {
             return ResponseEntity.noContent().build();
         return ResponseEntity.ok(users);
     }
+    @Operation(summary = "Retrieve all email", description = "Fetch email by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved email"),
+            @ApiResponse(responseCode = "204", description = "User not found with the provided ID")
+    })
+    @GetMapping("/email/{id}")
+    public ResponseEntity<String> getEmailById(@PathVariable Long id) {
+        Optional<UserDTO> user = userService.getUserById(id);
+        return user.map(userDTO -> ResponseEntity.ok(userDTO.email())).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
 
     @Operation(summary = "Retrieve a user by ID", description = "Fetch details of a specific user using their ID")
     @ApiResponses(value = {
