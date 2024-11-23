@@ -149,7 +149,37 @@ class BookingControllerIntegrationTest {
         mockMvc.perform(delete("/bookings/{id}", nonExistentBookingId))
                 .andExpect(status().isNotFound());
     }
+    @Test
+    void shouldReturnNoContentWhenNoBookings() throws Exception {
+        bookingService.deleteAllBookings();
 
+        mockMvc.perform(get("/bookings"))
+                .andExpect(status().isNoContent());
+    }
+    @Test
+    void shouldUpdateBooking() throws Exception {
+        // Crear un objeto BookingDTO actualizado
+        BookingDTO updatedBookingDTO = new BookingDTO(bookingId, LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), 250.0, roomTypeId, userId);
+
+        mockMvc.perform(put("/bookings/{id}", bookingId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(updatedBookingDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(bookingId.intValue())))
+                .andExpect(jsonPath("$.totalPrice", is(250.0)))
+                .andExpect(jsonPath("$.roomTypeId", is(roomTypeId.intValue())))
+                .andExpect(jsonPath("$.userId", is(userId.intValue())));
+    }
+    @Test
+    void shouldReturnNotFoundWhenUpdatingNonExistentBooking() throws Exception {
+        // Crear un objeto BookingDTO para un ID que no existe
+        BookingDTO nonExistentBookingDTO = new BookingDTO(9999L, LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), 250.0, roomTypeId, userId);
+
+        mockMvc.perform(put("/bookings/{id}", 9999L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(nonExistentBookingDTO)))
+                .andExpect(status().isNotFound());
+    }
     private static String asJsonString(final Object obj) {
         try {
             ObjectMapper mapper = new ObjectMapper();

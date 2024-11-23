@@ -70,6 +70,9 @@ public class BookingService {
         }
         return false;
     }
+    public void deleteAllBookings() {
+        bookingRepository.deleteAll();
+    }
 
     public Optional<BookingDTO> updateBooking(Long id, BookingDTO bookingDTO) {
         return bookingRepository.findById(id)
