@@ -1,5 +1,4 @@
 package com.room_scout.service;
-
 import com.room_scout.controller.dto.BookingDTO;
 import com.room_scout.model.Booking;
 import com.room_scout.model.RoomType;
@@ -23,8 +22,8 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class BookingServiceTest {
 
+public class BookingServiceTest {
     @Mock
     private BookingRepository bookingRepository;
 
@@ -85,7 +84,6 @@ class BookingServiceTest {
 
     }*/
 
-    }
     @Test
     void shouldThrowExceptionWhenRoomTypeNotFound() {
         BookingDTO invalidBookingDTO = new BookingDTO(
@@ -126,29 +124,29 @@ class BookingServiceTest {
         assertEquals(200.0, bookings.get(0).totalPrice());
     }
 
-    /*@Test
-    void shouldDeleteBooking() {
-        when(bookingRepository.existsById(1L)).thenReturn(true);
+        /*@Test
+        void shouldDeleteBooking() {
+            when(bookingRepository.existsById(1L)).thenReturn(true);
 
-        boolean isDeleted = bookingService.deleteBooking(1L);
+            boolean isDeleted = bookingService.deleteBooking(1L);
 
-        assertTrue(isDeleted);
-        verify(bookingRepository, times(1)).deleteById(1L);
-    }
+            assertTrue(isDeleted);
+            verify(bookingRepository, times(1)).deleteById(1L);
+        }
 
-    @Test
-    void shouldUpdateBooking() {
-        BookingDTO updatedBookingDTO = new BookingDTO(null, LocalDate.now(), LocalDate.now().plusDays(3), 300.0, roomType.getId(), user.getId());
+        @Test
+        void shouldUpdateBooking() {
+            BookingDTO updatedBookingDTO = new BookingDTO(null, LocalDate.now(), LocalDate.now().plusDays(3), 300.0, roomType.getId(), user.getId());
 
-        when(bookingRepository.findById(1L)).thenReturn(Optional.of(booking));
-        when(roomTypeRepository.findById(roomType.getId())).thenReturn(Optional.of(roomType));
-        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+            when(bookingRepository.findById(1L)).thenReturn(Optional.of(booking));
+            when(roomTypeRepository.findById(roomType.getId())).thenReturn(Optional.of(roomType));
+            when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
 
-        Optional<BookingDTO> updatedBooking = bookingService.updateBooking(1L, updatedBookingDTO);
+            Optional<BookingDTO> updatedBooking = bookingService.updateBooking(1L, updatedBookingDTO);
 
-        assertTrue(updatedBooking.isPresent());
-        assertEquals(300.0, updatedBooking.get().totalPrice());
-    }*/
+            assertTrue(updatedBooking.isPresent());
+            assertEquals(300.0, updatedBooking.get().totalPrice());
+        }*/
 
     @Test
     void shouldCheckAvailability() {
@@ -163,4 +161,5 @@ class BookingServiceTest {
         assertEquals(roomType.getId(), availability.get(0)[0]);
         assertEquals(10, availability.get(0)[1]);  // All rooms should be available
     }
+
 }
