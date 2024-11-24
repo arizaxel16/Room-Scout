@@ -1,0 +1,34 @@
+@startuml email-provider
+package "EmailProvider" {
+    folder "Backend" {
+        folder "config" {
+            [RabbitMQ Configurations]
+        }
+
+        folder "dto" {
+            [Booking Notification DTO]
+        }
+
+        folder "listener" {
+            [Email Event Listener]
+        }
+
+        folder "service" {
+            [Email Service (SMTP)]
+        }
+
+        component "EmailProviderApplication" as mainApp
+    }
+
+    folder "Monolith (RoomScout)" {
+        queue "RabbitMQ" {
+            [Queue Messages]
+        }
+        [Eureka Server]
+    }
+
+    mainApp --> config : initializes
+    RabbitMQ --> listener : triggers
+    mainApp --> "Monolith (RoomScout)" : Eureka Client
+}
+@enduml

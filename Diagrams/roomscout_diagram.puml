@@ -1,0 +1,53 @@
+@startuml Roomscout App
+package "RoomScout" {
+    folder "Backend (Spring)" {
+        folder "config" {
+            [Configurations]
+        }
+
+        folder "model" {
+            [Entities]
+        }
+
+        folder "repository" {
+            [JPA Repositories]
+        }
+
+        folder "controller" {
+            folder "dto" {
+                [Data Transfer Objects]
+            }
+            [API Endpoints]
+        }
+
+        folder "service" {
+            [Business Logic]
+        }
+
+        component "RoomScoutApplication" as mainApp
+    }
+
+    folder "frontend (React.js)" {
+        [Components]
+        [Context]
+        [Pages]
+        [Assets]
+    }
+
+    database "Database" {
+        [AddOn]
+        [Booking]
+        [Payment]
+        [Property]
+        [RoomType]
+        [User]
+    }
+
+    controller --> service : uses
+    service --> repository : manages
+    repository --> model : persists/retrieves
+    mainApp --> config : initializes
+    frontend --> controller : API Requests (via axios)
+    model --> Database : maps to
+}
+@enduml
