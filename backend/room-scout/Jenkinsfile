@@ -31,15 +31,27 @@ pipeline {
                 }
             }
         }
-
-        stage('Compilar y Construir') {
+        stage('Compilar') {
             steps {
                 dir('backend/room-scout') {
-                    sh './gradlew clean build --daemon'
+                    sh './gradlew clean assemble --daemon'
                 }
             }
         }
-
+        stage('Pruebas') {
+            steps {
+                dir('backend/room-scout') {
+                    sh './gradlew test --daemon'
+                }
+            }
+        }
+        stage('Generar Reporte de Cobertura') {
+            steps {
+                dir('backend/room-scout') {
+                    sh './gradlew jacocoTestReport --daemon'
+                }
+            }
+        }
         stage('Obtener Nombre de Rama') {
             steps {
                 script {
@@ -49,15 +61,7 @@ pipeline {
                 }
             }
         }
-
-        stage('Run Tests with Coverage') {
-            steps {
-                dir('backend/room-scout') {
-                    sh './gradlew test jacocoTestReport --daemon'
-                }
-            }
-        }
-
+        
         stage('Análisis SonarQube') {
             steps {
                 withSonarQubeEnv('sonarqube') {
