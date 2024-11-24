@@ -38,13 +38,18 @@ pipeline {
                 }
             }
         }
-        stage('Limpiar Daemons Gradle') {
+        stage('Limpiar Todos los Daemons Gradle') {
             steps {
                 dir('backend/room-scout') {
+                    // Intentar detener los Daemons de Gradle de forma ordenada
                     sh './gradlew --stop || true'
+
+                    // Matar cualquier proceso de Daemon de Gradle de forma forzada, en caso de que los anteriores no se hayan detenido
+                    sh "pkill -f 'org.gradle.launcher.daemon.bootstrap.GradleDaemon' || true"
                 }
             }
         }
+
 
         stage('Pruebas') {
             steps {
