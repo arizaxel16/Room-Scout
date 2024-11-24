@@ -10,6 +10,10 @@ public record BookingNotificationDTO(
         Long roomTypeId,
         Long userId,
         String email,
+        String name,
+        String surname,
+        String propertyName,
+        String roomName,
         String eventType,
         LocalDateTime eventTimestamp) {
 }

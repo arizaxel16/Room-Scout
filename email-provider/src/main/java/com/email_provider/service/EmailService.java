@@ -17,20 +17,19 @@ public class EmailService {
     public void sendEmail(BookingNotificationDTO notification) {
         log.info("Preparing email for event: {}", notification.eventType());
 
-        // Build the email content based on the event type
         String subject;
         String body;
 
         switch (notification.eventType().toUpperCase()) {
-            case "CREATE" -> {
+            case "CREATED" -> {
                 subject = "Booking Confirmation";
                 body = buildCreateEmailContent(notification);
             }
-            case "UPDATE" -> {
+            case "UPDATED" -> {
                 subject = "Booking Updated";
                 body = buildUpdateEmailContent(notification);
             }
-            case "DELETE" -> {
+            case "DELETED" -> {
                 subject = "Booking Canceled";
                 body = buildDeleteEmailContent(notification);
             }
@@ -40,68 +39,89 @@ public class EmailService {
             }
         }
 
-        // Send the email
         send(notification.email(), subject, body);
     }
 
     private String buildCreateEmailContent(BookingNotificationDTO notification) {
         return String.format("""
-                Dear User,
+            Dear %s %s,
 
-                Your booking has been confirmed!
+            Your booking at %s has been confirmed!
 
-                Details:
-                - Booking ID: %d
-                - Start Date: %s
-                - End Date: %s
-                - Total Price: %.2f
-                - Room Type: %d
+            Details:
+            - Booking ID: %d
+            - Room Name: %s
+            - Start Date: %s
+            - End Date: %s
+            - Total Price: %.2f
 
-                Thank you for booking with us!
+            Thank you for booking with us!
 
-                Best regards,
-                Your Booking Team
-                """, notification.id(), notification.startDate(), notification.endDate(), notification.totalPrice(), notification.roomTypeId());
+            Best regards,
+            Your Booking Team
+            """,
+                notification.name(),
+                notification.surname(),
+                notification.propertyName(),
+                notification.id(),
+                notification.roomName(),
+                notification.startDate(),
+                notification.endDate(),
+                notification.totalPrice());
     }
 
     private String buildUpdateEmailContent(BookingNotificationDTO notification) {
         return String.format("""
-                Dear User,
+                Dear %s %s,
 
-                Your booking has been updated.
+                Your booking at %s has been updated.
 
                 Updated Details:
                 - Booking ID: %d
+                - Room Name: %s
                 - Start Date: %s
                 - End Date: %s
                 - Total Price: %.2f
-                - Room Type: %d
 
                 If you have any questions, please contact support.
 
                 Best regards,
                 Your Booking Team
-                """, notification.id(), notification.startDate(), notification.endDate(), notification.totalPrice(), notification.roomTypeId());
+                """, notification.name(),
+                notification.surname(),
+                notification.propertyName(),
+                notification.id(),
+                notification.roomName(),
+                notification.startDate(),
+                notification.endDate(),
+                notification.totalPrice());
     }
 
     private String buildDeleteEmailContent(BookingNotificationDTO notification) {
         return String.format("""
-                Dear User,
+                Dear %s %s,
 
-                We regret to inform you that your booking has been canceled.
+                We regret to inform you that your booking at %s has been canceled.
 
                 Canceled Details:
                 - Booking ID: %d
+                - Room Name: %s
                 - Start Date: %s
                 - End Date: %s
                 - Total Price: %.2f
-                - Room Type: %d
 
                 If this was a mistake, please contact support immediately.
 
                 Best regards,
                 Your Booking Team
-                """, notification.id(), notification.startDate(), notification.endDate(), notification.totalPrice(), notification.roomTypeId());
+                """,  notification.name(),
+                notification.surname(),
+                notification.propertyName(),
+                notification.id(),
+                notification.roomName(),
+                notification.startDate(),
+                notification.endDate(),
+                notification.totalPrice());
     }
 
     private void send(String to, String subject, String body) {
