@@ -42,7 +42,9 @@ dependencies {
 	testImplementation 'com.h2database:h2'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
-    /*implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'*/
+	implementation 'com.thoughtworks.xstream:xstream:1.4.21'
+
+	/*implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'*/
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 }
 
