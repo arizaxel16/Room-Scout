@@ -20,6 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.greaterThan;
@@ -63,6 +65,7 @@ class BookingControllerIntegrationTest {
         property.setCity("Test City");
         property.setCountry("Test Country");
         property.setType("Hotel");
+        property.setAddOns(new ArrayList<>());
         propertyRepository.save(property);
         propertyId = property.getId();
 
@@ -76,6 +79,11 @@ class BookingControllerIntegrationTest {
         roomType.setPropertyId(propertyId);
         roomTypeRepository.save(roomType);
         roomTypeId = roomType.getId();
+
+        List<RoomType> roomTypes = new ArrayList<>();
+        roomTypes.add(roomType);
+        property.setRoomTypes(roomTypes); // Vincula la propiedad con sus habitaciones
+        propertyRepository.save(property);
 
         // Create a User
         User user = new User();
@@ -99,8 +107,8 @@ class BookingControllerIntegrationTest {
         BookingDTO bookingDTO = new BookingDTO(null, LocalDate.now(), LocalDate.now().plusDays(2), 200.0, roomTypeId, userId);
 
         mockMvc.perform(post("/bookings")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(bookingDTO)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(bookingDTO)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", notNullValue()))
                 .andExpect(jsonPath("$.totalPrice", is(200.0)))
@@ -115,7 +123,7 @@ class BookingControllerIntegrationTest {
                 .andExpect(jsonPath("$", notNullValue()))
                 .andExpect(jsonPath("$", hasSize(greaterThan(0)))) // Ensure there is at least one booking
                 .andExpect(jsonPath("$[0].id", notNullValue())); // Check that the ID is not null
-    }    
+    }
 
     @Test
     void shouldGetBookingById() throws Exception {
