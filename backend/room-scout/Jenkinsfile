@@ -38,6 +38,14 @@ pipeline {
                 }
             }
         }
+        stage('Limpiar Daemons Gradle') {
+            steps {
+                dir('backend/room-scout') {
+                    sh './gradlew --stop || true'
+                }
+            }
+        }
+
         stage('Pruebas') {
             steps {
                 dir('backend/room-scout') {
@@ -61,7 +69,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Análisis SonarQube') {
             steps {
                 withSonarQubeEnv('sonarqube') {
